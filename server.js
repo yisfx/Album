@@ -1,5 +1,5 @@
 let express=require("express");
-let conf=require("./conf/site.conf.json")
+let conf=require("./site.conf.json")
 
 
 let app=express();
