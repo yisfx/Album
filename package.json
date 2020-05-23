@@ -1,0 +1,26 @@
+{
+  "name": "album",
+  "version": "1.0.0",
+  "description": "album",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start":"node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yisfx/Album.git"
+  },
+  "keywords": [
+    "album"
+  ],
+  "author": "yisfx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yisfx/Album/issues"
+  },
+  "homepage": "https://github.com/yisfx/Album#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
