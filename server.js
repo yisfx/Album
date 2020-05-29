@@ -25,7 +25,7 @@ const html=
 </head>
 <body>
     <div style="text-align: center;top: 50%;height: 95%;">
-        <img style="max-width: 100% ;width: auto;max-height: 80%;height: auto;" src="./1.jpg"/>
+        <img style="max-width: 100% ;width: auto;max-height: 80%;height: auto;" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1590736919661&di=358787541391b1009b36d4aef1c50b53&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20170316%2F064e3ef4b0054dc7b310bf7cb7023edb_th.jpg"/>
         <br/>
         <h1>旅行即将到来！</h1>
     </div>
