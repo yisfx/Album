@@ -4,9 +4,30 @@ let conf=require("./site.conf.json")
 
 let app=express();
 app.use("*",function(req,res){
-    res.send("hahahahha 不支持"+req.baseUrl);
+    res.send(html);
 })
 
 app.listen(conf.port,function(){
     console.log("listen at %d",conf.port)
 })
+
+
+const html=
+`
+<html>
+<head>
+    <title>TRAVEL</title>
+</head>
+<body>
+    <div style="text-align: center;top: 50%;height: 95%;">
+        <img style="max-width: 100% ;width: auto;max-height: 80%;height: auto;" src="./1.jpg"/>
+        <br/>
+        <h1>旅行即将到来！</h1>
+    </div>
+
+    <div style="text-align: center;bottom: 10px;">
+        <a href="http://beian.miit.gov.cn/">互联网ICP备案：豫ICP备20015772号</a>
+    </div>
+</body>
+</html>
+`
