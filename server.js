@@ -3,7 +3,11 @@ let conf=require("./site.conf.json")
 
 
 let app=express();
-app.use("*",function(req,res){
+
+app.use("/1.jpg",express.static("./1.jpg"))
+app.use("/favicon.ico",express.static("./favicon.ico"))
+
+app.use("/",function(req,res){
     res.send(html);
 })
 
