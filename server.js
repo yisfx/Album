@@ -17,6 +17,7 @@ const html=
 <html>
 <head>
     <title>TRAVEL</title>
+    <link href="./favicon.ico" rel="SHORTCUT ICON">
 </head>
 <body>
     <div style="text-align: center;top: 50%;height: 95%;">
