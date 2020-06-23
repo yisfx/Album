@@ -3,7 +3,7 @@ import { RouteConfig } from "./src/framework/route.config"
 // require("ts-loader")
 import { ProgressPlugin} from "webpack";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import { WriteAssets } from "./tools/writeAssets";
+import { WriteAssets, clean } from "./tools/writeAssets";
 
 const config = {
     entry: () => {
@@ -29,6 +29,7 @@ const config = {
     plugins:[
         new ProgressPlugin(function handler(percentage:number,msg:string){
             if(percentage==0){
+                clean(path.join(__dirname, "dist/public"))
                 console.log("webpack start");
             }
             if(percentage==1){
@@ -52,3 +53,5 @@ const config = {
 };
 
 module.exports = config;
+
+export default config
