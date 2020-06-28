@@ -46,8 +46,7 @@ gulp.task("tsc", (cb) => {
 
 gulp.task("run", (cb) => {
     try{
-    exec("start cmd.exe /K nodemon ./dist/server.js")
-    // exec("node ./dist/server.js")
+    exec("start cmd.exe /K nodemon --inspect ./dist/server.js")
     }finally{
         cb()
     }
@@ -59,6 +58,5 @@ gulp.task("run", (cb) => {
 exports.default = series(
     "webpack", 
     "tsc", 
-    "run",
-    // "listening"
+    "run"
     )

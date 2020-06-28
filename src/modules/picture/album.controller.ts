@@ -1,5 +1,5 @@
 import { Controller, Get, Req, Res, Inject } from '@nestjs/common';
-import { LayoutRender } from '../../framework/LayoutRender.decorator';
+import { RouteRender } from '../../framework/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 import { HttpClient } from '../../framework/http.client';
 
@@ -13,9 +13,11 @@ export class AlbumController {
 	}
 
 	@Get("picture")
-	@LayoutRender(RouteConfig.ALBUM.name)
+	@RouteRender(RouteConfig.ALBUM.name)
 	async getHello() {
-		return { a: "a", b: "" }
+		//let a = await this.httpClient.get("getAlbum");
+		
+		return { initData: { a:"a", b: "b" } }
 	}
 
 }

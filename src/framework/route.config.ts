@@ -1,11 +1,11 @@
-import { Album } from "../modules/picture/views/album";
 
-export const RouteConfig={
-    ALBUM:{name:"album",page:"./picture/pages/album.client.tsx"}
+export const RouteConfig = {
+    ALBUM: { name: "album", route: "album", page: "./picture/pages/album.client.tsx" },
+    AdminAlbum: { name: "adminalbum", route: "/admin/album", page: "./admin/pages/album.tsx", }
 }
 
-export interface Route{
-    name:string
-    page:string
-
+export interface Route {
+    route: string
+    name: string
+    page: string
 }

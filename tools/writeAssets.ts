@@ -5,6 +5,7 @@ import path from "path";
 export function WriteAssets(){
     
     let p=path.join(__dirname,"../dist/public/")
+
     let files= fs.readdirSync(p);
     
     let ass={}

@@ -17,8 +17,11 @@ async function bootstrap() {
   })
 
 
-  app.set('view engine', 'html');
+  app.set('views', join(__dirname));
+  app.set('view engine', 'js');
+
   app.engine('js', reactView);
+  
 
 
   await app.listen(port);

@@ -1,28 +1,26 @@
 import { Injectable } from "@nestjs/common";
-
+import request from "request";
 
 @Injectable()
-export class HttpClient{
-    constructor(){
+export class HttpClient {
+    constructor() {
     }
-    
-    async get(url:string){
-        let a=await this.createClient()
-        console.log(a.body)
+
+    async get(url: string) {
+        try {
+            let a = await this.createClient()
+            return a.body;
+        } catch (ex) {
+            return "a"
+        }
     }
 
 
-    private async createClient(){
-        return fetch(
-            "https://fxfxfxfx.cn",
+    private async createClient() {
+        let resp= await request("https://www.baidu.com",
             {
-                method: 'GET',
-                mode: 'no-cors',
-                headers:{
-                    "Access-Control-Allow-Origin":"*",
-                    "Access-Control-Allow-Methods":"GET, POST"
-                }
-            }
-        )
+                method:"POST",
+            })
+        return resp;
     }
 }
