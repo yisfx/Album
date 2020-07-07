@@ -1,9 +1,7 @@
 
 
 import React from "react";
-import { observable, observe } from "mobx";
 import { AlbumState } from "../store/album.store";
-import { Album } from "../admin.model";
 import { inject, observer } from "mobx-react";
 
 
@@ -16,7 +14,6 @@ interface IProps {
 @observer
 export default class AlbumList extends React.Component<IProps, any> {
 
-    @observable a=0
     constructor(props) {
         super(props)
     }
@@ -25,9 +22,9 @@ export default class AlbumList extends React.Component<IProps, any> {
 
             <div>
                 <button onClick={() => {
-                    this.a++
-                }}>aaa{this.a}</button>
-                
+                    this.props.store.a++
+                }}>aaa{this.props.store.a}</button>
+
             </div>
         )
     }

@@ -8,7 +8,7 @@ export function MobxIsomorphic(State: any): <T extends React.ComponentClass>(Com
         isomorphicState = (<any>window).__reactData__;
     else isomorphicState = new State();
 
-    let props: any = { store: isomorphicState };
+    let props = { store: mergeMobxState(new State(), isomorphicState) };
 
     return (Comp: any): any => {
         class IsomorphicComponent extends Comp {
@@ -23,4 +23,12 @@ export function MobxIsomorphic(State: any): <T extends React.ComponentClass>(Com
 
         return IsomorphicComponent;
     }
+}
+
+
+function mergeMobxState(target: any, source: any) {
+    for (var k in source) {
+        target[k] = source[k]
+    }
+    return target;
 }
