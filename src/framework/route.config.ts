@@ -4,6 +4,14 @@ export const RouteConfig = {
     AdminAlbum: { name: "adminalbum", route: "/admin/album", page: "./admin/pages/album.client.tsx", }
 }
 
+export const PageNameList = {
+    Album: "ALBUM",
+    AdminAlbum: "AdminAlbum"
+}
+
+export type PageName =string
+
+
 export interface Route {
     route: string
     name: string

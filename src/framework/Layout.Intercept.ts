@@ -1,6 +1,7 @@
 import { NestInterceptor, Injectable, ExecutionContext, CallHandler } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+import SysConfig from "src/conf/site.config";
 let ass=require("../conf/assets.conf")
 
 @Injectable()
@@ -21,7 +22,7 @@ export class LayoutInterceptor implements NestInterceptor{
                             
                             response.locals = {
                                 ...response.locals,
-                                script:"/kjsdfh/"+content
+                                script:SysConfig.VisualStaticPath+content
                               };
                           }
 
