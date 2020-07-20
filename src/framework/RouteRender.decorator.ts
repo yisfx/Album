@@ -2,8 +2,6 @@
 import { RENDER_METADATA } from "@nestjs/common/constants";
 import { join } from "path";
 
-let ass=require("../conf/assets.conf")
-
 
 export function RouteRender(page:string){
     return (target,temple,describe)=>{

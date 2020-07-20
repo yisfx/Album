@@ -15,4 +15,8 @@ export class AdminController {
         return { initData: { AlbumList: [{ AlbumName: "a", ImageCount: 2, Describe: "asaaaa", Cover: "aaaa" }] } }
     }
 
+    async AlbumList(){
+        
+    }
+
 }
