@@ -1,7 +1,7 @@
 import { Controller, Get, Req, Res, Post } from "@nestjs/common";
 import { join } from "path";
 import { HttpClient } from "../../framework/http.client";
-import SysConfig from "src/conf/site.config";
+import SysConfig from "../../conf/site.config";
 
 
 @Controller()
@@ -15,6 +15,12 @@ export class DefaultController {
         let dir: [] = req.url.split("/")
         let f = dir[dir.length - 1]
         res.sendFile(join(__dirname, '../../', `public/${f}`))
+    }
+    @Get(SysConfig.VisualStaticPath + "*.png")
+    staticImage(@Req() req, @Res() res): any {
+        let dir: [] = req.url.split("/")
+        let f = dir[dir.length - 1]
+        res.sendFile(join(__dirname, '../../', `${f}`))
     }
 
     @Post("/ajax/Api*")

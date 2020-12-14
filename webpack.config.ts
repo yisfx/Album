@@ -2,12 +2,11 @@ import path from "path";
 import os from 'os';
 import { RouteConfig } from "./src/framework/route.config"
 // require("ts-loader")
-import { ProgressPlugin } from "webpack";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import { WriteAssets, clean } from "./tools/writeAssets";
 import HappyPack from "happypack";
 import AssetsPlugin from "assets-webpack-plugin";
-
+import { ProgressPlugin } from "webpack";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 
@@ -42,30 +41,38 @@ const config = {
     },
     plugins: [
         new AssetsPlugin({
-            path:path.join("dist/conf"),
-            filename:"assets.conf.json",
-            processOutput:function(output){
+            path: path.join("dist/conf"),
+            filename: "assets.conf.json",
+            processOutput: function (output) {
                 const scripts = Object.entries(output).reduce(
                     (acc, [k, v]) => v.js ? ({ [k]: v.js, ...acc }) : acc, {}
                 );
                 console.log(scripts);
-
-                return `${JSON.stringify(scripts,null,2)}`;
+                return `${JSON.stringify(scripts, null, 2)}`;
             }
         }),
 
 
         // new ProgressPlugin(function handler(percentage: number, msg: string) {
         //     if (percentage == 0) {
-        //         clean(path.join(__dirname, "dist/public"))
+
         //         console.log("webpack start");
         //     }
         //     if (percentage == 1) {
-        //         WriteAssets();
-        //         console.log("webpack end", __dirname);
+
+
         //     }
         // }),
+
         new CleanWebpackPlugin(),
+        // new CopyWebpackPlugin({
+        //     patterns: [
+        //         {
+        //             from: __dirname + "/static",
+        //             to: __dirname + "/dist/static"
+        //         }
+        //     ]
+        // }),
         new HappyPack({
             id: "happyBabel",
             use: [{
@@ -82,7 +89,7 @@ const config = {
     mode: "development",
     target: "web",
     resolve: {
-        extensions: ['.ts', '.tsx', '.config', '.js', '.json', '.css']
+        extensions: ['.ts', '.tsx', '.config', '.js', '.json', '.css', ".png"]
     },
     watch: true,
     watchOptions: {

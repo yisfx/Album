@@ -12,12 +12,12 @@ export class AlbumController {
 		// super()
 	}
 
-	@Get("picture")
+	@Get(RouteConfig.ALBUM.route)
 	@RouteRender(RouteConfig.ALBUM.name)
 	async getHello() {
 		//let a = await this.httpClient.get("getAlbum");
-		
-		return { initData: { a:"a", b: "b" } }
+
+		return { initData: { a: "a", b: "b" } }
 	}
 
 }
