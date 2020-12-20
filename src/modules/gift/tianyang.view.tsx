@@ -1,23 +1,35 @@
+import { urlencoded } from "express";
 import React, { Children, useEffect, useState } from "react";
 import { buildImageUrl } from "../../framework/imageBuild";
 
 const area = {
     maxWith: window.screen.width - 150,
-    maxHeight: window.screen.height - 100
+    maxHeight: window.screen.height - 100,
+    query: decodeURI(window.location.href.split("/")[window.location.href.split("/").length - 1]),
 }
-
-
-
-const speed = 4000;
-
+const speed = 7000;
 
 function SnowCluster(props: { id: number, out?: (id: number) => void }) {
     const snow = React.createRef<any>();
     const [isEnd, setEnd] = useState(true);
+    const [ch, setChar] = useState("");
     const [w, setW] = useState(20);
     const bgImg = buildImageUrl("image/snow.png");
 
-    const isImage = Math.round(props.id % 2) == 0 || Math.round(props.id % 2) == 2
+    const isImage = !(Math.round(props.id) < 5);
+    function runCharChange(index = 0) {
+        if (index == area.query.length) {
+            setChar("");
+            return;
+        }
+        setChar(area.query[index])
+        setTimeout(() => {
+            runCharChange(++index);
+        }, 1000);
+
+    }
+
+
 
     useEffect(() => {
         if (!snow)
@@ -26,6 +38,7 @@ function SnowCluster(props: { id: number, out?: (id: number) => void }) {
             return;
         }
         setEnd(false);
+
 
         let sp = Math.random() * speed + speed;
 
@@ -77,8 +90,14 @@ function SnowCluster(props: { id: number, out?: (id: number) => void }) {
             width: `${w}px`,
             height: `${w}px`,
             borderRadius: 50,
-            backgroundColor: "#ffff",
-        }}>
+            backgroundColor: "#ffffff",
+            textAlign: "center",
+            verticalAlign: "center",
+            color: "#00FA9A"
+        }}
+            onClick={() => runCharChange()}
+        >
+            <strong>{ch?.toLocaleUpperCase()}</strong>
         </div>
     }
 }
@@ -90,9 +109,10 @@ function SnowMaster() {
     useEffect(() => {
         setInterval(() => {
             let list = snowList;
-            if (snowList.length >= 110) {
+            if (snowList.length >= 80) {
                 return;
             }
+
             let id = Math.random() * 80;
 
             list.push({ id, stop: false });

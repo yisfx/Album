@@ -5,8 +5,11 @@ import { RouteConfig } from "./src/framework/route.config"
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HappyPack from "happypack";
 import AssetsPlugin from "assets-webpack-plugin";
+const SysConfig = require("./conf/site.config.json");
 import { ProgressPlugin } from "webpack";
-import CopyWebpackPlugin from "copy-webpack-plugin";
+import { publishStatic } from "./tools/writeAssets";
+// import CopyWebpackPlugin from "copy-webpack-plugin";
+// import { WebpackPluginInstance as plugin } from "webpack";
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 
@@ -23,7 +26,7 @@ const config = {
     ,
     output: {
         filename: '[name]-[contenthash:8].js',
-        path: path.join(__dirname, "dist/public")
+        path: path.join(__dirname, "dist", SysConfig.JsPath)
     },
     module: {
         rules: [
@@ -53,16 +56,16 @@ const config = {
         }),
 
 
-        // new ProgressPlugin(function handler(percentage: number, msg: string) {
-        //     if (percentage == 0) {
+        new ProgressPlugin(function handler(percentage: number, msg: string) {
+            if (percentage == 0) {
 
-        //         console.log("webpack start");
-        //     }
-        //     if (percentage == 1) {
-
-
-        //     }
-        // }),
+                console.log("webpack start");
+            }
+            if (percentage == 1) {
+                ///copy image
+                publishStatic()
+            }
+        }),
 
         new CleanWebpackPlugin(),
         // new CopyWebpackPlugin({

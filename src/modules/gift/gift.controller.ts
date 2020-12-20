@@ -11,11 +11,18 @@ export class GiftController {
         // super()
     }
 
-    @Get(RouteConfig.TianYang.route)
+    @Get("/mc" + RouteConfig.TianYang.route)
+    @RouteRender(RouteConfig.TianYang.name)
+    async Tianyang() {
+        //let a = await this.httpClient.get("getAlbum");
+
+        return { initData: { a: "a", b: "b" } }
+    }
+
+    @Get(RouteConfig.MC.route + "/:id")
     @RouteRender(RouteConfig.TianYang.name)
     async snow() {
         //let a = await this.httpClient.get("getAlbum");
-
         return { initData: { a: "a", b: "b" } }
     }
 

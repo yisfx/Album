@@ -4,7 +4,9 @@ const SysConfig = {
 
     domain: "http://loadlhost:9001",
 
-    VisualStaticPath: "/kjsdfh/"
+    VisualStaticPath: "/kjsdfh/",
+    JsPath: "public/script",
+    ImagePath: "public/image"
 }
 
 export default SysConfig

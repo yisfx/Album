@@ -14,13 +14,13 @@ export class DefaultController {
     staticFile(@Req() req, @Res() res): any {
         let dir: [] = req.url.split("/")
         let f = dir[dir.length - 1]
-        res.sendFile(join(__dirname, '../../', `public/${f}`))
+        res.sendFile(join(__dirname, '../../', SysConfig.JsPath, f))
     }
     @Get(SysConfig.VisualStaticPath + "*.png")
     staticImage(@Req() req, @Res() res): any {
         let dir: [] = req.url.split("/")
         let f = dir[dir.length - 1]
-        res.sendFile(join(__dirname, '../../', `${f}`))
+        res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
     }
 
     @Post("/ajax/Api*")
