@@ -49,9 +49,9 @@ function SnowCluster(props: { id: number, out?: (id: number) => void }) {
         let frame = new KeyframeEffect(
             snow.current,
             [
-                { transform: `translate(${sX}px,-30px)`, rotate: "0deg" },
+                { transform: `translate(${sX}px,-30px) rotate(0deg)` },
                 // { transform: `translate(${}px,-30px)` },
-                { transform: `translate(${eX}px,${area.maxHeight + 10}px)`, rotate: "180deg", opacity: isImage ? .9 : .4 },
+                { transform: `translate(${eX}px,${area.maxHeight + 10}px) rotate(359deg)`, opacity: isImage ? .9 : .4 },
             ],
             {
                 duration: sp,
@@ -122,16 +122,21 @@ function SnowMaster() {
 
     return <div
         style={{
-            height: area.maxHeight,
+            height: "100%",
             // backgroundColor: "#6666",
-            backgroundSize: "100%,100%",
-            backgroundRepeat: "false",
-            backgroundImage: 'url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607959726620&di=729b936481872c4e87b99d1d98b5eb85&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fb%2F548e50816a2f9.jpg")'
+            // backgroundSize: "100%,100%",
+            // backgroundRepeat: "false",
+            // backgroundImage: 'url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607959726620&di=729b936481872c4e87b99d1d98b5eb85&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fb%2F548e50816a2f9.jpg")'
         }}
     >
+
+        <img style={{
+            position: "fixed",
+            height: "120%"
+        }} src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607959726620&di=729b936481872c4e87b99d1d98b5eb85&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fb%2F548e50816a2f9.jpg" />
         <div style={{
             position: "fixed",
-            marginTop: area.maxHeight - 86
+            bottom: "10px"
         }}>
             <iframe frameBorder="no" marginWidth={0}
                 marginHeight={0} width="330"
@@ -143,7 +148,6 @@ function SnowMaster() {
         {snowList.map(snow =>
             <SnowCluster key={snow.id} id={snow.id} />)
         }
-
     </div >
 }
 
@@ -158,19 +162,4 @@ export class TianyangSnow extends React.Component<any>{
             <SnowMaster />
         )
     }
-}
-
-
-function Canvas() {
-    return <div>
-        <div id="content">
-            <div data-index={Math.random()} style={{
-                marginTop: "-30px",
-                width: "20px",
-                height: "20px",
-                borderRadius: 50,
-                backgroundColor: "#ffffff"
-            }}></div>
-        </div>
-    </div>
 }

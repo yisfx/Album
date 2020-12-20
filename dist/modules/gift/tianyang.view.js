@@ -59,8 +59,8 @@ function SnowCluster(props) {
         let w = Math.random() * (isImage ? 30 : 20) + (isImage ? 0 : 10);
         setW(w);
         let frame = new KeyframeEffect(snow.current, [
-            { transform: `translate(${sX}px,-30px)`, rotate: "0deg" },
-            { transform: `translate(${eX}px,${area.maxHeight + 10}px)`, rotate: "180deg", opacity: isImage ? .9 : .4 },
+            { transform: `translate(${sX}px,-30px) rotate(0deg)` },
+            { transform: `translate(${eX}px,${area.maxHeight + 10}px) rotate(359deg)`, opacity: isImage ? .9 : .4 },
         ], {
             duration: sp,
             direction: "normal",
@@ -112,14 +112,15 @@ function SnowMaster() {
         }, 800);
     }, []);
     return react_1.default.createElement("div", { style: {
-            height: area.maxHeight,
-            backgroundSize: "100%,100%",
-            backgroundRepeat: "false",
-            backgroundImage: 'url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607959726620&di=729b936481872c4e87b99d1d98b5eb85&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fb%2F548e50816a2f9.jpg")'
+            height: "100%",
         } },
+        react_1.default.createElement("img", { style: {
+                position: "fixed",
+                height: "120%"
+            }, src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607959726620&di=729b936481872c4e87b99d1d98b5eb85&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fb%2F548e50816a2f9.jpg" }),
         react_1.default.createElement("div", { style: {
                 position: "fixed",
-                marginTop: area.maxHeight - 86
+                bottom: "10px"
             } },
             react_1.default.createElement("iframe", { frameBorder: "no", marginWidth: 0, marginHeight: 0, width: "330", height: "86", src: "//music.163.com/outchain/player?type=2&id=443070377&auto=1&height=66" }),
             snowList.length),
@@ -134,15 +135,4 @@ class TianyangSnow extends react_1.default.Component {
     }
 }
 exports.TianyangSnow = TianyangSnow;
-function Canvas() {
-    return react_1.default.createElement("div", null,
-        react_1.default.createElement("div", { id: "content" },
-            react_1.default.createElement("div", { "data-index": Math.random(), style: {
-                    marginTop: "-30px",
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: 50,
-                    backgroundColor: "#ffffff"
-                } })));
-}
 //# sourceMappingURL=tianyang.view.js.map

@@ -2592,7 +2592,7 @@
         "affectsGlobalScope": false
       },
       "../src/modules/gift/tianyang.view.tsx": {
-        "version": "6702630b8bc3e58306725160ddad06351dc1a4b98d3109c29660cdd6b9d4b2c8",
+        "version": "abc1db207adaa234c8ef90e0bd45ed485603da0edc01938ef7187dbdfe430579",
         "signature": "8c418140887564fde630770aa82e5892cd481f1c32041ba2ea9b3af4ebe8418e",
         "affectsGlobalScope": false
       },
