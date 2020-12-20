@@ -22,17 +22,19 @@ type Platform = 'aix'
 const isLunix = os.platform() == "linux"
 console.log("current platform:", os.platform())
 //watch
-gulp.task("listening", async (cb) => {
+gulp.task("listening", (cb) => {
     gulp.watch("/src", () => {
         console.log("in listening")
+        cb();
     })
 })
 
 
-gulp.task("webpack", async () => {
-    await webpack(
+gulp.task("webpack", (cb) => {
+    webpack(
         <webpack.Configuration>{ ...config },
         (err, stats) => {
+            cb();
             if (!!err)
                 console.log("webpack err:", err)
         })
@@ -40,12 +42,12 @@ gulp.task("webpack", async () => {
 })
 
 
-gulp.task("tscPublish", async (cb) => {
+gulp.task("tscPublish", (cb) => {
     try {
         !isLunix ?
-            await exec("start cmd.exe /K tsc -b")
+            exec("start cmd.exe /K tsc -b")
             :
-            await exec("tsc -b");
+            exec("tsc -b");
     } finally {
         cb()
     }
