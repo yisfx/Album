@@ -6,30 +6,51 @@ import ts from "gulp-typescript";
 import { exec } from "child_process";
 
 const tsProject = ts.createProject("tsconfig.json")
+import * as os from "os"
 
+type Platform = 'aix'
+    | 'android'
+    | 'darwin'
+    | 'freebsd'
+    | 'linux'
+    | 'openbsd'
+    | 'sunos'
+    | 'win32'
+    | 'cygwin'
+    | 'netbsd';
+
+const isLunix = os.platform() == "linux"
+console.log("current platform:", os.platform())
 //watch
-gulp.task("listening",(cb)=>{
-    gulp.watch("/src",()=>{
+gulp.task("listening", (cb) => {
+    gulp.watch("/src", () => {
         console.log("in listening")
-        // series("webpack","tsc")((done)=>{
-        //     console.log(done,"hee")
-        // })
-        
     })
 })
 
 
 gulp.task("webpack", () => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: (value) => void, reject) => {
         webpack(
             <webpack.Configuration>{ ...config },
             (err, stats) => {
                 if (!!err)
                     console.log("webpack err:", err)
-                resolve();
+                resolve(err);
             })
-
     })
+})
+
+
+gulp.task("tscPublish", (cb) => {
+    try {
+        !isLunix ?
+            exec("start cmd.exe /K tsc -b")
+            :
+            exec("tsc -b");
+    } finally {
+        cb()
+    }
 })
 
 gulp.task("tsc", (cb) => {
@@ -45,18 +66,30 @@ gulp.task("tsc", (cb) => {
 })
 
 gulp.task("run", (cb) => {
-    try{
-    exec("start cmd.exe /K nodemon --inspect ./dist/server.js")
-    }finally{
+    try {
+        exec("start cmd.exe /K nodemon --inspect ./dist/server.js")
+    } finally {
         cb()
     }
 })
 
+// if (process.argv && process.argv.length > 2) {
+//     let name = process.argv[2];
+//     switch (name) {
+//         case "build": break;
+//         default: task = [...task, "run"];
+//     }
+// }
 
-
-
-exports.default = series(
-    "webpack", 
-    "tsc", 
+exports.publish = series(
+    "webpack",
+    "tscPublish",
+);
+exports.dev = series(
+    "webpack",
+    "tsc",
     "run"
-    )
+)
+exports.default = series(
+    "webpack"
+)
