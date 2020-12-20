@@ -19,5 +19,12 @@ export class AlbumController {
 
 		return { initData: { a: "a", b: "b" } }
 	}
+	@Get()
+	@RouteRender(RouteConfig.ALBUM.name)
+	async Main() {
+		//let a = await this.httpClient.get("getAlbum");
+
+		return { initData: { a: "a", b: "b" } }
+	}
 
 }
