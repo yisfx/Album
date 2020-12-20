@@ -22,40 +22,38 @@ type Platform = 'aix'
 const isLunix = os.platform() == "linux"
 console.log("current platform:", os.platform())
 //watch
-gulp.task("listening", (cb) => {
+gulp.task("listening", async (cb) => {
     gulp.watch("/src", () => {
         console.log("in listening")
     })
 })
 
 
-gulp.task("webpack", () => {
-    return new Promise((resolve: (value) => void, reject) => {
-        webpack(
-            <webpack.Configuration>{ ...config },
-            (err, stats) => {
-                if (!!err)
-                    console.log("webpack err:", err)
-                resolve(err);
-            })
-    })
+gulp.task("webpack", async () => {
+    await webpack(
+        <webpack.Configuration>{ ...config },
+        (err, stats) => {
+            if (!!err)
+                console.log("webpack err:", err)
+        })
+
 })
 
 
-gulp.task("tscPublish", (cb) => {
+gulp.task("tscPublish", async (cb) => {
     try {
         !isLunix ?
-            exec("start cmd.exe /K tsc -b")
+            await exec("start cmd.exe /K tsc -b")
             :
-            exec("tsc -b");
+            await exec("tsc -b");
     } finally {
         cb()
     }
 })
 
-gulp.task("tsc", (cb) => {
+gulp.task("tsc", async (cb) => {
     try {
-        exec("start cmd.exe /K tsc -b --watch")
+        await exec("start cmd.exe /K tsc -b --watch")
         // return tsProject.src()
         //     .pipe(tsProject())
         //     .js
@@ -65,9 +63,9 @@ gulp.task("tsc", (cb) => {
     }
 })
 
-gulp.task("run", (cb) => {
+gulp.task("run", async (cb) => {
     try {
-        exec("start cmd.exe /K nodemon --inspect ./dist/server.js")
+        await exec("start cmd.exe /K nodemon --inspect ./dist/server.js")
     } finally {
         cb()
     }
