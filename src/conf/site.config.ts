@@ -1,8 +1,8 @@
 
 const SysConfig = {
-    port: 9001,
+    port: 9000,
 
-    domain: "http://loadlhost:9001",
+    domain: "http://loadlhost:9000",
 
     VisualStaticPath: "/kjsdfh/",
     JsPath: "public/script",
