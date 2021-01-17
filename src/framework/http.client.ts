@@ -1,25 +1,40 @@
 import { Injectable } from "@nestjs/common";
+import { exception } from "console";
 import request from "request";
+import { RestfulService, ServiceHost } from "../conf/restful.service";
+import * as url from "url";
 
 @Injectable()
 export class HttpClient {
     constructor() {
     }
 
-    async get(url: string) {
+    public async get(url: string) {
         try {
-            let a = await this.createClient()
+            let a = await this.createClient("")
             return a.body;
         } catch (ex) {
             return "a"
         }
     }
-
-
-    private async createClient() {
-        let resp= await request("https://www.baidu.com",
+    public async createClient(api: string) {
+        let restful = RestfulService[api]
+        if (!restful) {
+            throw exception("error api:" + api)
+        }
+        let host = ServiceHost[restful.Service]
+        if (!host) {
+            throw exception("error service:" + restful.Service)
+        }
+        let uri: string
+        if (!host.endsWith("/") && !restful.URL.endsWith("/")) {
+            uri = host + "/" + restful.URL;
+        } else {
+            uri = host + restful.URL
+        }
+        let resp = await request(uri,
             {
-                method:"POST",
+                method: "POST",
             })
         return resp;
     }
