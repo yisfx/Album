@@ -21,9 +21,10 @@ export default class AlbumList extends React.Component<IProps, any> {
         return (
 
             <div>
+                {this.props.store.AlbumList?.length}
                 <button onClick={() => {
-                    this.props.store.a++
-                }}>aaa{this.props.store.a}</button>
+
+                }}>aaa</button>
 
             </div>
         )

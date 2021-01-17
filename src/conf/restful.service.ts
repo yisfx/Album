@@ -7,7 +7,7 @@ class Resuful {
 
 
 enum ServiceType {
-    Album
+    Album = "Album"
 }
 
 

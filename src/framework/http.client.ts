@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { exception } from "console";
+
 import request from "request";
 import { RestfulService, ServiceHost } from "../conf/restful.service";
-import * as url from "url";
+import * as http from "http";
 
 @Injectable()
 export class HttpClient {
@@ -12,19 +12,19 @@ export class HttpClient {
     public async get(url: string) {
         try {
             let a = await this.createClient("")
-            return a.body;
+            return a;
         } catch (ex) {
             return "a"
         }
     }
-    public async createClient(api: string) {
+    public async createClient<T>(api: string): Promise<T> {
         let restful = RestfulService[api]
         if (!restful) {
-            throw exception("error api:" + api)
+            throw Error("error api:" + api)
         }
         let host = ServiceHost[restful.Service]
         if (!host) {
-            throw exception("error service:" + restful.Service)
+            throw Error("error service:" + restful.Service)
         }
         let uri: string
         if (!host.endsWith("/") && !restful.URL.endsWith("/")) {
@@ -32,10 +32,15 @@ export class HttpClient {
         } else {
             uri = host + restful.URL
         }
+
+        let rrr = await http.request(uri);
+        http.
+
         let resp = await request(uri,
             {
-                method: "POST",
+                method: "GET",
             })
-        return resp;
+        let result: T = JSON.parse((resp.body as string))
+        return result;
     }
 }

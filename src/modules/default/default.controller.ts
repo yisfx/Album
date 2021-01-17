@@ -25,7 +25,6 @@ export class DefaultController {
 
     @Post("/ajax/Api*")
     ajax(@Req() req, @Res() res): any {
-
         this.httpClient.get(req.url.replace("ajax/api", ""))
         return { Result: "Success" }
     }
