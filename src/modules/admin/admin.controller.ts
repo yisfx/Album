@@ -2,6 +2,7 @@ import { Controller, Get } from "@nestjs/common";
 import { RouteRender } from "../../framework/RouteRender.decorator";
 import { RouteConfig } from "../../framework/route.config";
 import { HttpClient } from "../../framework/http.client";
+import { Album } from "../../model/album";
 
 
 @Controller("Admin")
@@ -13,7 +14,7 @@ export class AdminController {
     @Get("Album")
     @RouteRender(RouteConfig.AdminAlbumList.name)
     async Album() {
-        let resp = await this.httpClient.createClient<[]>("ablumListApi");
+        let resp = await this.httpClient.createClient<Album[]>("ablumListApi");
         return {
             initData: { AlbumList: resp }
         }

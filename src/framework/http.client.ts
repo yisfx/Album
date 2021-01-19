@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 
 import request from "request";
 import { RestfulService, ServiceHost } from "../conf/restful.service";
-import * as http from "http";
 
 @Injectable()
 export class HttpClient {
@@ -17,6 +16,9 @@ export class HttpClient {
             return "a"
         }
     }
+
+
+
     public async createClient<T>(api: string): Promise<T> {
         let restful = RestfulService[api]
         if (!restful) {
@@ -33,14 +35,19 @@ export class HttpClient {
             uri = host + restful.URL
         }
 
-        let rrr = await http.request(uri);
-        http.
-
-        let resp = await request(uri,
-            {
-                method: "GET",
-            })
-        let result: T = JSON.parse((resp.body as string))
-        return result;
+        return new Promise((resolve, reject) => {
+            request(uri,
+                {
+                    method: "GET",
+                }, (err, response, body) => {
+                    if (!!err) {
+                        reject(err)
+                    } else {
+                        resolve(JSON.parse((body as string)))
+                    }
+                })
+        })
     }
+
+
 }
