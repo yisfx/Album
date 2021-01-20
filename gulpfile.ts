@@ -1,6 +1,7 @@
 import gulp, { series } from "gulp";
 import webpack from "webpack";
 import config from "./webpack.config";
+import webpackPublishConfig from "./webpack.publish.config";
 
 import ts from "gulp-typescript";
 import { exec } from "child_process";
@@ -38,15 +39,22 @@ gulp.task("webpack", (cb) => {
             if (!!err)
                 console.log("webpack err:", err)
         })
+})
 
+gulp.task("webpackPublish", (cb) => {
+    webpack(
+        <webpack.Configuration>{ ...webpackPublishConfig },
+        (err, stats) => {
+            cb();
+            if (!!err)
+                console.log("webpack err:", err)
+        })
 })
 
 
 gulp.task("tscPublish", (cb) => {
     try {
-        !isLunix ?
-            exec("start cmd.exe /K tsc -b")
-            :
+        console.log("tscPublish ing")
             exec("tsc -b");
     } finally {
         cb()
@@ -82,7 +90,7 @@ gulp.task("run", async (cb) => {
 // }
 
 exports.publish = series(
-    "webpack",
+    "webpackPublish",
     "tscPublish",
 );
 exports.dev = series(
