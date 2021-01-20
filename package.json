@@ -7,15 +7,17 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "gulp dev",
-    "build":"gulp publish"
+    "build": "gulp publish"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@types/react-modal": "^3.10.6",
     "@types/request": "^2.48.5",
     "mobx": "^4.2.0",
     "mobx-react": "^5.0.0",
+    "react-modal": "^3.12.1",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",

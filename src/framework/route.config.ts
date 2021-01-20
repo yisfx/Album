@@ -8,7 +8,7 @@ export const RouteConfig = {
 
 export const PageNameList = {
     Album: "ALBUM",
-    AdminAlbum: "AdminAlbum"
+    AdminAlbum: "AdminAlbumList"
 }
 
 export type PageName = string
