@@ -1,11 +1,10 @@
 import { Album } from "../admin.model";
-import { action, observable } from "mobx";
 import React from "react";
 
 export class AlbumState {
-    public AlbumList: Album[]
+    AlbumList: Album[]
 
-    @observable public a: number = 0
+    a: number = 0
 }
 
 export type AlbumAction = { type: "init" }

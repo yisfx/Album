@@ -3,4 +3,5 @@ export interface Album {
     ImageCount: number
     Describe: string
     Cover: string
+    Description: string
 }
