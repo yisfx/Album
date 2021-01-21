@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { RouteRender } from '../../framework/RouteRender.decorator';
+import { RouteRender } from '../../framework/decorators/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 
 

@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "gulp dev",
-    "build": "gulp publish"
+    "release": "gulp publish"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",

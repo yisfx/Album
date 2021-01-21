@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from "path";
 import { AppModule } from './app.module';
-import { LayoutInterceptor } from './framework/Layout.Intercept';
+import { LayoutInterceptor } from './framework/interceptor/Layout.Intercept';
 import reactView from './framework/ReactView';
 import SysConfig from './conf/site.config';
 

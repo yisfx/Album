@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
+import React, { FC, useEffect, useState } from "react";
+// import Modal from "react-modal";
+
+interface Props {
+    isOpen: boolean
+    close?(): void
+}
 
 
-
-
-export function FxModal(props: { isOpen: boolean }) {
+export const FxModal: FC<Props> = (props) => {
 
     const [open, setOpen] = useState(false);
 
@@ -15,7 +18,8 @@ export function FxModal(props: { isOpen: boolean }) {
 
     return (
         <React.Fragment>
-            <Modal isOpen={open}></Modal>
+            {props.children}
+            {/* <Modal isOpen={open}></Modal> */}
         </React.Fragment>
     )
 }

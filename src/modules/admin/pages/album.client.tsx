@@ -1,19 +1,19 @@
 import { render } from "react-dom";
 import React from "react";
-import AlbumList from "../views/albumList";
+import AlbumListPage from "../views/albumList";
 import { MobxIsomorphic } from "../../../framework/MobxIsomorphic";
 import { AlbumState } from "../store/album.store";
 
 
-@MobxIsomorphic(AlbumState)
-export class AlbumPage extends React.Component{
-    render(){
-        return <AlbumList />;
+// @MobxIsomorphic(AlbumState)
+export class AlbumPage extends React.Component {
+    render() {
+        return <AlbumListPage {...this.props} />;
     }
 }
-
+let readtData = window["__reactData__"]
 render(
-    <AlbumPage />,
+    <AlbumPage {...readtData} />,
     document.getElementById("app")
 )
 

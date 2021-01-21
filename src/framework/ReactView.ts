@@ -1,4 +1,16 @@
-const html = `<!DOCTYPE html>
+
+export default function reactView(
+    filePath: string,///template
+    viewOptions,
+    callback
+) {
+
+
+    const body = viewOptions.script;
+
+    ///master & template to build content
+
+    const html = `<!DOCTYPE html>
     <html lang="zh-CN">
     <head>
         <title>TRAVEL</title>
@@ -6,13 +18,16 @@ const html = `<!DOCTYPE html>
     </head>
     <body>
     <script>
-        __readtData__=;
+        window.__reactData__=`+ JSON.stringify(viewOptions.initData) + `
     </script>
     <div id="app">
+    `+ "" + `
     </div>
-    
-    <script src='__reactScript__'></script>
-
+    `
+        +
+        "<script src='" + viewOptions.script + "'></script>"
+        +
+        `
     <script>
     
     </script>
@@ -24,16 +39,6 @@ const html = `<!DOCTYPE html>
         </body>
     </html>`;
 
-export default function reactView(
-    filePath: string,
-    viewOptions,
-    callback
-) {
-
-    let content = html.replace("__reactScript__", viewOptions.script);
-
-    content = content.replace(" __readtData__=", "window.__reactData__=" + JSON.stringify(viewOptions.initData))
-
-    callback(null, content)
+    callback(null, html)
 
 }
