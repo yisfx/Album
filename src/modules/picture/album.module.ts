@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AlbumController } from './album.controller';
 import { AlbumService } from './album.service';
-import { HttpClient } from '../../framework/http.client';
+import { HttpClient } from '../../framework/httpclient/http.client';
 
 @Module({
   imports: [],

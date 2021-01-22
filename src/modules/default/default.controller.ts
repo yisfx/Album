@@ -1,6 +1,6 @@
 import { Controller, Get, Req, Res, Post } from "@nestjs/common";
 import { join } from "path";
-import { HttpClient } from "../../framework/http.client";
+import { HttpClient } from "../../framework/httpclient/http.client";
 import SysConfig from "../../conf/site.config";
 
 
@@ -23,9 +23,14 @@ export class DefaultController {
         res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
     }
 
-    @Post("/ajax/Api*")
+    @Post("/ajax/api/*")
     ajax(@Req() req, @Res() res): any {
-        this.httpClient.get(req.url.replace("ajax/api", ""))
-        return { Result: "Success" }
+        this.httpClient.get(req.url.replace("/ajax/api", ""))
+        return { Result: "success" }
+    }
+    @Get("/ajax/api/*")
+    ajaxGet(@Req() req, @Res() res): any {
+        this.httpClient.get(req.url.replace("/ajax/api", ""))
+        return { Result: "success" }
     }
 }

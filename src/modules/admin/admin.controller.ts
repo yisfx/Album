@@ -1,7 +1,7 @@
 import { Controller, Get } from "@nestjs/common";
 import { RouteRender } from "../../framework/decorators/RouteRender.decorator";
 import { RouteConfig } from "../../framework/route.config";
-import { HttpClient } from "../../framework/http.client";
+import { HttpClient } from "../../framework/httpclient/http.client";
 import { Album } from "../../model/album";
 
 

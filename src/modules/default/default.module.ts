@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { DefaultController } from "./default.controller";
-import { HttpClient } from "../../framework/http.client";
+import { HttpClient } from "../../framework/httpclient/http.client";
 
 
 

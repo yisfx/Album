@@ -5,6 +5,7 @@ export interface Album {
     Date: string
     Path: string
     PicList: Picture[]
+    Description: string
     ///根据album name寻path
 }
 

@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
 import request from "request";
-import { RestfulService, ServiceHost } from "../conf/restful.service";
+import { RestfulService, ServiceHost } from "../../conf/restful.service";
 
 @Injectable()
 export class HttpClient {
@@ -10,7 +10,7 @@ export class HttpClient {
 
     public async get(url: string) {
         try {
-            let a = await this.createClient("")
+            let a = await this.createClient(url)
             return a;
         } catch (ex) {
             return "a"
@@ -36,17 +36,23 @@ export class HttpClient {
         }
 
         return new Promise((resolve, reject) => {
-            request(uri,
-                {
-                    method: "GET",
-                }, (err, response, body) => {
-                    if (!!err) {
-                        reject(err)
-                    } else {
-                        resolve(JSON.parse((body as string)))
-                    }
-                })
+            try {
+                request(uri,
+                    {
+                        method: "GET",
+                        timeout: 5000
+                    }, (err, response, body) => {
+                        if (!!err) {
+                            reject(err)
+                        } else {
+                            resolve(JSON.parse((body as string)))
+                        }
+                    })
+            } catch (ex) {
+                return {}
+            }
         })
+
     }
 
 
