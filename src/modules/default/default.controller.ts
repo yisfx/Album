@@ -24,13 +24,13 @@ export class DefaultController {
     }
 
     @Post("/ajax/api/*")
-    ajax(@Req() req, @Res() res): any {
+    ajaxPost(@Req() req, @Res() res): any {
         this.httpClient.get(req.url.replace("/ajax/api", ""))
-        return { Result: "success" }
+        res.send({ Result: "success" })
     }
     @Get("/ajax/api/*")
     ajaxGet(@Req() req, @Res() res): any {
         this.httpClient.get(req.url.replace("/ajax/api", ""))
-        return { Result: "success" }
+        res.send({ Result: "success" })
     }
 }
