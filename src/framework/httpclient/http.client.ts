@@ -19,7 +19,7 @@ export class HttpClient {
 
 
 
-    public async createClient<T>(api: string): Promise<T> {
+    public async createClient<T>(api: string, req: any = undefined): Promise<T> {
         let restful = RestfulService[api]
         if (!restful) {
             throw Error("error api:" + api)
@@ -34,18 +34,33 @@ export class HttpClient {
         } else {
             uri = host + restful.URL
         }
-
+        let str = ""
+        if (typeof (req) === "string") {
+            str = req
+        } else {
+            str = JSON.stringify(req)
+        }
         return new Promise((resolve, reject) => {
             try {
                 request(uri,
                     {
                         method: "GET",
-                        timeout: 5000
+                        timeout: 5000,
+                        headers: {
+                            "content-type": "application/json"
+                        },
+                        body: str
                     }, (err, response, body) => {
                         if (!!err) {
                             reject(err)
                         } else {
-                            resolve(JSON.parse((body as string)))
+                            try {
+                                let resp = JSON.parse((body as string))
+                                resolve(resp);
+                            } catch (e) {
+                                resolve(body)
+                            }
+
                         }
                     })
             } catch (ex) {

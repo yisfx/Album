@@ -14,7 +14,7 @@ export class AdminController {
     @Get("Album")
     @RouteRender(RouteConfig.AdminAlbumList.name)
     async Album() {
-        // let resp = await this.httpClient.createClient<Album[]>("ablumListApi");
+        let resp = await this.httpClient.createClient<Album[]>("ablumListApi");
         return {
             initData: { AlbumList: [] }
         }
