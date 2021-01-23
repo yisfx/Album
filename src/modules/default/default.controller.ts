@@ -28,9 +28,9 @@ export class DefaultController {
         this.httpClient.get(req.url.replace("/ajax/api", ""))
         res.send({ Result: "success" })
     }
-    @Get("/ajax/api/*")
-    ajaxGet(@Req() req, @Res() res): any {
-        this.httpClient.get(req.url.replace("/ajax/api", ""))
+    @Get("/ajax/api/:route")
+    ajaxGet(@Req() req, @Res() res, @Param("route") route): any {
+        this.httpClient.get(route)
         res.send({ Result: "success" })
     }
 }
