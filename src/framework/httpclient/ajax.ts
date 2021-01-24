@@ -15,9 +15,9 @@ async function Ajax(api: string, request): Promise<BaseResponse> {
             redirect: 'follow',
             referrer: 'no-referrer'
         });
-        return resp;
+        return resp.body;
     } catch (ex) {
-        return { Result: "error", ErrorMessage: ex }
+        return { Result: false, ErrorMessage: ex }
     }
 }
 

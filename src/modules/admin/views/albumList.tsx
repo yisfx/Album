@@ -5,14 +5,9 @@ import { AlbumContext, AlbumReducer, AlbumState, dispatchMiddleWare } from "../s
 import AdminMaster from "../../../framework/Master/adminMaster";
 import MasterPage from "../../../framework/Master/@masterPage";
 import { FxModal } from "../../../framework/components/modal";
-import { Album } from "../../../model/album";
 import { BaseResponse } from "../../../model/response/baseResponse";
 import { Ajax } from "../../../framework/httpclient/ajax";
 
-
-interface IProps {
-    store?: AlbumState
-}
 
 function Top() {
     const { state, dispatcher } = useContext(AlbumContext)
@@ -22,7 +17,7 @@ function Top() {
     const [dateTime, setDateTime] = useState("")
     const [description, setDescription] = useState("")
 
-    const clear = () => {
+    const clearData = () => {
         setName("")
         setDateTime("")
         setDescription("")
@@ -35,8 +30,8 @@ function Top() {
             return;
         let request = { Name: name, Date: dateTime, Description: description };
         Ajax("AddAlbumApi", request).then((resp: BaseResponse) => {
-            if (resp.Result == "success") {
-                clear()
+            if (resp.Result) {
+                clearData()
                 window.location.reload();
             } else {
                 setErrorMsg(resp.ErrorMessage);
@@ -46,13 +41,16 @@ function Top() {
     return <div className="row">
         <div style={{ marginTop: "100px" }}></div>
         <div className="col-md-8">
+            <div className="page-header">
+                <h3>Current Album Count({state.AlbumList?.length})</h3>
+            </div>
         </div>
         <div className="col-md-2">
             <button
                 type="button"
                 className="btn btn-info"
                 onClick={() => {
-                    clear()
+                    clearData()
                     setIsOpen(true)
                 }}
             >Create Album</button>
@@ -128,13 +126,13 @@ function Content(initalState: AlbumState) {
 
 
 @MasterPage(AdminMaster)
-export default class AlbumListPage extends React.Component<IProps, any> {
+export default class AlbumListPage extends React.Component<AlbumState, any> {
     constructor(props) {
         super(props)
     }
     render() {
         return (
-            <Content {...this.props.store} />
+            <Content {...this.props} />
 
         )
     }

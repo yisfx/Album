@@ -3,6 +3,7 @@ import { Injectable } from "@nestjs/common";
 import request from "request";
 import { RestfulService, ServiceHost } from "../../conf/restful.service";
 
+
 @Injectable()
 export class HttpClient {
     constructor() {
@@ -60,11 +61,10 @@ export class HttpClient {
                             } catch (e) {
                                 resolve(body)
                             }
-
                         }
                     })
             } catch (ex) {
-                return {}
+                reject({ Result: false, ErrorMessage: "sevice error" })
             }
         })
 

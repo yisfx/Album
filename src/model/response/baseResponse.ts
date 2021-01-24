@@ -1,4 +1,4 @@
 export interface BaseResponse {
-    Result: "success" | "error"
+    Result: boolean
     ErrorMessage: string
 }

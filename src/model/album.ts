@@ -1,5 +1,5 @@
 ///相册
-export interface Album {
+export class Album {
     Name: string
     Cover: string
     Date: string
