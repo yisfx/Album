@@ -41,7 +41,7 @@ export class HttpClient {
         } else {
             str = JSON.stringify(req)
         }
-        return new Promise((resolve, reject) => {
+        var result = await new Promise<T>((resolve, reject) => {
             try {
                 request(uri,
                     {
@@ -67,6 +67,7 @@ export class HttpClient {
                 reject({ Result: false, ErrorMessage: "sevice error" })
             }
         })
+        return result;
 
     }
 

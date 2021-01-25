@@ -4,7 +4,7 @@ const SysConfig = {
 
     domain: "http://localhost:9000",
 
-    VisualStaticPath: "/kjsdfh/",
+    VisualStaticPath: "/kjsdfh",
     JsPath: "public/script",
     ImagePath: "public/image"
 }

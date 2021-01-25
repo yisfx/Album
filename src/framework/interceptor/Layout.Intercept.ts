@@ -22,7 +22,7 @@ export class LayoutInterceptor implements NestInterceptor {
 
                         response.locals = {
                             ...response.locals,
-                            script: SysConfig.VisualStaticPath + content
+                            script: SysConfig.VisualStaticPath + "/" + content
                         };
                     }
 

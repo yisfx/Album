@@ -8,7 +8,7 @@ import { AlbumState } from "../store/album.store";
 // @MobxIsomorphic(AlbumState)
 export class AlbumPage extends React.Component {
     render() {
-        return <AlbumListPage {...this.props} />;
+        return <AlbumListPage {...(this.props as any)} />;
     }
 }
 let readtData = window["__reactData__"]

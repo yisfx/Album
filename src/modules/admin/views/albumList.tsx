@@ -7,6 +7,8 @@ import MasterPage from "../../../framework/Master/@masterPage";
 import { FxModal } from "../../../framework/components/modal";
 import { BaseResponse } from "../../../model/response/baseResponse";
 import { Ajax } from "../../../framework/httpclient/ajax";
+import { FXImage, ImageType } from "../../../framework/components/FXImage";
+import { Album } from "src/model/album";
 
 
 function Top() {
@@ -30,6 +32,7 @@ function Top() {
             return;
         let request = { Name: name, Date: dateTime, Description: description };
         Ajax("AddAlbumApi", request).then((resp: BaseResponse) => {
+            console.log("AddAlbumApi", resp)
             if (resp.Result) {
                 clearData()
                 window.location.reload();
@@ -112,6 +115,32 @@ function Top() {
     </div>
 }
 
+function AlbumContent(prop: { album: Album }) {
+    return <>
+        <div className="row list-group-item" style={{ height: "120px", }}>
+            <div className="col-lg-2">
+                <FXImage style={{ width: "100px", height: "100px" }} name={prop.album.Cover} type={ImageType.Album} desc={undefined} />
+            </div>
+            <div className="col-lg-5">
+                <div>Name:{prop.album.Name}</div>
+                <div>Date:{prop.album.Date}</div>
+                <div>Description:{prop.album.Description}</div>
+                <div>Count:{prop.album.PicList?.length || 0}</div>
+            </div>
+        </div>
+    </>
+}
+
+function List() {
+    const { state, dispatcher } = useContext(AlbumContext)
+    return <>
+        <div className="list-group">
+            {state.AlbumList?.map((a, index) => <AlbumContent key={`${a.Name}_${index}`} album={a}></AlbumContent>)}
+        </div>
+    </>
+}
+
+
 function Content(initalState: AlbumState) {
 
     const [state, dispatch] = useReducer(AlbumReducer, initalState);
@@ -119,6 +148,7 @@ function Content(initalState: AlbumState) {
     return <>
         <AlbumContext.Provider value={{ state, dispatcher: dispatchMiddleWare(dispatch) }}>
             <Top />
+            <List />
         </AlbumContext.Provider>
     </>
 }

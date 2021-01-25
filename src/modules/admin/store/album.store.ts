@@ -1,5 +1,5 @@
-import { Album } from "../admin.model";
 import React from "react";
+import { Album } from "../../../model/album";
 
 export class AlbumState {
     AlbumList: Album[]
