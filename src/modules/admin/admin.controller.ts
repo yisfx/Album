@@ -8,7 +8,7 @@ import request from "request";
 import { response } from "express";
 
 
-@Controller("Admin")
+@Controller()
 export class AdminController {
     constructor(private readonly httpClient: HttpClient) {
 
