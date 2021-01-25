@@ -2,7 +2,7 @@ import { Controller, Get, Req, Res, Post, Param } from "@nestjs/common";
 import { join } from "path";
 import { HttpClient } from "../../framework/httpclient/http.client";
 import SysConfig from "../../conf/site.config";
-import { BaseResponse } from "src/model/response/baseResponse";
+import { BaseResponse } from "../../model/response/baseResponse";
 
 
 @Controller()

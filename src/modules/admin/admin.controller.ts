@@ -2,10 +2,7 @@ import { Controller, Get, Param, Req, Res } from "@nestjs/common";
 import { RouteRender } from "../../framework/decorators/RouteRender.decorator";
 import { RouteConfig } from "../../framework/route.config";
 import { HttpClient } from "../../framework/httpclient/http.client";
-import { Album } from "../../model/album";
 import { AlbumListResponse } from "../../model/response/albumListResponse";
-import request from "request";
-import { response } from "express";
 
 
 @Controller()

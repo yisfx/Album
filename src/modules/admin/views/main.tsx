@@ -1,6 +1,6 @@
 import React from "react";
-import { urlBuilder } from "src/framework/urlBuilder";
-import { PageNameList } from "src/framework/route.config";
+import { urlBuilder } from "../../../framework/urlBuilder";
+import { PageNameList } from "../../../framework/route.config";
 
 
 export class Main extends React.Component<any>{

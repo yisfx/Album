@@ -8,7 +8,7 @@ import { FxModal } from "../../../framework/components/modal";
 import { BaseResponse } from "../../../model/response/baseResponse";
 import { Ajax } from "../../../framework/httpclient/ajax";
 import { FXImage, ImageType } from "../../../framework/components/FXImage";
-import { Album } from "src/model/album";
+import { Album } from "../../../model/album";
 
 
 function Top() {
