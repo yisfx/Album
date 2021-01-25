@@ -25,6 +25,11 @@ const RestfulService: { [key: string]: Resuful } = {
         Method: "POST",
         URL: "Manage/AddAlbum",
         Service: ServiceType.Album
+    },
+    "getAlbumPicApi": {
+        Method: "POST",
+        URL: "Manage/GetAlbum",
+        Service: ServiceType.Album
     }
 }
 
