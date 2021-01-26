@@ -9,6 +9,8 @@ import { BaseResponse } from "../../../model/response/baseResponse";
 import { Ajax } from "../../../framework/httpclient/ajax";
 import { FXImage, ImageType } from "../../../framework/components/FXImage";
 import { Album } from "../../../model/album";
+import { urlBuilder } from "src/framework/urlBuilder";
+import { PageName, PageNameList } from "../../../framework/route.config";
 
 
 function Top() {
@@ -117,7 +119,9 @@ function Top() {
 
 function AlbumContent(prop: { album: Album }) {
     return <>
-        <div className="row list-group-item" style={{ height: "120px", }}>
+        <div className="row list-group-item" style={{ height: "120px", }} onClick={() => {
+            window.location.href = urlBuilder(PageNameList.AdminAlbumPicList, prop.album.Name);
+        }}>
             <div className="col-lg-2">
                 <FXImage style={{ width: "100px", height: "100px" }} name={prop.album.Cover} type={ImageType.Album} desc={undefined} />
             </div>

@@ -14,7 +14,9 @@ export const PageNameList = {
     AdminAlbumPicList: "AdminAlbumPicList"
 }
 
-export type PageName = string
+export type PageName = "ALBUM" |
+    "AdminAlbumList" |
+    "AdminAlbumPicList"
 
 
 export interface Route {

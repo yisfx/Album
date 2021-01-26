@@ -4,10 +4,13 @@ import SysConfig from "../conf/site.config";
 
 
 
-export function urlBuilder(page: PageName, para?: {}): string {
+export function urlBuilder(page: string, restfulRoute: string = null, para?: {}): string {
     let config: Route = RouteConfig[page];
-    let url = SysConfig.domain + config.route
-
+    let url = null
+    if (!!restfulRoute)
+        url = SysConfig.domain + config.route.replace(":route", restfulRoute)
+    else
+        url = SysConfig.domain + config.route
     if (!!para) {
         url += "?"
         for (let key in para) {
