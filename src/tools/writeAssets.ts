@@ -12,7 +12,6 @@ export function WriteAssets() {
         let name = f.split('-')[0];
 
         ass[name] = f;
-        console.log(f);
     })
     p = path.join(__dirname, "../dist", "conf");
     if (!fs.existsSync(p)) {

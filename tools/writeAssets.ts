@@ -14,7 +14,6 @@ export function WriteAssets() {
         let name = f.split('-')[0];
 
         ass[name] = f;
-        console.log(f);
     })
     p = path.join(__dirname, "../dist", "conf");
     if (!fs.existsSync(p)) {
@@ -29,7 +28,6 @@ export function publishStatic() {
 }
 
 function copyImage() {
-
     console.log("static path:",path.join(__dirname, "../static/image"), path.join(__dirname, "../dist/public/image"));
     CopyPath(path.join(__dirname, "../static/image"), path.join(__dirname, "../dist/public/image"));
 }

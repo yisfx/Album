@@ -9,7 +9,7 @@ import { BaseResponse } from "../../../model/response/baseResponse";
 import { Ajax } from "../../../framework/httpclient/ajax";
 import { FXImage, ImageType } from "../../../framework/components/FXImage";
 import { Album } from "../../../model/album";
-import { urlBuilder } from "src/framework/urlBuilder";
+import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageName, PageNameList } from "../../../framework/route.config";
 
 
@@ -34,7 +34,6 @@ function Top() {
             return;
         let request = { Name: name, Date: dateTime, Description: description };
         Ajax("AddAlbumApi", request).then((resp: BaseResponse) => {
-            console.log("AddAlbumApi", resp)
             if (resp.Result) {
                 clearData()
                 window.location.reload();
