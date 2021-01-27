@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import { BaseResponse } from "../../model/response/baseResponse";
 
 async function Ajax(api: string, request): Promise<BaseResponse> {
