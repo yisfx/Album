@@ -10,7 +10,7 @@ import { Ajax } from "../../../framework/httpclient/ajax";
 import { FXImage, ImageType } from "../../../framework/components/FXImage";
 import { Album } from "../../../model/album";
 import { urlBuilder } from "../../../framework/urlBuilder";
-import { PageName, PageNameList } from "../../../framework/route.config";
+import { PageNameList } from "../../../framework/route.config";
 
 
 function Top() {
@@ -62,7 +62,6 @@ function Top() {
         <FxModal
             isOpen={isOpen}
             close={() => {
-
                 setIsOpen(false)
             }}
         >
@@ -118,18 +117,24 @@ function Top() {
 
 function AlbumContent(prop: { album: Album }) {
     return <>
-        <div className="row list-group-item" style={{ height: "120px", }} onClick={() => {
-            window.location.href = urlBuilder(PageNameList.AdminAlbumPicList, prop.album.Name);
-        }}>
+        <div className="row list-group-item" style={{ height: "120px", }}>
             <div className="col-lg-2">
                 <FXImage style={{ width: "100px", height: "100px" }} name={prop.album.Cover} type={ImageType.Album} desc={undefined} />
             </div>
-            <div className="col-lg-5">
+            <div className="col-lg-8" onClick={() => {
+                window.location.href = urlBuilder(PageNameList.AdminAlbumPicList, prop.album.Name);
+            }}>
                 <div>Name:{prop.album.Name}</div>
                 <div>Date:{prop.album.Date}</div>
                 <div>Description:{prop.album.Description}</div>
                 <div>Count:{prop.album.PicList?.length || 0}</div>
             </div>
+            <div className="col-lg-2"></div>
+            <button type="button" className="btn btn-info"
+                onClick={(evt) => {
+                    evt.preventDefault()
+                }}
+            >Edit</button>
         </div>
     </>
 }

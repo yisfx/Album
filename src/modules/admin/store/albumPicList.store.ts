@@ -3,7 +3,7 @@ import { Album } from "../../../model/album";
 
 export class AlbumPicListState {
     route: string
-    AlbumList: Album[]
+    Album: Album
 }
 
 
