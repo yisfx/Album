@@ -5,6 +5,7 @@ import { AlbumPicListContext, AlbumPicListReducer, AlbumPicListState, dispatchMi
 import { FxModal } from "../../../framework/components/modal";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
+import { Upload } from "../../../framework/components/upload";
 
 
 function List() {
@@ -18,7 +19,7 @@ function List() {
 function Top() {
     const { state, dispatcher } = useContext(AlbumPicListContext);
     const [openModal, setOpenModal] = useState(false)
-
+    const [n, setN] = useState(0)
     return <div>
         <div className="row">
             <div className="row">
@@ -42,7 +43,15 @@ function Top() {
         </div>
         <FxModal isOpen={openModal}
             close={() => { setOpenModal(false) }}
-        ><div>1111</div></FxModal>
+        >
+            <div>
+                {n}
+                <Upload UploadUrl={"/"}>
+                    <button type="button" onClick={_ => { alert(n); setN(n + 1); console.log(n) }} >123123123123</button>
+                    <div> this is out{n}</div>
+                </Upload>
+            </div>
+        </FxModal>
     </div>
 }
 

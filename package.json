@@ -15,6 +15,7 @@
     "@nestjs/platform-express": "^7.0.0",
     "@types/react-modal": "^3.10.6",
     "@types/request": "^2.48.5",
+    "fast-react-render": "^1.2.3",
     "mobx": "^4.2.0",
     "mobx-react": "^5.0.0",
     "react-modal": "^3.12.1",

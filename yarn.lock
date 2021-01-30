@@ -3449,6 +3449,13 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.6:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
+fast-react-render@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/fast-react-render/-/fast-react-render-1.2.3.tgz#36a46977fbbee18711a27673f0dc5467ef33833e"
+  integrity sha512-wUXAT2Vb0rvHuT26BN09q0pruF9RYu8WYL0/y+FJ/VjtfFB2b5tdschoUNBFB/yfhr7aSKZaOv7lKQ+3Guv6zQ==
+  dependencies:
+    uuid "2.0.2"
+
 fast-safe-stringify@2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.7.tgz#124aa885899261f68aedb42a7c080de9da608743"
@@ -8226,6 +8233,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+
+uuid@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.2.tgz#48bd5698f0677e3c7901a1c46ef15b1643794726"
+  integrity sha1-SL1WmPBnfjx5AaHEbvFbFkN5RyY=
 
 uuid@8.1.0:
   version "8.1.0"

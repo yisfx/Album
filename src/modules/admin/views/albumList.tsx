@@ -13,7 +13,7 @@ import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 
 
-function EditAlbumPopu(props: { album: Album, errorMessage: string }) {
+function EditAlbumPopu(props: { album: Album }) {
 
     const [album, setAlbum] = useState(props.album || ({} as Album))
     const [errorMessage, setErrorMsg] = useState("")
@@ -37,6 +37,7 @@ function EditAlbumPopu(props: { album: Album, errorMessage: string }) {
                 <input type="text"
                     className="form-control"
                     placeholder="Name"
+                    readOnly={!!props.album}
                     value={album.Name}
                     onChange={(evt) => { setAlbum({ ...album, Name: evt.target?.value || "" }) }} />
             </div>
@@ -46,6 +47,7 @@ function EditAlbumPopu(props: { album: Album, errorMessage: string }) {
                     type="date"
                     className="form-control"
                     placeholder="DateTime"
+                    readOnly={!!props.album}
                     value={album.Date}
                     onChange={(evt) => {
                         setAlbum({ ...album, Date: evt.target?.value || "" })
@@ -112,18 +114,21 @@ function Top() {
                 }}
             >Create Album</button>
         </div>
-        <FxModal
-            isOpen={isOpen}
-            close={() => {
-                setIsOpen(false)
-            }}
-        >
-
-        </FxModal>
+        {isOpen &&
+            <FxModal
+                isOpen={isOpen}
+                close={() => {
+                    setIsOpen(false)
+                }}
+            >
+                <EditAlbumPopu album={undefined} />
+            </FxModal>
+        }
     </div>
 }
 
 function AlbumContent(prop: { album: Album }) {
+    const [isOpen, setOpen] = useState(false)
     return <>
         <div className="row list-group-item" style={{ height: "120px", }}>
             <div className="col-lg-2">
@@ -140,10 +145,20 @@ function AlbumContent(prop: { album: Album }) {
             <div className="col-lg-2"></div>
             <button type="button" className="btn btn-info"
                 onClick={(evt) => {
-                    evt.preventDefault()
+                    setOpen(true)
                 }}
             >Edit</button>
         </div>
+        {isOpen &&
+            <FxModal
+                isOpen={isOpen}
+                close={() => {
+                    setOpen(false)
+                }}
+            >
+                <EditAlbumPopu album={prop.album} />
+            </FxModal>
+        }
     </>
 }
 
