@@ -6,6 +6,7 @@ import { FxModal } from "../../../framework/components/modal";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { Upload } from "../../../framework/components/upload";
+import { BaseResponse } from "src/model/response/baseResponse";
 
 
 function List() {
@@ -19,7 +20,7 @@ function List() {
 function Top() {
     const { state, dispatcher } = useContext(AlbumPicListContext);
     const [openModal, setOpenModal] = useState(false)
-    const [n, setN] = useState(0)
+    const [file, setFile] = useState(null);
     return <div>
         <div className="row">
             <div className="row">
@@ -45,10 +46,14 @@ function Top() {
             close={() => { setOpenModal(false) }}
         >
             <div>
-                {n}
-                <Upload UploadUrl={"/"}>
-                    <button type="button" onClick={_ => { alert(n); setN(n + 1); console.log(n) }} >123123123123</button>
-                    <div> this is out{n}</div>
+                <Upload UploadUrl={"/PictureUploadApi"}
+                    Success={(response: BaseResponse) => {
+                        alert(response.Result)
+                    }}>
+                    <input type="text" name="txt" value={"12312312123"} />
+                    <input type="file" name="file" onChange={(evt) => {
+                        setFile(evt.target.value)
+                    }} />
                 </Upload>
             </div>
         </FxModal>
