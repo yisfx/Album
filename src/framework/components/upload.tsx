@@ -25,7 +25,6 @@ export function Upload(props: React.PropsWithChildren<IProps>) {
         if (submit != 1)
             return;
         let iframe = document?.getElementsByTagName("iframe")[0];
-        iframe.srcdoc = ReactRender.elementToString(React.createElement(form, props), { context: {} })
 
 
         setTimeout(() => {
@@ -37,9 +36,9 @@ export function Upload(props: React.PropsWithChildren<IProps>) {
 
 
     return < div >
-        {props.children}
-        <button onClick={() => { startSubmit(1) }}>submit-{submit}</button>
-        <iframe hidden={true}
+        <iframe hidden={false}
+            frameBorder={0}
+            srcDoc={ReactRender.elementToString(React.createElement(form, props), { context: {} })}
             onLoad={(evt) => {
                 if (submit == 2) {
                     let iframe = document?.getElementsByTagName("iframe")[0];
@@ -48,6 +47,7 @@ export function Upload(props: React.PropsWithChildren<IProps>) {
                         ?.innerText;
                     startSubmit(0);
                     try {
+                        iframe.srcdoc = ReactRender.elementToString(React.createElement(form, props), { context: {} });
                         props?.Success && props.Success(JSON.parse(response))
                     } catch {
                         props?.Success && props.Success(response)
@@ -55,6 +55,7 @@ export function Upload(props: React.PropsWithChildren<IProps>) {
                 }
             }}>
         </iframe>
+        <button onClick={() => { startSubmit(1) }}>submit</button>
         {/* } */}
     </div >
 }

@@ -6,14 +6,22 @@ import { FxModal } from "../../../framework/components/modal";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { Upload } from "../../../framework/components/upload";
-import { BaseResponse } from "src/model/response/baseResponse";
+import { BaseResponse } from "../../../model/response/baseResponse";
+import { Picture } from "../../../model/album";
+import { FXImage, ImageType } from "../../../framework/components/fxImage";
 
+
+function Pic(props: { p: Picture }) {
+    return <div>
+        <FXImage style={{ width: "100px", height: "100px" }} name={props.p.Name} type={ImageType.Album} desc={undefined} />
+    </div>
+}
 
 function List() {
     const { state, dispatcher } = useContext(AlbumPicListContext);
 
     return <div>
-        {state.Album?.PicList?.map(p => <div>{p.Name}</div>)}
+        {state.Album?.PicList?.map(p => <div key={p.Name}>{p.MiniPath}</div>)}
     </div>
 }
 
@@ -48,10 +56,12 @@ function Top() {
             <div>
                 <Upload UploadUrl={"/PictureUploadApi"}
                     Success={(response: BaseResponse) => {
-                        alert(response.Result)
+                        if (response.Result) {
+                            window.location.reload();
+                        }
                     }}>
-                    <input type="text" name="txt" value={"12312312123"} />
-                    <input type="file" name="file" onChange={(evt) => {
+                    <input type="text" readOnly hidden={true} name="AlbumName" value={state.Album.Name} />
+                    <input type="file" name="files" onChange={(evt) => {
                         setFile(evt.target.value)
                     }} />
                 </Upload>

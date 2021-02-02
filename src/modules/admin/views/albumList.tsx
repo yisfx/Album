@@ -140,7 +140,6 @@ function AlbumContent(prop: { album: Album }) {
                 <div>Name:{prop.album.Name}</div>
                 <div>Date:{prop.album.Date}</div>
                 <div>Description:{prop.album.Description}</div>
-                <div>Count:{prop.album.PicList?.length || 0}</div>
             </div>
             <div className="col-lg-2"></div>
             <button type="button" className="btn btn-info"
