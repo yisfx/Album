@@ -29,6 +29,7 @@ export class AdminController {
     async AlbumPicList(@Param("route") route) {
         let request: GetAlbumRequest = { AlbumName: route }
         let resp = await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
+        resp.Album.PicList.map(d => { d.MaxPath = d.MiniPath = d.OrgPath = undefined });
         return { initData: { ...resp } }
     }
 

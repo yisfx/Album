@@ -22,7 +22,7 @@ function FXImage(props: IProps) {
         image = buildImageUrl("image/error.jpg");
     } else {
         switch (props.type) {
-            case ImageType.Album: image = BuildAlbumImageUrl(props.name) || "";
+            case ImageType.Album: image = BuildAlbumImageUrl(props.name) || ""; break;
             case ImageType.Normal: image = buildImageUrl(props.name) || "";
         }
     }

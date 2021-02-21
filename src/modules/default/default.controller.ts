@@ -23,12 +23,24 @@ export class DefaultController {
         let f = dir[dir.length - 1]
         res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
     }
+
+    @Get(SysConfig.VisualStaticPath + "/album/*.jpg")
+    albumJpg(@Req() req, @Res() res) {
+        let dir: string[] = req.url.split("/")
+        let name: string[] = dir[dir.length - 1].split("-")
+        let albumName = name[0];
+        let picName = name.join("-").replace(`${albumName}-`, "")
+        let p = join(SysConfig.AlbumPath, albumName, picName);
+        res.sendFile(p)
+    }
+
     @Get(SysConfig.VisualStaticPath + "/*.jpg")
     staticJpg(@Req() req, @Res() res) {
         let dir: [] = req.url.split("/")
         let f = dir[dir.length - 1]
         res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
     }
+
 
     @Post("/ajax/api/:route")
     async ajaxPost(@Req() req, @Res() res, @Param("route") route) {

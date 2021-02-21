@@ -13,7 +13,7 @@ import { FXImage, ImageType } from "../../../framework/components/fxImage";
 
 function Pic(props: { p: Picture }) {
     return <div>
-        <FXImage style={{ width: "100px", height: "100px" }} name={props.p.Name} type={ImageType.Album} desc={undefined} />
+        <FXImage style={{ width: "100px", height: "100px" }} name={`${props.p.Album}-${props.p.Name}-mini.jpg`} type={ImageType.Album} desc={undefined} />
     </div>
 }
 
@@ -21,7 +21,9 @@ function List() {
     const { state, dispatcher } = useContext(AlbumPicListContext);
 
     return <div>
-        {state.Album?.PicList?.map(p => <div key={p.Name}>{p.MiniPath}</div>)}
+        {state.Album?.PicList?.map(p => <div key={p.Name}>
+            <Pic p={p} />
+        </div>)}
     </div>
 }
 

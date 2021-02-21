@@ -6,5 +6,7 @@ export function buildImageUrl(name: string) {
 }
 
 export function BuildAlbumImageUrl(name: string) {
-    return `${SysConfig.VisualStaticPath}/album/${name}`;
+    let u = `${SysConfig.VisualStaticPath}/album/${name}`;
+    console.log(u)
+    return u;
 }
