@@ -9,11 +9,60 @@ import { Upload } from "../../../framework/components/upload";
 import { BaseResponse } from "../../../model/response/baseResponse";
 import { Picture } from "../../../model/album";
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
+import { Ajax } from "../../../framework/httpclient/ajax";
 
+enum DeleteType {
+    Image = "Image",
+    Abbreviation = "Abbreviation"
+}
 
 function Pic(props: { p: Picture }) {
+
+    const [deleteConfirmModal, setDeleteConfirmModal] = useState({ show: false, deleteType: DeleteType.Abbreviation });
+
+    const DeleteImage = () => {
+        Ajax("", {})
+    }
+
     return <div>
-        <FXImage style={{ width: "100px", height: "100px" }} name={`${props.p.Album}-${props.p.Name}-mini.jpg`} type={ImageType.Album} desc={undefined} />
+        <div className="row">
+            <div className="col-xs-2">
+                <div className="thumbnail">
+                    <FXImage style={{ width: "200px", height: "200px", objectFit: "contain" }} name={`${props.p.Album}-${props.p.Name}-mini.jpg`} type={ImageType.Album} desc={undefined} />
+                </div>
+            </div>
+            <div className="col-xs-4">
+                {props.p.Name}
+            </div>
+            <div className="col-xs-4">
+                <button onClick={() => {
+                    setDeleteConfirmModal({ show: true, deleteType: DeleteType.Image })
+                }} className="btn">delete image</button>
+                <br /><br />
+                <button onClick={() => {
+                    setDeleteConfirmModal({ show: true, deleteType: DeleteType.Abbreviation })
+                }} className="btn">delete max & mini</button>
+            </div>
+        </div>
+        <FxModal isOpen={deleteConfirmModal.show}
+            close={() => { setDeleteConfirmModal({ show: false, deleteType: DeleteType.Abbreviation }) }}>
+            <div className="row">
+                <div className="col-sm-2"></div> <div>are you sure delete this {deleteConfirmModal.deleteType}？</div>
+            </div>
+            <div className="thumbnail">
+                <FXImage style={{ height: "250px", objectFit: "contain" }} name={`${props.p.Album}-${props.p.Name}-mini.jpg`} type={ImageType.Album} desc={undefined} />
+            </div>
+            <div className="row">
+                <div className="col-sm-2"></div>
+                <div className="col-sm-2"><button> SURE </button></div>
+                <div className="col-sm-2"></div>
+                <div className="col-sm-2"></div>
+                <div className="col-sm-2"><button onClick={() => {
+                    setDeleteConfirmModal({ show: false, deleteType: DeleteType.Abbreviation })
+                }}> NO </button></div>
+            </div>
+
+        </FxModal>
     </div>
 }
 
