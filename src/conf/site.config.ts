@@ -4,7 +4,7 @@ const SysConfig = {
 
     domain: "http://localhost:9000",
     VisualStaticPath: "/kjsdfh",
-    AlbumPath: "C://GoWorkSpace//src//album",
+    AlbumPath: "C://Users//wangs//Desktop//album",
     JsPath: "public/script",
     ImagePath: "public/image"
 }

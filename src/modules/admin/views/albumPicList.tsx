@@ -22,6 +22,7 @@ function Pic(props: { p: Picture }) {
 
     const DeleteImage = () => {
         Ajax("", {})
+
     }
 
     return <div>
@@ -97,6 +98,15 @@ function Top() {
                         <button className="btn btn-default" type="submit"
                             onClick={() => { setOpenModal(true) }}
                         >Upload Picture</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <button className="btn btn-default" type="submit"
+                            onClick={() => {
+                                Ajax("rebuildAlbumApi", { AlbumName: state.Album.Name }).then(resp => {
+                                    if (resp?.Result)
+                                        alert("done")
+                                })
+                            }}
+                        >Rebuild</button>
                     </div>
                 </div>
             </div>
