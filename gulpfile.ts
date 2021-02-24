@@ -42,6 +42,7 @@ gulp.task("webpack", (cb) => {
 })
 
 gulp.task("webpackPublish", (cb) => {
+    console.log("webpackPublish")
     webpack(
         <webpack.Configuration>{ ...webpackPublishConfig },
         (err, stats) => {
