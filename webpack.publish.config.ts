@@ -1,15 +1,13 @@
 import path from "path";
 import os from 'os';
 import { RouteConfig } from "./src/framework/route.config"
-// require("ts-loader")
+
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HappyPack from "happypack";
 import AssetsPlugin from "assets-webpack-plugin";
 const SysConfig = require("./conf/site.config.json");
 import { ProgressPlugin } from "webpack";
 import { publishStatic } from "./tools/writeAssets";
-// import CopyWebpackPlugin from "copy-webpack-plugin";
-// import { WebpackPluginInstance as plugin } from "webpack";
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 
@@ -95,11 +93,6 @@ const config = {
         extensions: ['.ts', '.tsx', '.config', '.js', '.json', '.css', ".png"]
     },
     watch: false,
-    watchOptions: {
-        poll: 1000, // 每秒询问多少次
-        aggregateTimeout: 500,  //防抖 多少毫秒后再次触发
-        ignored: /node_modules/ //忽略时时监听
-    }
 };
 
 module.exports = config;
