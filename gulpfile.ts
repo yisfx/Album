@@ -91,7 +91,7 @@ gulp.task("run", async (cb) => {
 
 exports.publish = series(
     "webpackPublish",
-    "tscPublish",
+    // "tscPublish",
 );
 exports.dev = series(
     "webpack",
