@@ -42,7 +42,6 @@ gulp.task("webpack", (cb) => {
 })
 
 gulp.task("webpackPublish", (cb) => {
-    console.log("webpackPublish")
     webpack(
         <webpack.Configuration>{ ...webpackPublishConfig },
         (err, stats) => {
@@ -92,7 +91,7 @@ gulp.task("run", async (cb) => {
 
 exports.publish = series(
     "webpackPublish",
-    // "tscPublish",
+    "tscPublish",
 );
 exports.dev = series(
     "webpack",
