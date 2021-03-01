@@ -1,6 +1,6 @@
 import { BaseResponse } from "../../model/response/baseResponse";
 
-async function Ajax(api: string, request): Promise<BaseResponse> {
+async function Ajax<T>(api: string, request: T): Promise<BaseResponse> {
     try {
         let resp: any = await fetch("/ajax/api/" + api, {
             body: JSON.stringify(request),

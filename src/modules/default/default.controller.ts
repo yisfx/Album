@@ -3,6 +3,7 @@ import { join } from "path";
 import { HttpClient } from "../../framework/httpclient/http.client";
 import SysConfig from "../../conf/site.config";
 import { BaseResponse } from "../../model/response/baseResponse";
+import * as fs from "fs";
 
 
 @Controller()
@@ -31,7 +32,11 @@ export class DefaultController {
         let albumName = name[0];
         let picName = name.join("-").replace(`${albumName}-`, "")
         let p = join(SysConfig.AlbumPath, albumName, picName);
-        res.sendFile(p)
+        if (fs.existsSync(p)) {
+            res.sendFile(p)
+        } else {
+            res.send("");
+        }
     }
 
     @Get(SysConfig.VisualStaticPath + "/*.jpg")

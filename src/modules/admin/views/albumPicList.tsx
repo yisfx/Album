@@ -7,29 +7,48 @@ import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { Upload } from "../../../framework/components/upload";
 import { BaseResponse } from "../../../model/response/baseResponse";
-import { Picture } from "../../../model/album";
+import { Picture, Album } from "../../../model/album";
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { Ajax } from "../../../framework/httpclient/ajax";
+import { DeleteAlbumPictureRequest } from "src/model/request/deleteAlbumPicRequest";
+import { AddAlbumRequest } from "src/model/request/addAlbumRequest";
 
 enum DeleteType {
     Image = "Image",
     Abbreviation = "Abbreviation"
 }
 
-function Pic(props: { p: Picture }) {
+function Pic(props: { p: Picture, album: Album }) {
 
-    const [deleteConfirmModal, setDeleteConfirmModal] = useState({ show: false, deleteType: DeleteType.Abbreviation });
+    const [deleteConfirmModal, setDeleteConfirmModal] = useState({ show: false, deleteType: DeleteType.Abbreviation, ErrorMsg: "" });
 
     const DeleteImage = () => {
-        Ajax("", {})
-
+        Ajax<DeleteAlbumPictureRequest>("deleteAlbumPicApi",
+            { AlbumName: props.p.Album, PicName: props.p.Name, DeleteType: deleteConfirmModal.deleteType }).then((resp: BaseResponse) => {
+                if (resp.Result) {
+                    window.location.reload()
+                } else {
+                    setDeleteConfirmModal({ ...deleteConfirmModal, ErrorMsg: resp.ErrorMessage })
+                }
+            })
+    }
+    const SetAlbumCover = () => {
+        Ajax<AddAlbumRequest>("AddAlbumApi",
+            { Album: { ...props.album, Cover: props.p.Name } }).then((resp: BaseResponse) => {
+                if (resp.Result) {
+                    window.location.reload();
+                }
+            });
     }
 
     return <div>
         <div className="row">
             <div className="col-xs-2">
                 <div className="thumbnail">
-                    <FXImage style={{ width: "200px", height: "200px", objectFit: "contain" }} name={`${props.p.Album}-${props.p.Name}-mini.jpg`} type={ImageType.Album} desc={undefined} />
+                    <FXImage style={{ width: "200px", height: "200px", objectFit: "contain" }}
+                        name={`${props.p.Album}-${props.p.Name}-mini.jpg`}
+                        type={ImageType.Album}
+                        desc={undefined} />
                 </div>
             </div>
             <div className="col-xs-4">
@@ -37,16 +56,27 @@ function Pic(props: { p: Picture }) {
             </div>
             <div className="col-xs-4">
                 <button onClick={() => {
-                    setDeleteConfirmModal({ show: true, deleteType: DeleteType.Image })
+                    setDeleteConfirmModal({ show: true, deleteType: DeleteType.Image, ErrorMsg: "" })
                 }} className="btn">delete image</button>
                 <br /><br />
                 <button onClick={() => {
-                    setDeleteConfirmModal({ show: true, deleteType: DeleteType.Abbreviation })
+                    setDeleteConfirmModal({ show: true, deleteType: DeleteType.Abbreviation, ErrorMsg: "" })
                 }} className="btn">delete max & mini</button>
+                <br /><br />
+                {props.album.Cover !== props.p.Name &&
+                    <button onClick={() => {
+                        SetAlbumCover()
+                    }} className="btn">set album cover</button>
+                }
+                {props.album.Cover === props.p.Name &&
+                    <div>
+                        Is Cover <i className="glyphicon glyphicon-ok" />
+                    </div>
+                }
             </div>
         </div>
         <FxModal isOpen={deleteConfirmModal.show}
-            close={() => { setDeleteConfirmModal({ show: false, deleteType: DeleteType.Abbreviation }) }}>
+            close={() => { setDeleteConfirmModal({ show: false, deleteType: DeleteType.Abbreviation, ErrorMsg: "" }) }}>
             <div className="row">
                 <div className="col-sm-2"></div> <div>are you sure delete this {deleteConfirmModal.deleteType}？</div>
             </div>
@@ -55,12 +85,18 @@ function Pic(props: { p: Picture }) {
             </div>
             <div className="row">
                 <div className="col-sm-2"></div>
-                <div className="col-sm-2"><button> SURE </button></div>
+                <div className="col-sm-2">
+                    <button onClick={() => {
+                        DeleteImage()
+                    }}> SURE </button>
+                </div>
                 <div className="col-sm-2"></div>
                 <div className="col-sm-2"></div>
-                <div className="col-sm-2"><button onClick={() => {
-                    setDeleteConfirmModal({ show: false, deleteType: DeleteType.Abbreviation })
-                }}> NO </button></div>
+                <div className="col-sm-2">
+                    <button onClick={() => {
+                        setDeleteConfirmModal({ show: false, deleteType: DeleteType.Abbreviation, ErrorMsg: "" })
+                    }}> NO </button>
+                </div>
             </div>
 
         </FxModal>
@@ -69,10 +105,10 @@ function Pic(props: { p: Picture }) {
 
 function List() {
     const { state, dispatcher } = useContext(AlbumPicListContext);
-
+    const album = { ...state.Album, PicList: null }
     return <div>
         {state.Album?.PicList?.map(p => <div key={p.Name}>
-            <Pic p={p} />
+            <Pic p={p} album={album} />
         </div>)}
     </div>
 }

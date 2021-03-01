@@ -18,7 +18,7 @@ const ServiceHost: { [key: string]: string } = {
 const RestfulService: { [key: string]: Resuful } = {
     "ablumListApi": {
         Method: "POST",
-        URL: "Manage/AlbumList",
+        URL: "Manage/GetAlbumList",
         Service: ServiceType.Album
     },
     "AddAlbumApi": {
@@ -28,13 +28,18 @@ const RestfulService: { [key: string]: Resuful } = {
     },
     "getAlbumPicApi": {
         Method: "POST",
-        URL: "Manage/GetAlbum",
+        URL: "Manage/GetAlbumPicList",
         Service: ServiceType.Album
     },
     "rebuildAlbumApi": {
         Method: "POST",
         URL: "Manage/BuildAlbumImage",
         Service: ServiceType.Album
+    },
+    "deleteAlbumPicApi":{
+        Method:"POST",
+        URL:"Manage/DeleteAlbumPic",
+        Service:ServiceType.Album
     }
 }
 

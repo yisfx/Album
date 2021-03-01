@@ -11,6 +11,7 @@ import { FXImage, ImageType } from "../../../framework/components/FXImage";
 import { Album } from "../../../model/album";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
+import { AddAlbumRequest } from "src/model/request/addAlbumRequest";
 
 
 function EditAlbumPopu(props: { album: Album }) {
@@ -20,8 +21,8 @@ function EditAlbumPopu(props: { album: Album }) {
     const submit = () => {
         if (!album.Name || !album.Date || !album.Description)
             return;
-        let request = album;
-        Ajax("AddAlbumApi", request).then((resp: BaseResponse) => {
+        let request = { Album: album };
+        Ajax<AddAlbumRequest>("AddAlbumApi", request).then((resp: BaseResponse) => {
             if (resp.Result) {
                 window.location.reload();
             } else {
@@ -132,7 +133,10 @@ function AlbumContent(prop: { album: Album }) {
     return <>
         <div className="row list-group-item" style={{ height: "120px", }}>
             <div className="col-lg-2">
-                <FXImage style={{ width: "100px", height: "100px" }} name={prop.album.Cover} type={ImageType.Album} desc={undefined} />
+                <FXImage style={{ width: "100px", height: "100px", objectFit: "contain" }}
+                    name={`${prop.album.Name}-${prop.album.Cover}-mini.jpg`}
+                    type={ImageType.Album}
+                    desc={undefined} />
             </div>
             <div className="col-lg-8" onClick={() => {
                 window.location.href = urlBuilder(PageNameList.AdminAlbumPicList, prop.album.Name);
