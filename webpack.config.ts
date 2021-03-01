@@ -8,6 +8,7 @@ import AssetsPlugin from "assets-webpack-plugin";
 const SysConfig = require("./conf/site.config.json");
 import { ProgressPlugin } from "webpack";
 import { publishStatic } from "./tools/writeAssets";
+import { deleteFiles } from "./tools/fileTool";
 // import CopyWebpackPlugin from "copy-webpack-plugin";
 // import { WebpackPluginInstance as plugin } from "webpack";
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
@@ -16,6 +17,7 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 const config = {
     entry: () => {
         let dic = {}
+        deleteFiles(SysConfig.JsPath)
         for (let route in RouteConfig) {
             let r = RouteConfig[route]
             dic[r.name] = path.join(__dirname, "src", "modules", r.page);

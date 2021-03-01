@@ -3,9 +3,6 @@ import { RouteRender } from '../../framework/decorators/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 import { HttpClient } from '../../framework/httpclient/http.client';
 
-
-// export abstract class BaseController { }
-
 @Controller()
 export class AlbumController {
 	constructor(private readonly httpClient: HttpClient) {
@@ -21,7 +18,8 @@ export class AlbumController {
 	}
 	@Get()
 	@RouteRender(RouteConfig.ALBUM.name)
-	async Main() {
+	async Homepage() {
+		console.log("homepage")
 		//let a = await this.httpClient.get("getAlbum");
 
 		return { initData: { a: "a", b: "b" } }

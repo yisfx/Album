@@ -2,7 +2,7 @@
 import * as path from "path";
 import * as fs from "fs";
 
-function deleteFiles(folderPath) {
+export function deleteFiles(folderPath) {
     let forlder_exists = fs.existsSync(folderPath);
     if (forlder_exists) {
         let fileList = fs.readdirSync(folderPath);

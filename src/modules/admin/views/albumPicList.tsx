@@ -1,6 +1,6 @@
 import React, { useContext, useReducer, useState } from "react";
-import MasterPage from ".././../../framework/Master/@masterPage";
-import AdminMaster from "../../../framework/Master/adminMaster";
+import MasterPage from "../../../framework/master/@masterPage";
+import AdminMaster from "../../../framework/master/adminMaster";
 import { AlbumPicListContext, AlbumPicListReducer, AlbumPicListState, dispatchMiddleWare } from "../store/albumPicList.store";
 import { FxModal } from "../../../framework/components/modal";
 import { urlBuilder } from "../../../framework/urlBuilder";

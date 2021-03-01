@@ -2,8 +2,8 @@
 
 import React, { useContext, useReducer, useState } from "react";
 import { AlbumContext, AlbumReducer, AlbumState, dispatchMiddleWare } from "../store/album.store";
-import AdminMaster from "../../../framework/Master/adminMaster";
-import MasterPage from "../../../framework/Master/@masterPage";
+import AdminMaster from "../../../framework/master/adminMaster";
+import MasterPage from "../../../framework/master/@masterPage";
 import { FxModal } from "../../../framework/components/modal";
 import { BaseResponse } from "../../../model/response/baseResponse";
 import { Ajax } from "../../../framework/httpclient/ajax";
