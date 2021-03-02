@@ -1,13 +1,17 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import MasterPage from "../../../framework/master/@masterPage"
 import Master from "../../../framework/master/master"
-
-
+declare let Swiper
 
 function Bottom() {
-    
     return <div className="">
-
+        <div className="swiper-container">
+            <div className="swiper-wrapper">
+                <div className="swiper-slide">slider1</div>
+                <div className="swiper-slide">slider2</div>
+                <div className="swiper-slide">slider3</div>
+            </div>
+        </div>
     </div>
 }
 
@@ -21,7 +25,7 @@ export class Album extends React.Component<any>{
         const mheight = window.screen.height > window.screen.width ? 80 : 75
         const height = mheight + "vh"
         const bottomHeight = (100 - mheight) + "vh"
-        
+
         return (
             <div>
                 <div style={{ height, backgroundColor: "#000000" }}>
@@ -29,9 +33,7 @@ export class Album extends React.Component<any>{
                 <div style={{ height: bottomHeight, backgroundColor: "#00CED1" }}>
                     <Bottom />
                 </div>
-                <script src="https://3.swiper.com.cn/dist/js/swiper.min.js"></script>
             </div>
-
         )
     }
 }
