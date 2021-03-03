@@ -37,6 +37,10 @@ const config = {
                 test: /\.tsx?$/,
                 use: 'happypack/loader?id=happyBabel',
                 exclude: /node_modules/
+            },
+            {
+                test: /\.styl$/,
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
