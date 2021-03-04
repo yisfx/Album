@@ -11,7 +11,7 @@ export default class Master extends React.Component<any, any> {
                 <div className="">
                     {this.props.children}
                 </div>
-                <div style={{ position: "absolute", bottom: "20px", right: "10px", zIndex: 999 }}>
+                {/* <div style={{ position: "absolute", bottom: "20px", right: "10px", zIndex: 999 }}>
                     <div data-tip="false" hidden
                         style={{
                             position: "absolute",
@@ -38,7 +38,7 @@ export default class Master extends React.Component<any, any> {
                         }}>
                         <i className="glyphicon glyphicon-menu-up"></i>
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }

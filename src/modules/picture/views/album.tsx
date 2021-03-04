@@ -30,13 +30,13 @@ function Cover(props: { height: string }) {
         {mmm.map((v, i) =>
             <div key={i + "_" + v} className="swiper-slide" style={{ display: "inline", textAlign: "center" }}>
                 {v % 2 == 0 &&
-                    <img src="https://akamai.newegg.com.sh/WebResource/Themes/Nest/qrcodes/scan-step-3.png"
-                        style={{ height: "90vh", objectFit: "cover", margin: "0 auto" }} />
+                    <img src="http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193742-mini.jpg"
+                        style={{ height: "98vh", objectFit: "cover", margin: "0 auto" }} />
                 }
                 {
                     v % 2 != 0 &&
-                    <img src="https://c1.neweggimages.com/WebResource/Themes/2005/Nest/logo_424x210.png"
-                        style={{ height: "90vh", objectFit: "cover", margin: "0 auto" }} />
+                    <img src="http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193800-mini.jpg"
+                        style={{ height: "98vh", objectFit: "cover", margin: "0 auto" }} />
                 }
 
             </div>
@@ -46,11 +46,11 @@ function Cover(props: { height: string }) {
 
 function Content() {
     return (
-        <div>
-            <div style={{ height: "100vh", backgroundColor: "" }}>
-                <div style={{ height: "2vh" }}></div>
-                <Cover height={"98vh"} />
+        <div className="jumbotron" style={{ height: "100vh", marginBottom: "0", paddingTop: "1vh" }}>
+            <div style={{ position: "absolute", top: "0px", right: "10px" }}>
+                <button className="btn">---___</button>
             </div>
+            <Cover height={"99vh"} />
         </div>
     )
 }
@@ -64,6 +64,13 @@ export class Album extends React.Component<any>{
     }
 
     render() {
-        return <Content />
+        return <div>
+            <Content />
+        </div>
     }
+}
+
+
+const stylesheet = {
+
 }
