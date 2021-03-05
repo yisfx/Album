@@ -6,6 +6,7 @@ const SysConfig = {
     VisualStaticPath: "/kjsdfh",
     AlbumPath: "C://Users//wangs//Desktop//album",
     JsPath: "public/script",
+    CssPath: "public/css",
     ImagePath: "public/image"
 }
 

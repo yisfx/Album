@@ -3,6 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 
 export function deleteFiles(folderPath) {
+    return;
     let forlder_exists = fs.existsSync(folderPath);
     if (forlder_exists) {
         let fileList = fs.readdirSync(folderPath);
@@ -10,6 +11,7 @@ export function deleteFiles(folderPath) {
             fs.unlinkSync(path.join(folderPath, fileName));
         });
     }
+    console.log("delete :", forlder_exists, folderPath)
 }
 
 export function CopyPath(from: string, target: string) {

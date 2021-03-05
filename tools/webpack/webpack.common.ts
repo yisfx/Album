@@ -1,34 +1,23 @@
 import path from "path";
 import os from 'os';
-import { RouteConfig } from "./src/framework/route.config"
-// require("ts-loader")
+import webpack from "webpack";
+
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HappyPack from "happypack";
 import AssetsPlugin from "assets-webpack-plugin";
-const SysConfig = require("./conf/site.config.json");
+const SysConfig = require("../../conf/site.config.json");
 import { ProgressPlugin } from "webpack";
-import { publishStatic } from "./tools/writeAssets";
-import { deleteFiles } from "./tools/fileTool";
-// import CopyWebpackPlugin from "copy-webpack-plugin";
-// import { WebpackPluginInstance as plugin } from "webpack";
+import { publishStatic } from "../writeAssets";
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 
-const config = {
-    entry: () => {
-        let dic = {}
-        deleteFiles(SysConfig.JsPath)
-        for (let route in RouteConfig) {
-            let r = RouteConfig[route]
-            dic[r.name] = path.join(__dirname, "src", "modules", r.page);
-        }
-        console.log("webpack entry:", dic);
-        return dic;
-    }
-    ,
+
+export default <webpack.Configuration>{
     output: {
         filename: '[name]-[contenthash:8].js',
-        path: path.join(__dirname, "dist", SysConfig.JsPath)
+        path: path.join(__dirname, "../../dist", SysConfig.JsPath)
     },
     module: {
         rules: [
@@ -43,29 +32,53 @@ const config = {
                 exclude: /node_modules/
             },
             {
-                test: /\.css$/,
+                test: /\.css$/i,
                 use: [
                     {
-                        loader: 'style-loader'
+                        loader: MiniCssExtractPlugin.loader
                     },
                     {
-                        loader: 'css-loader'
+                        loader: 'css-loader',
+                        options: {
+                            url: (url: string, _resourcePath: string) => url.includes('/fonts/')
+                        }
                     }
                 ]
-            }
+            },
         ]
     },
     plugins: [
         new AssetsPlugin({
-            path: path.join("dist/conf"),
+            path: path.join(__dirname, "../../dist/conf"),
             filename: "assets.conf.json",
             processOutput: function (output) {
                 const scripts = Object.entries(output).reduce(
                     (acc, [k, v]) => v.js ? ({ [k]: v.js, ...acc }) : acc, {}
                 );
-                console.log(scripts);
+                console.log("js path:", path.join(__dirname, "../../dist/conf"))
+                console.log("js:", output);
                 return `${JSON.stringify(scripts, null, 2)}`;
             }
+        }),
+        new AssetsPlugin({
+            path: path.join(__dirname, "../../dist/conf"),
+            filename: 'assets.css.json',
+            processOutput: function (x) {
+
+                const styles: any = {};
+                for (let key in x) {
+                    if (!!key && !!x[key].css) {
+                        styles[key] = x[key].css;
+                    }
+                }
+                console.log("css path:", path.join(__dirname, "../../dist/conf"))
+                console.log("css:", styles)
+                return `${JSON.stringify(styles, null, 2)}`;
+            }
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name]-[contenthash:8].css",
+            ignoreOrder: false
         }),
 
 
@@ -102,19 +115,13 @@ const config = {
             verbose: true
         })
     ],
-    mode: "development",
+    optimization: {
+        minimizer: [
+            new OptimizeCSSAssetsPlugin()
+        ]
+    },
     target: "web",
     resolve: {
         extensions: ['.ts', '.tsx', '.config', '.js', '.json', '.css', ".png"]
     },
-    watch: true,
-    watchOptions: {
-        poll: 1000, // 每秒询问多少次
-        aggregateTimeout: 500,  //防抖 多少毫秒后再次触发
-        ignored: /node_modules/ //忽略时时监听
-    }
 };
-
-module.exports = config;
-
-export default config

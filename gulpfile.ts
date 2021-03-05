@@ -1,7 +1,7 @@
 import gulp, { series } from "gulp";
 import webpack from "webpack";
-import config from "./webpack.config";
-import webpackPublishConfig from "./webpack.publish.config";
+import wenpackDevConfig from "./tools/webpack/webpack.dev.config"
+import webpackPublishConfig from "./tools/webpack/webpack.publish.config";
 
 import ts from "gulp-typescript";
 import { exec } from "child_process";
@@ -33,7 +33,7 @@ gulp.task("listening", (cb) => {
 
 gulp.task("webpack", (cb) => {
     webpack(
-        <webpack.Configuration>{ ...config },
+        <webpack.Configuration>{ ...wenpackDevConfig },
         (err, stats) => {
             cb();
             if (!!err)
@@ -55,7 +55,7 @@ gulp.task("webpackPublish", (cb) => {
 gulp.task("tscPublish", (cb) => {
     try {
         console.log("tscPublish ing")
-            exec("tsc -b");
+        exec("tsc -b");
     } finally {
         cb()
     }

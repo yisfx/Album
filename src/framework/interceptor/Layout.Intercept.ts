@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import SysConfig from "../../conf/site.config";
 let ass = require("../../conf/assets.conf")
+let css = require("../../conf/assets.css")
 import metadata from "../decorators/constants";
 
 @Injectable()
@@ -13,6 +14,7 @@ export class LayoutInterceptor implements NestInterceptor {
         let content = ass[route]
         if (!content)
             content = ass[404];
+        let cssFile = css[route];
         const response = context.switchToHttp().getResponse();
         return next
             .handle()
@@ -22,7 +24,8 @@ export class LayoutInterceptor implements NestInterceptor {
 
                         response.locals = {
                             ...response.locals,
-                            script: SysConfig.VisualStaticPath + "/" + content
+                            script: SysConfig.VisualStaticPath + "/" + content,
+                            css: SysConfig.VisualStaticPath + "/" + cssFile,
                         };
                     }
 

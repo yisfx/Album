@@ -13,11 +13,19 @@ export class DefaultController {
     }
 
     @Get(SysConfig.VisualStaticPath + "/*.js")
-    staticFile(@Req() req, @Res() res) {
+    jsFile(@Req() req, @Res() res) {
         let dir: [] = req.url.split("/")
         let f = dir[dir.length - 1]
         res.sendFile(join(__dirname, '../../', SysConfig.JsPath, f))
     }
+    
+    @Get(SysConfig.VisualStaticPath + "/*.css")
+    cssFile(@Req() req, @Res() res) {
+        let dir: [] = req.url.split("/")
+        let f = dir[dir.length - 1]
+        res.sendFile(join(__dirname, '../../', SysConfig.JsPath, f))
+    }
+
     @Get(SysConfig.VisualStaticPath + "/*.png")
     staticPng(@Req() req, @Res() res) {
         let dir: [] = req.url.split("/")

@@ -1,4 +1,37 @@
-.jumbotron::before{
+.bgground{
+    height: 100vh;
+    margin-bottom: 0;
+    background-color: rgb(196, 222, 233);
+}
+.main-menum{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+}
+/* .side-container{
+    width: 100%;
+    display: inline;
+    text-align: center 
+} */
+.main-img{
+    /* height: 100%;
+    max-height: 95vh; */
+    object-fit: cover; 
+}
+
+.Cover{
+    position: relative;
+    padding: 1em;
+    height:100%;
+    background: hsla(0,0%,100%,.25) border-box;
+    overflow: hidden;
+    border-radius: .3em;
+    box-shadow: 0 0 0 1px hsla(0,0%,100%,.3) inset,
+                0 .5em 1em rgba(0, 0, 0, 0.6);
+    text-shadow: 0 1px 1px hsla(0,0%,100%,.3);
+}
+.Cover::before{
     content: '';
     position: absolute;
     top: 0; right: 0; bottom: 0; left: 0;
@@ -7,3 +40,30 @@
     -webkit-filter: blur(20px);
     filter: blur(20px);
 }
+
+.swiper-container{
+    --swiper-theme-color: #ff6600;
+    --swiper-pagination-color: #00ff33;/* 两种都可以 */
+    width: 100%;
+    height: 100%;
+  }
+  .swiper-pagination,
+    .swiper-pagination-bullets{
+      height: 10px;
+  }
+
+  .swiper-slide{
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+  }
+  .swiper-slide:nth-child(2n) {
+       width: 100%;
+   }
+   .swiper-slide:nth-child(3n) {
+      width: 100%;
+    }
+  .swiper-pagination-bullet{
+      width: 5px;
+      height: 5px;
+  }
