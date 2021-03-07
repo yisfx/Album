@@ -32,12 +32,20 @@ function Cover() {
     return <>
         <Swiper {...params}>
             {mmm.map((v, i) => i % 2 == 0 ?
-                <div key={i} className="main-sider" style={{ height: "100vh" }}>
-                    <img className={pc?"main-img-pc":"main-img-mobile"} src={"http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193800-max.jpg"} />
+                <div key={i} >
+                    <div className="main-sider">
+                        <div className="image-container">
+                            <img className={pc ? "main-img-pc" : "main-img-mobile"} src={"http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193800-max.jpg"} />
+                        </div>
+                    </div>
                 </div>
                 :
-                <div key={i} className="main-sider" style={{ height: "100vh" }}>
-                    <img className={pc?"main-img-pc":"main-img-mobile"} src={"http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193742-max.jpg"} />
+                <div key={i} className="main-sider">
+                    <div className="main-sider">
+                        <div className="image-container">
+                            <img className={pc ? "main-img-pc" : "main-img-mobile"} src={"http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193742-max.jpg"} />
+                        </div>
+                    </div>
                 </div>
 
             )}
