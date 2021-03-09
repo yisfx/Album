@@ -32,7 +32,7 @@ $ npm run test:cov
 ```
 ## Stay in touch
 - Website - [www.fxfxfxfx.cn](www.fxfxfxfx.cn)
-- central - [central](https://blog.csdn.net/qq_21987433/article/details/108344682)
+- file to base64 - [file to base64](https://blog.csdn.net/qq_21987433/article/details/108344682)
 
 ## License
 
