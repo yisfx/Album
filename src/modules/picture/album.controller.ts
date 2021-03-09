@@ -2,27 +2,37 @@ import { Controller, Get, Req, Res, Inject } from '@nestjs/common';
 import { RouteRender } from '../../framework/decorators/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 import { HttpClient } from '../../framework/httpclient/http.client';
+import { AlbumListResponse } from '../../model/response/albumListResponse';
 
 @Controller()
 export class AlbumController {
 	constructor(private readonly httpClient: HttpClient) {
-		// super()
 	}
+
+	async getAlbumList(): Promise<AlbumListResponse> {
+		let resp = await this.httpClient.createClient<AlbumListResponse>("ablumListApi");
+		if (resp?.Result) {
+			resp.AlbumList.map(album => {
+				album.Cover=""
+			})
+		}
+		return resp;
+	}
+
 
 	@Get(RouteConfig.ALBUM.route)
 	@RouteRender(RouteConfig.ALBUM.name)
 	async getHello() {
-		//let a = await this.httpClient.get("getAlbum");
-
-		return { initData: { a: "a", b: "b" } }
+		let resp = await this.getAlbumList();
+		return { initData: { AlbumList: { ...resp } } }
 	}
+
 	@Get()
 	@RouteRender(RouteConfig.ALBUM.name)
 	async Homepage() {
-		console.log("homepage")
-		//let a = await this.httpClient.get("getAlbum");
+		let resp = await this.getAlbumList();
 
-		return { initData: { a: "a", b: "b" } }
+		return { initData: { AlbumList: { ...resp } } }
 	}
 
 }

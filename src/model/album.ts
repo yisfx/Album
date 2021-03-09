@@ -1,6 +1,7 @@
 ///相册
 export class Album {
     Name: string
+    CNName: string
     Cover: string
     Date: string
     Path: string

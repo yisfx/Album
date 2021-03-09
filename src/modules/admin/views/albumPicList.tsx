@@ -122,7 +122,7 @@ function Top() {
             <div className="row">
                 <div className="col-md-8">
                     <div className="page-header">
-                        <h1>{state.Album.Name} <small>picture count({state.Album?.PicList?.length || 0})</small></h1>
+                        <h1>{state.Album.Name}-{state.Album.CNName} <small>picture count({state.Album?.PicList?.length || 0})</small></h1>
                     </div>
                 </div>
                 <div className="col-md-4">

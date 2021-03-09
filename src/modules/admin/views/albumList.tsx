@@ -19,7 +19,7 @@ function EditAlbumPopu(props: { album: Album }) {
     const [album, setAlbum] = useState(props.album || ({} as Album))
     const [errorMessage, setErrorMsg] = useState("")
     const submit = () => {
-        if (!album.Name || !album.Date || !album.Description)
+        if (!album.Name || !album.Date || !album.Description || !album.CNName)
             return;
         let request = { Album: album };
         Ajax<AddAlbumRequest>("AddAlbumApi", request).then((resp: BaseResponse) => {
@@ -33,6 +33,14 @@ function EditAlbumPopu(props: { album: Album }) {
 
     return <form>
         <div className="row">
+            <div className="form-group">
+                <label>CN Name</label>
+                <input type="text"
+                    className="form-control"
+                    placeholder="CN Name"
+                    value={album.CNName}
+                    onChange={(evt) => { setAlbum({ ...album, CNName: evt.target?.value || "" }) }} />
+            </div>
             <div className="form-group">
                 <label>Name</label>
                 <input type="text"
@@ -142,6 +150,7 @@ function AlbumContent(prop: { album: Album }) {
                 window.location.href = urlBuilder(PageNameList.AdminAlbumPicList, prop.album.Name);
             }}>
                 <div>Name:{prop.album.Name}</div>
+                <div>CNName:{prop.album.CNName}</div>
                 <div>Date:{prop.album.Date}</div>
                 <div>Description:{prop.album.Description}</div>
             </div>
