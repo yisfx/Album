@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react"
 import MasterPage from "../../../framework/master/@masterPage"
 import Master from "../../../framework/master/master"
 import Swiper, { ReactIdSwiperProps } from "react-id-swiper";
+import { AlbumState } from "../store/album.state";
+import { Album } from "../../../model/album";
+import { FXImage, ImageType } from "../../../framework/components/fxImage";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/main.css')
@@ -9,8 +12,9 @@ if (process.env.BROWSER) {
 }
 
 
-function Cover() {
+function Cover(props: { AlbumList: Album[] }) {
     const pc = window.screen.height < window.screen.width
+
     const mmm = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0,]
     const params = {
         direction: 'horizontal',
@@ -29,38 +33,36 @@ function Cover() {
             },
         },
     }
+
+    const albumList = props?.AlbumList;
     return <>
         <Swiper {...params}>
-            {mmm.map((v, i) => i % 2 == 0 ?
+            {albumList?.map((v, i) =>
                 <div key={i} >
                     <div className="main-sider">
                         <div className="image-container">
-                            <img className={pc ? "main-img-pc" : "main-img-mobile"} src={"http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193800-max.jpg"} />
+                            <FXImage
+                                className={pc ? "main-img-pc" : "main-img-mobile"}
+                                name={v.Cover}
+                                type={ImageType.MixAlbum}
+                                desc={v.Description} />
+                            {/* <img className={pc ? "main-img-pc" : "main-img-mobile"} src={"http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193800-max.jpg"} /> */}
                         </div>
                     </div>
                 </div>
-                :
-                <div key={i} className="main-sider">
-                    <div className="main-sider">
-                        <div className="image-container">
-                            <img className={pc ? "main-img-pc" : "main-img-mobile"} src={"http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193742-max.jpg"} />
-                        </div>
-                    </div>
-                </div>
-
             )}
         </Swiper>
     </>
 }
 
-function Content() {
+function Content(initalState: AlbumState) {
     return (
         <div className="bgground">
             <div className="main-menum">
                 <button className="btn">---___</button>
             </div>
             <div className="Cover">
-                <Cover />
+                <Cover AlbumList={initalState.AlbumList} />
             </div>
         </div>
     )
@@ -69,14 +71,13 @@ function Content() {
 
 
 @MasterPage(Master)
-export class Album extends React.Component<any>{
+export class AlbumPage extends React.Component<AlbumState, any>{
     constructor(props) {
         super(props)
     }
-
     render() {
         return <div>
-            <Content />
+            <Content {...this.props} />
         </div>
     }
 }

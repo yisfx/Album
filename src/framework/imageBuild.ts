@@ -3,7 +3,7 @@ import SysConfig from "../conf/site.config";
 
 export function buildImageUrl(name: string, mix: boolean = false) {
     if (mix) {
-        return `${SysConfig.VisualStaticPath}/${SysConfig.MixPath}/${name}`;
+        return `${SysConfig.VisualStaticPath}${SysConfig.MixPath}/album/${name}`;
     }
     return `${SysConfig.VisualStaticPath}/${name}`;
 }

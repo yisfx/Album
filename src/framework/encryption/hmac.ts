@@ -23,7 +23,7 @@ function Decrypt(txt: string): string {
     })
     const tag = Buffer.from(buf)
     const cipher = crypto.createCipheriv(algorithm, key, iv); // 初始化加密算法
-    let encrypted = cipher.update(text, 'utf8', 'hex');
+    let encrypted = cipher.update(txt, 'utf8', 'hex');
 
     const decipher = crypto.createDecipheriv(algorithm, key, iv); // 初始化解密算法
     decipher.setAuthTag(tag); // 传入验证标签，验证密文的来源

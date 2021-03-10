@@ -28,9 +28,9 @@ export class JPGController {
     @Get(SysConfig.VisualStaticPath + SysConfig.MixPath + "/album/*")
     mixAlbumJpg(@Req() req, @Res() res) {
         let dir: string[] = req.url.split("/")
-
+        let dd = Decrypt(dir[dir.length - 1]);
         let name: string[] = Decrypt(dir[dir.length - 1]).split("/")
-        
+
         let albumName = name[0];
 
 

@@ -32,14 +32,14 @@ export class AlbumController {
 	@RouteRender(RouteConfig.ALBUM.name)
 	async getHello() {
 		let resp = await this.getAlbumList();
-		return { initData: { AlbumList: { ...resp } } }
+		return { initData: { ...resp } }
 	}
 
 	@Get()
 	@RouteRender(RouteConfig.ALBUM.name)
 	async Homepage() {
 		let resp = await this.getAlbumList();
-		return { initData: { AlbumList: { ...resp } } }
+		return { initData: { ...resp } }
 	}
 
 }

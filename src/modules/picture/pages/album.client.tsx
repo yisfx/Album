@@ -1,10 +1,10 @@
 import { render } from "react-dom";
 import React from "react";
-import { Album } from "../views/album";
+import { AlbumPage } from "../views/album";
 
-let readtData=window["__reactData__"]
+let readtData = window["__reactData__"]
 
 render(
-    <Album {...readtData} />,
+    <AlbumPage {...readtData} />,
     document.getElementById("app")
 )
