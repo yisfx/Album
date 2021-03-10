@@ -1,7 +1,7 @@
 import path from "path";
 import { smart } from 'webpack-merge';
 import { RouteConfig } from "../../src/framework/route.config"
-const SysConfig = require("../../conf/site.config.json");
+import SysConfig from "../../src/conf/site.config";
 import { deleteFiles } from "../fileTool";
 import CommonConfig from "./webpack.common";
 

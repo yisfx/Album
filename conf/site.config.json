@@ -1,8 +1,0 @@
-{
-    "port": 9000,
-    "domain": "http://loadlhost:9000",
-    "VisualStaticPath": "/kjsdfh",
-    "JsPath": "public/script",
-    "CssPath": "public/css",
-    "ImagePath": "public/images"
-}

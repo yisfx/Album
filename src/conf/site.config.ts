@@ -5,6 +5,7 @@ const SysConfig: SystemConfig = {
 
     domain: "http://localhost:9000",
     VisualStaticPath: "/kjsdfh",
+    MixPath: "/mix",
     AlbumPath: "C://Users//wangs//Desktop//album",
     JsPath: "public/script",
     CssPath: "public/css",

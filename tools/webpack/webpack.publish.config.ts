@@ -1,8 +1,5 @@
 import path from "path";
-import os from 'os';
 import { RouteConfig } from "../../src/framework/route.config"
-import HappyPack from "happypack";
-
 
 const config = {
     entry: () => {

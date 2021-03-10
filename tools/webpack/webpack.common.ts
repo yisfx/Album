@@ -5,7 +5,7 @@ import webpack from "webpack";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HappyPack from "happypack";
 import AssetsPlugin from "assets-webpack-plugin";
-const SysConfig = require("../../conf/site.config.json");
+import SysConfig from "../../src/conf/site.config";
 import { ProgressPlugin } from "webpack";
 import { publishStatic } from "../writeAssets";
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';

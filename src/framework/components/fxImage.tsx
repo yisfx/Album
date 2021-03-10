@@ -5,7 +5,8 @@ import { BuildAlbumImageUrl, buildImageUrl } from "../imageBuild";
 
 enum ImageType {
     Normal,
-    Album
+    Album,
+    MixAlbum,
 }
 
 interface IProps extends React.ComponentProps<"img"> {
@@ -24,6 +25,7 @@ function FXImage(props: IProps) {
         switch (props.type) {
             case ImageType.Album: image = BuildAlbumImageUrl(props.name) || ""; break;
             case ImageType.Normal: image = buildImageUrl(props.name) || "";
+            case ImageType.MixAlbum: image = buildImageUrl(props.name, true) || ""; break
         }
     }
     return <>
