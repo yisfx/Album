@@ -9,7 +9,7 @@ const SysConfig: SystemConfig = {
     JsPath: "public/script",
     CssPath: "public/css",
     ImagePath: "public/image",
-    SHAKey: "wozhidaodaxiexiatianjiuxiangqingchunyiyanghuibulai"
+    SHAKey: "wozhidaonaxiexiatianjiuxiangqingchunyiyanghuibulai"
 }
 
 export default SysConfig
