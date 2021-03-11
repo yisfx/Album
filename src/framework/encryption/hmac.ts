@@ -27,8 +27,8 @@ function Decrypt(txt: string): string {
 
     const decipher = crypto.createDecipheriv(algorithm, key, iv); // 初始化解密算法
     var ss = decipher.update(txt, "hex", "utf8")
-    const final: string = decipher.final('hex');
-    return ss + final;
+    // const final: string = decipher.final('hex');
+    return ss
     // decipher.setAuthTag(tag); // 传入验证标签，验证密文的来源
     // let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     // decrypted += decipher.final('utf8');
@@ -41,10 +41,10 @@ function Encrypt(txt: string) {
     const cipher = crypto.createCipheriv(algorithm, key, iv); // 初始化加密算法
     let encrypted = cipher.update(txt, "utf8", 'hex');
 
-    let final = cipher.final('hex');
+    // let final = cipher.final('hex');
 
-    console.log("encrypted without hex:", encrypted, final)
-    encrypted += final;
+    // console.log("encrypted without hex:", encrypted, final)
+    // encrypted += final;
 
     return encrypted;
     // const tag = cipher.getAuthTag(); // 生成标签，用于验证密文的来源

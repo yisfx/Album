@@ -25,7 +25,7 @@ export class LayoutInterceptor implements NestInterceptor {
                         response.locals = {
                             ...response.locals,
                             script: SysConfig.VisualStaticPath + "/" + content,
-                            css: SysConfig.VisualStaticPath + "/" + cssFile,
+                            css: !!cssFile ? SysConfig.VisualStaticPath + "/" + cssFile : undefined,
                         };
                     }
 

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import MasterPage from "../../../framework/master/@masterPage"
 import Master from "../../../framework/master/master"
-import Swiper, { ReactIdSwiperProps } from "react-id-swiper";
+import Swiper from "react-id-swiper";
 import { AlbumState } from "../store/album.state";
 import { Album } from "../../../model/album";
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
+import { urlBuilder } from "../../../framework/urlBuilder";
+import { PageNameList } from "../../../framework/route.config";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/main.css')
@@ -41,12 +43,24 @@ function Cover(props: { AlbumList: Album[] }) {
                 <div key={i} >
                     <div className="main-sider">
                         <div className="image-container">
-                            <FXImage
-                                className={pc ? "main-img-pc" : "main-img-mobile"}
-                                name={v.Cover}
-                                type={ImageType.MixAlbum}
-                                desc={v.Description} />
-                            {/* <img className={pc ? "main-img-pc" : "main-img-mobile"} src={"http://localhost:9000/kjsdfh/album/aaa-IMG_20210217_193800-max.jpg"} /> */}
+                            <div>
+                                <FXImage
+                                    className={pc ? "main-img-pc" : "main-img-mobile"}
+                                    name={v.Cover}
+                                    type={ImageType.MixAlbum}
+                                    desc={v.Description} />
+                                <div className={pc ? "main-desc-pc" : "main-desc-mobile"}
+                                    onClick={() => {
+                                        window.location.href = urlBuilder(PageNameList.AlbumPictureList, v.Cover);
+                                    }}
+                                >
+                                    {v.Name}
+                                    <br />
+                                    {v.Date}
+                                    <br />
+                                    {v.Description}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

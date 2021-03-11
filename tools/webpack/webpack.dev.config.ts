@@ -4,7 +4,7 @@ import { RouteConfig } from "../../src/framework/route.config"
 import SysConfig from "../../src/conf/site.config";
 import { deleteFiles } from "../fileTool";
 import CommonConfig from "./webpack.common";
-
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config = smart(CommonConfig, {
     entry: () => {
@@ -17,6 +17,16 @@ const config = smart(CommonConfig, {
         console.log("webpack entry:", dic);
         return dic;
     },
+    output: {
+        filename: '[name].js',
+        path: path.join(__dirname, "../../dist", SysConfig.JsPath)
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            ignoreOrder: false
+        }),
+    ],
     mode: "development",
     watch: true,
     watchOptions: {

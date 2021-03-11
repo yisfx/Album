@@ -1,5 +1,7 @@
 import path from "path";
+import SysConfig from "../../src/conf/site.config";
 import { RouteConfig } from "../../src/framework/route.config"
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config = {
     entry: () => {
@@ -11,6 +13,16 @@ const config = {
         console.log("webpack entry:", dic);
         return dic;
     },
+    output: {
+        filename: '[name]-[contenthash:8].js',
+        path: path.join(__dirname, "../../dist", SysConfig.JsPath)
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "[name]-[contenthash:8].css",
+            ignoreOrder: false
+        }),
+    ],
     mode: "production",
     target: "web",
     resolve: {

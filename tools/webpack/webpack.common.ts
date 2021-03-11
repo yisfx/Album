@@ -5,7 +5,6 @@ import webpack from "webpack";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HappyPack from "happypack";
 import AssetsPlugin from "assets-webpack-plugin";
-import SysConfig from "../../src/conf/site.config";
 import { ProgressPlugin } from "webpack";
 import { publishStatic } from "../writeAssets";
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -15,10 +14,6 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 
 export default <webpack.Configuration>{
-    output: {
-        filename: '[name]-[contenthash:8].js',
-        path: path.join(__dirname, "../../dist", SysConfig.JsPath)
-    },
     module: {
         rules: [
             {
@@ -76,10 +71,7 @@ export default <webpack.Configuration>{
                 return `${JSON.stringify(styles, null, 2)}`;
             }
         }),
-        new MiniCssExtractPlugin({
-            filename: "[name]-[contenthash:8].css",
-            ignoreOrder: false
-        }),
+        
 
 
         new ProgressPlugin(function handler(percentage: number, msg: string) {
