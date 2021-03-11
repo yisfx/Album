@@ -16,34 +16,50 @@ const iv = Buffer.from(md5_s);
 
 
 function Decrypt(txt: string): string {
-    let buf: number[] = []
-    txt.split("-").map((s: any) => {
-        if (s)
-            buf.push(s)
-    })
-    const tag = Buffer.from(buf)
-    const cipher = crypto.createCipheriv(algorithm, key, iv); // 初始化加密算法
-    let encrypted = cipher.update(txt, 'utf8', 'hex');
+    // let buf: number[] = []
+    // txt.split("-").map((s: any) => {
+    //     if (s)
+    //         buf.push(s)
+    // })
+    // const tag = Buffer.from(buf)
+    // const cipher = crypto.createCipheriv(algorithm, key, iv); // 初始化加密算法
+    // let encrypted = cipher.update(text, 'utf8', 'hex');
 
     const decipher = crypto.createDecipheriv(algorithm, key, iv); // 初始化解密算法
-    decipher.setAuthTag(tag); // 传入验证标签，验证密文的来源
-    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
+    var ss = decipher.update(txt, "hex", "utf8")
+    const final: string = decipher.final('hex');
+    return ss + final;
+    // decipher.setAuthTag(tag); // 传入验证标签，验证密文的来源
+    // let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    // decrypted += decipher.final('utf8');
+    // return decrypted;
 }
+
 
 function Encrypt(txt: string) {
     // 加密
     const cipher = crypto.createCipheriv(algorithm, key, iv); // 初始化加密算法
-    let encrypted = cipher.update(txt, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    const tag = cipher.getAuthTag(); // 生成标签，用于验证密文的来源
-    let str = "";
-    tag.map((d: number, index: number, array) => {
-        str = str + `${d}-`
-        return index
-    })
-    return str
+    let encrypted = cipher.update(txt, "utf8", 'hex');
+
+    let final = cipher.final('hex');
+
+    console.log("encrypted without hex:", encrypted, final)
+    encrypted += final;
+
+    return encrypted;
+    // const tag = cipher.getAuthTag(); // 生成标签，用于验证密文的来源
+    // let str = "";
+    // tag.map((d: number, index: number, array) => {
+    //     str = str + `${d}-`
+    //     return index
+    // })
+    // return str
 }
 
-export { Decrypt, Encrypt }
+function Demo() {
+    let ssss = Encrypt(text)
+    console.log("Encrypt:", ssss, ssss.length)
+    console.log("Decrypt:", Decrypt(ssss))
+}
+
+export { Decrypt, Encrypt, Demo }
