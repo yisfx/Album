@@ -11,8 +11,10 @@ export class AlbumPicturePage extends React.Component<AlbumPictureState, any>{
         super(props)
     }
     render() {
-        return <div>
-            {this.props.Album.Description}
+        return <div className="container">
+            <div className="row">
+        
+            </div>
         </div>
     }
 }
