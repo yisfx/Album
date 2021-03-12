@@ -5,8 +5,6 @@ import { AlbumPictureState } from "../store/AlbumPictureState.store"
 
 
 
-
-
 @MasterPage(Master)
 export class AlbumPicturePage extends React.Component<AlbumPictureState, any>{
     constructor(props) {
@@ -14,7 +12,7 @@ export class AlbumPicturePage extends React.Component<AlbumPictureState, any>{
     }
     render() {
         return <div>
-
+            {this.props.Album.Description}
         </div>
     }
 }

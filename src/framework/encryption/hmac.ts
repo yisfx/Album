@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { GlobalConfig } from '../../conf/site.config';
+import { GlobalConfig } from '../../conf/global.config';
 
 const text = '我知道那些夏天就像青春一样回不来,woyebuhuizaiduishuimanhuaiqidai,我知道这个世界每天都有太多遗憾，所以你好,再见';
 

@@ -60,7 +60,6 @@ export class AlbumController {
 	@Get()
 	@RouteRender(RouteConfig.ALBUM.name)
 	async Homepage() {
-		Demo();
 		let resp = await this.getAlbumList();
 		return { initData: { ...resp } }
 	}
@@ -68,6 +67,7 @@ export class AlbumController {
 	@Get(RouteConfig.AlbumPictureList.route)
 	@RouteRender(RouteConfig.AlbumPictureList.name)
 	async AlbumPicture(@Param("route") route) {
+
 		let name: string[] = Decrypt(route).split("-")
 		let albumName = name[0];
 		let date = name[1];

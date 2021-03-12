@@ -5,18 +5,14 @@ export interface SystemConfig {
     domain: string,
     VisualStaticPath: string,
     MixPath: string,
-    AlbumPath: string,
     JsPath: string,
     CssPath: string,
-
     GlobalConfigPath: string
-
     ImagePath: string,
-    SHAKey: string,
 }
 
 export interface GlobalSetting {
-    ImagePath: string,
+    AlbumPath: string,
     SHAKEYOrg: string,
     SHAIVOrg: string,
     SHAKey: string,

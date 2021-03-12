@@ -1,13 +1,13 @@
 import { Controller, Get, Req, Res } from "@nestjs/common";
 import { join } from "path";
 import { SysConfig } from "../../conf/site.config";
-import { HttpClient } from "../../framework/httpclient/http.client";
 import fs from "fs";
 import { Decrypt } from "../../framework/encryption/hmac";
+import { GlobalConfig } from "../../conf/global.config";
 
 @Controller()
 export class JPGController {
-    constructor(private readonly httpClient: HttpClient) {
+    constructor() {
 
     }
 
@@ -17,7 +17,7 @@ export class JPGController {
         let name: string[] = dir[dir.length - 1].split("-")
         let albumName = name[0];
         let picName = name.join("-").replace(`${albumName}-`, "")
-        let p = join(SysConfig.AlbumPath, albumName, picName);
+        let p = join(GlobalConfig.AlbumPath, albumName, picName);
         if (fs.existsSync(p)) {
             res.sendFile(p)
         } else {
@@ -31,13 +31,10 @@ export class JPGController {
         let name: string[] = Decrypt(dir[dir.length - 1]).split("/")
 
         let albumName = name[0];
-
-
         ///pic 命名混乱
-
         let picName = name.join("-").replace(`${albumName}-`, "")
 
-        let p = join(SysConfig.AlbumPath, albumName, picName) + ".jpg";
+        let p = join(GlobalConfig.AlbumPath, albumName, picName) + ".jpg";
         if (fs.existsSync(p)) {
             res.sendFile(p)
         } else {
