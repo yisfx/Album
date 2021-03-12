@@ -1,5 +1,5 @@
 import path from "path";
-import SysConfig from "../../src/conf/site.config";
+import { SysConfig } from "../../src/conf/site.config";
 import { RouteConfig } from "../../src/framework/route.config"
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 

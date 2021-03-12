@@ -19,7 +19,7 @@ export default <webpack.Configuration>{
             {
                 test: /\.js$/,
                 use: 'happypack/loader?id=happyBabel',
-                exclude: /node_modules\/(?!@b2c-site|@framework-frontend|phoenix-ui)/
+                exclude: /node_modules/
             },
             {
                 test: /\.tsx?$/,
@@ -71,7 +71,7 @@ export default <webpack.Configuration>{
                 return `${JSON.stringify(styles, null, 2)}`;
             }
         }),
-        
+
 
 
         new ProgressPlugin(function handler(percentage: number, msg: string) {

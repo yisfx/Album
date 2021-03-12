@@ -1,9 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Redirect } from '@nestjs/common';
 import { RouteRender } from '../../framework/decorators/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 import { HttpClient } from '../../framework/httpclient/http.client';
 import { AlbumListResponse } from '../../model/response/albumListResponse';
-import { Decrypt, Encrypt } from "../../framework/encryption/hmac";
+import { Decrypt, Demo, Encrypt } from "../../framework/encryption/hmac";
 import { GetAlbumRequest } from '../../model/request/getAlbumRequest';
 import { GetAlbumResponse } from '../../model/response/getAlbumResponse';
 
@@ -20,8 +20,10 @@ export class AlbumController {
 					Cover: Encrypt(`${album.Name}/${album.Cover}-max`),
 					Name: album.CNName,
 					Date: album.Date,
-					Description: album.Description
+					Description: album.Description,
+					CNName: Encrypt(`${album.Name}-${new Date().toString()}`)
 				}
+
 				return a
 			})
 		}
@@ -58,6 +60,7 @@ export class AlbumController {
 	@Get()
 	@RouteRender(RouteConfig.ALBUM.name)
 	async Homepage() {
+		Demo();
 		let resp = await this.getAlbumList();
 		return { initData: { ...resp } }
 	}
@@ -65,8 +68,13 @@ export class AlbumController {
 	@Get(RouteConfig.AlbumPictureList.route)
 	@RouteRender(RouteConfig.AlbumPictureList.name)
 	async AlbumPicture(@Param("route") route) {
-		let name: string[] = Decrypt(route).split("/")
+		let name: string[] = Decrypt(route).split("-")
 		let albumName = name[0];
+		let date = name[1];
+		if (((new Date().getTime()) - (new Date(date)).getTime()) / (1000 * 60) > 100) {
+			throw Redirect("404");
+		}
+
 		let resp = await this.getAlbum(albumName)
 		return { initData: { ...resp } }
 	}

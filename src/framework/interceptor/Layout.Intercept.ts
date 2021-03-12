@@ -1,7 +1,7 @@
 import { NestInterceptor, Injectable, ExecutionContext, CallHandler } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import SysConfig from "../../conf/site.config";
+import { SysConfig } from "../../conf/site.config";
 let ass = require("../../conf/assets.conf")
 let css = require("../../conf/assets.css")
 import metadata from "../decorators/constants";

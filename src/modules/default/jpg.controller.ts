@@ -1,6 +1,6 @@
 import { Controller, Get, Req, Res } from "@nestjs/common";
 import { join } from "path";
-import SysConfig from "../../conf/site.config";
+import { SysConfig } from "../../conf/site.config";
 import { HttpClient } from "../../framework/httpclient/http.client";
 import fs from "fs";
 import { Decrypt } from "../../framework/encryption/hmac";

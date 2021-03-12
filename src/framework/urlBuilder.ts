@@ -1,5 +1,5 @@
 import { RouteConfig, Route, PageName } from "./route.config";
-import SysConfig from "../conf/site.config";
+import {SysConfig} from "../conf/site.config";
 
 
 

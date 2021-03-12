@@ -1,4 +1,4 @@
-import SysConfig from "../conf/site.config";
+import { SysConfig } from "../conf/site.config";
 
 
 export function buildImageUrl(name: string, mix: boolean = false) {

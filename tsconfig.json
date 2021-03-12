@@ -12,7 +12,12 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "esModuleInterop":true
+    "esModuleInterop": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ],
+  "files": [
+    "src/model/types/global.d.ts"
+  ]
 }

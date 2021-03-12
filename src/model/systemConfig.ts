@@ -8,6 +8,18 @@ export interface SystemConfig {
     AlbumPath: string,
     JsPath: string,
     CssPath: string,
+
+    GlobalConfigPath: string
+
     ImagePath: string,
-    SHAKey: string
+    SHAKey: string,
 }
+
+export interface GlobalSetting {
+    ImagePath: string,
+    SHAKEYOrg: string,
+    SHAIVOrg: string,
+    SHAKey: string,
+    SHAIV: string
+}
+

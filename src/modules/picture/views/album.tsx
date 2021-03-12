@@ -51,7 +51,7 @@ function Cover(props: { AlbumList: Album[] }) {
                                     desc={v.Description} />
                                 <div className={pc ? "main-desc-pc" : "main-desc-mobile"}
                                     onClick={() => {
-                                        window.location.href = urlBuilder(PageNameList.AlbumPictureList, v.Cover);
+                                        window.location.href = urlBuilder(PageNameList.AlbumPictureList, v.CNName);
                                     }}
                                 >
                                     {v.Name}

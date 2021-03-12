@@ -4,7 +4,7 @@ import { join } from "path";
 import { AppModule } from './app.module';
 import { LayoutInterceptor } from './framework/interceptor/Layout.Intercept';
 import reactView from './framework/ReactView';
-import SysConfig from './conf/site.config';
+import { SysConfig } from './conf/site.config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
