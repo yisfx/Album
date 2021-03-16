@@ -6,6 +6,7 @@ import { AlbumListResponse } from '../../model/response/albumListResponse';
 import { Decrypt, Demo, Encrypt } from "../../framework/encryption/hmac";
 import { GetAlbumRequest } from '../../model/request/getAlbumRequest';
 import { GetAlbumResponse } from '../../model/response/getAlbumResponse';
+import { BuildImageEncryptionUri } from '../../framework/encryption/encryptionUri';
 
 @Controller()
 export class AlbumController {
@@ -17,13 +18,12 @@ export class AlbumController {
 		if (resp?.Result) {
 			resp.AlbumList = resp.AlbumList.map(album => {
 				let a: any = {
-					Cover: Encrypt(`${album.Name}/${album.Cover}-max`),
+					Cover: BuildImageEncryptionUri(album.Name, album.Cover, "Max"),
 					Name: album.CNName,
 					Date: album.Date,
 					Description: album.Description,
 					CNName: Encrypt(`${album.Name}-${new Date().toString()}`)
 				}
-
 				return a
 			})
 		}
@@ -37,8 +37,8 @@ export class AlbumController {
 			resp.Album.PicList.map(p => {
 				p.Album = null
 				p.OrgPath = null;
-				p.MaxPath = Encrypt(`${resp.Album.Name}/${p.MaxPath}`);
-				p.MiniPath = Encrypt(`${resp.Album.Name}/${p.MiniPath}`);
+				p.MaxPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "Max");
+				p.MiniPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "Mini");
 			})
 
 			resp.Album.Cover = null;

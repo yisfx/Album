@@ -18,3 +18,10 @@ export interface Picture {
     OrgPath: string
     Album: string
 }
+
+export interface PictureUrlLink {
+    Name: string
+    Type: "Max" | "Mini"
+    DateTime: string
+    AlbumName: string
+}

@@ -13,7 +13,7 @@ export class AlbumPicturePage extends React.Component<AlbumPictureState, any>{
     render() {
         return <div className="container">
             <div className="row">
-        
+                
             </div>
         </div>
     }
