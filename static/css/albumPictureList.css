@@ -1,0 +1,6 @@
+ul li,
+.image-list-wrap {
+    float: left;
+    margin-left: 10px;
+    list-style-type: none;
+}
