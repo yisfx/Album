@@ -5,6 +5,7 @@ import Master from "../../../framework/Master/master"
 import { AlbumPictureContext, AlbumPictureReducer, AlbumPictureState } from "../store/AlbumPictureState.store"
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { FxModal } from "../../../framework/components/modal";
+import { DemoModal } from "../../../framework/components/modal/fxModal";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/albumPictureList.css')
@@ -41,7 +42,15 @@ function List() {
                 })}
             </ul>
         </div>
-        {!!openImg &&
+        {openImg &&
+            <DemoModal
+                isOpen={true}
+                close={() => {
+                    setOpenImg(null);
+                }}
+            />
+        }
+        {/* {!!openImg &&
             <FxModal
                 size={{ width: "100%", height: "100%", marginLeft: "", marginTop: "" }}
                 isOpen={!!openImg}
@@ -54,7 +63,7 @@ function List() {
                     type={ImageType.MixAlbum}
                     desc={openImg.Album} />
             </FxModal>
-        }
+        } */}
     </>
 }
 

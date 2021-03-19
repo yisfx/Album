@@ -39,3 +39,4 @@ export const FxModal: FC<Props> = (props) => {
         </Modal>
     )
 }
+
