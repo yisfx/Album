@@ -39,11 +39,12 @@ export class AlbumController {
 				p.OrgPath = null;
 				p.MaxPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "Max");
 				p.MiniPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "Mini");
+				p.Name = null;
 			})
 
 			resp.Album.Cover = null;
-			resp.Album.Name = resp.Album.CNName;
-			resp.Album.CNName = null;
+			resp.Album.Name = //resp.Album.CNName;
+				resp.Album.CNName = null;
 			resp.Album.Path = null;
 		}
 

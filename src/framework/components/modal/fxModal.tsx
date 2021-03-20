@@ -14,15 +14,21 @@ interface Props {
 export const DemoModal: FC<Props> = (props) => {
     const ddd: HTMLDivElement = null;
     const [popup, setPopup] = useState(ddd)
-
+    const [isOpen, setOpen] = useState(false)
 
     const render = () => {
         let popup = document.createElement("div");
-        popup.className = "shadow";
+        popup.className = "modal-container";
+
         setPopup(popup);
+        popup.onclick = () => {
+            document.body.removeChild(popup);
+            setPopup(null);
+        }
         document.body.appendChild(popup);
+
         ReactDOM.render(<>
-            <div className="modal" onClick={() => {
+            <div className="modal-content" onClick={() => {
                 props.close && props.close();
             }}>
                 {props.children}
@@ -32,14 +38,14 @@ export const DemoModal: FC<Props> = (props) => {
 
     useEffect(() => {
         if (props.isOpen) {
+            setOpen(true);
             render();
         } else {
-            document.removeChild(popup);
+            setOpen(false);
+            document.body.removeChild(popup);
             setPopup(null);
         }
-    }, [props.isOpen])
+    }, [props.isOpen, isOpen])
 
-    return <>
-
-    </>
+    return null;
 }

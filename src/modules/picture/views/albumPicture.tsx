@@ -31,7 +31,7 @@ function List() {
         <div className="row">
             <ul>
                 {state.Album.PicList.map(pic => {
-                    return <li key={pic.Name}
+                    return <li key={pic.MiniPath}
                         className="image-list-wrap"
                         onClick={() => {
                             setOpenImg(pic)
@@ -48,7 +48,15 @@ function List() {
                 close={() => {
                     setOpenImg(null);
                 }}
-            />
+            >
+                <div style={{ wordWrap: "break-word" }}>
+                    123uhihasd8923h4kjsdfjjsdf
+                <br />
+                jkhrj3k4789iwerdhkj34r
+                <br />
+                    {openImg.MiniPath}
+                </div>
+            </DemoModal>
         }
         {/* {!!openImg &&
             <FxModal
