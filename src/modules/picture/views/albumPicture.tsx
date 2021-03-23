@@ -5,7 +5,7 @@ import Master from "../../../framework/Master/master"
 import { AlbumPictureContext, AlbumPictureReducer, AlbumPictureState } from "../store/AlbumPictureState.store"
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { FxModal } from "../../../framework/components/modal";
-import { DemoModal } from "../../../framework/components/modal/fxModal";
+import { DemoModal, DemoModal1 } from "../../../framework/components/modal/fxModal";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/albumPictureList.css')
@@ -34,6 +34,7 @@ function List() {
                     return <li key={pic.MiniPath}
                         className="image-list-wrap"
                         onClick={() => {
+                            openImg;
                             setOpenImg(pic)
                         }}
                     >

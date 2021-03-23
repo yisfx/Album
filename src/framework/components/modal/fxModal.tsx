@@ -11,25 +11,79 @@ interface Props {
     close?(): void
 }
 
+export class DemoModal1 extends React.Component<Props>{
+
+    constructor(props) {
+        super(props)
+    }
+
+    componentWillUnmount() {
+
+    }
+
+    render() {
+        const ddd: HTMLDivElement = null;
+        const [popup, setPopup] = useState(ddd)
+        const [isOpen, setOpen] = useState(false)
+
+        const render = () => {
+            let popup = document.createElement("div");
+            popup.className = "modal-container";
+
+            setPopup(popup);
+            popup.onclick = () => {
+                document.body.removeChild(popup);
+                setPopup(null);
+            }
+            document.body.appendChild(popup);
+
+            ReactDOM.render(<>
+                <div className="modal-content" onClick={() => {
+                    this.props.close && this.props.close();
+                }}>
+                    {this.props.children}
+                </div>
+            </>, popup)
+        }
+
+        useEffect(() => {
+            if (this.props.isOpen) {
+                setOpen(true);
+                render();
+            } else {
+                setOpen(false);
+                document.body.removeChild(popup);
+                setPopup(null);
+            }
+        }, [this.props.isOpen, isOpen])
+
+        return null;
+    }
+}
+
 export const DemoModal: FC<Props> = (props) => {
     const ddd: HTMLDivElement = null;
     const [popup, setPopup] = useState(ddd)
-    const [isOpen, setOpen] = useState(false)
+
+    const close = (p) => {
+        p && document.body.removeChild(p);
+        setPopup(null);
+        props.close && props.close();
+    }
+
 
     const render = () => {
         let popup = document.createElement("div");
-        popup.className = "modal-container";
-
+        popup.className = "";
         setPopup(popup);
-        popup.onclick = () => {
-            document.body.removeChild(popup);
-            setPopup(null);
-        }
         document.body.appendChild(popup);
 
         ReactDOM.render(<>
-            <div className="modal-content" onClick={() => {
-                props.close && props.close();
+            <div className="modal-container" onClick={() => {
+                close(popup)
+            }}></div>
+            <div className="modal-content" onClick={(evt) => {
+                evt.preventDefault();
             }}>
                 {props.children}
             </div>
@@ -38,14 +92,11 @@ export const DemoModal: FC<Props> = (props) => {
 
     useEffect(() => {
         if (props.isOpen) {
-            setOpen(true);
             render();
         } else {
-            setOpen(false);
-            document.body.removeChild(popup);
-            setPopup(null);
+            close(popup)
         }
-    }, [props.isOpen, isOpen])
+    }, [props.isOpen])
 
     return null;
 }

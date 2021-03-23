@@ -1,4 +1,4 @@
-.modal-container::before {
+.modal-container {
     content: "";
     position: absolute;
     width: 100%;
