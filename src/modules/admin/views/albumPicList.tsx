@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useReducer, useState } from "react";
 import MasterPage from "../../../framework/master/@masterPage";
 import AdminMaster from "../../../framework/master/adminMaster";
 import { AlbumPicListContext, AlbumPicListReducer, AlbumPicListState, dispatchMiddleWare } from "../store/albumPicList.store";
-import { FxModal } from "../../../framework/components/modal";
+import { FXModal } from "../../../framework/components/modal/fxModal";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { Upload } from "../../../framework/components/upload";
@@ -53,7 +53,7 @@ function Pic(props: { p: Picture, album: Album }) {
                         desc={undefined} />
                 </div>
             </div>
-            <div className="col-xs-4">
+            <div className="col-xs-4" style={{ wordWrap: "break-word" }}>
                 {props.p.Name}
             </div>
             <div className="col-xs-4">
@@ -77,7 +77,8 @@ function Pic(props: { p: Picture, album: Album }) {
                 }
             </div>
         </div>
-        <FxModal isOpen={deleteConfirmModal.show}
+        <FXModal isOpen={deleteConfirmModal.show}
+            showCloseBtn={true}
             close={() => { setDeleteConfirmModal({ show: false, deleteType: DeleteType.Abbreviation, ErrorMsg: "" }) }}>
             <div className="row">
                 <div className="col-sm-2"></div> <div>are you sure delete this {deleteConfirmModal.deleteType}？</div>
@@ -101,7 +102,7 @@ function Pic(props: { p: Picture, album: Album }) {
                 </div>
             </div>
 
-        </FxModal>
+        </FXModal>
     </div>
 }
 
@@ -161,7 +162,7 @@ function Top() {
                 </div>
             </div>
         </div>
-        <FxModal isOpen={openModal}
+        <FXModal showCloseBtn={true} isOpen={openModal}
             close={() => { setOpenModal(false) }}
         >
             <div>
@@ -182,7 +183,7 @@ function Top() {
                     }} />
                 </Upload>
             </div>
-        </FxModal>
+        </FXModal>
     </div>
 }
 

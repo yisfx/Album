@@ -4,7 +4,7 @@ import React, { useContext, useReducer, useState } from "react";
 import { AlbumContext, AlbumReducer, AlbumState, dispatchMiddleWare } from "../store/album.store";
 import AdminMaster from "../../../framework/master/adminMaster";
 import MasterPage from "../../../framework/master/@masterPage";
-import { FxModal } from "../../../framework/components/modal";
+import { FXModal } from "../../../framework/components/modal/fxModal";
 import { BaseResponse } from "../../../model/response/baseResponse";
 import { Ajax } from "../../../framework/httpclient/ajax";
 import { FXImage, ImageType } from "../../../framework/components/FXImage";
@@ -124,14 +124,15 @@ function Top() {
             >Create Album</button>
         </div>
         {isOpen &&
-            <FxModal
+            <FXModal
+                showCloseBtn={true}
                 isOpen={isOpen}
                 close={() => {
                     setIsOpen(false)
                 }}
             >
                 <EditAlbumPopu album={undefined} />
-            </FxModal>
+            </FXModal>
         }
     </div>
 }
@@ -162,14 +163,15 @@ function AlbumContent(prop: { album: Album }) {
             >Edit</button>
         </div>
         {isOpen &&
-            <FxModal
+            <FXModal
+                showCloseBtn={true}
                 isOpen={isOpen}
                 close={() => {
                     setOpen(false)
                 }}
             >
                 <EditAlbumPopu album={prop.album} />
-            </FxModal>
+            </FXModal>
         }
     </>
 }

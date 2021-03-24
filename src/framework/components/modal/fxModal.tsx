@@ -9,59 +9,11 @@ interface Props {
     size?: { width: string, height: string, marginLeft: string, marginTop: string }
     isOpen: boolean
     close?(): void
+    attr?: React.HTMLAttributes<HTMLDivElement>
+    showCloseBtn: boolean
 }
 
-export class DemoModal1 extends React.Component<Props>{
-
-    constructor(props) {
-        super(props)
-    }
-
-    componentWillUnmount() {
-
-    }
-
-    render() {
-        const ddd: HTMLDivElement = null;
-        const [popup, setPopup] = useState(ddd)
-        const [isOpen, setOpen] = useState(false)
-
-        const render = () => {
-            let popup = document.createElement("div");
-            popup.className = "modal-container";
-
-            setPopup(popup);
-            popup.onclick = () => {
-                document.body.removeChild(popup);
-                setPopup(null);
-            }
-            document.body.appendChild(popup);
-
-            ReactDOM.render(<>
-                <div className="modal-content" onClick={() => {
-                    this.props.close && this.props.close();
-                }}>
-                    {this.props.children}
-                </div>
-            </>, popup)
-        }
-
-        useEffect(() => {
-            if (this.props.isOpen) {
-                setOpen(true);
-                render();
-            } else {
-                setOpen(false);
-                document.body.removeChild(popup);
-                setPopup(null);
-            }
-        }, [this.props.isOpen, isOpen])
-
-        return null;
-    }
-}
-
-export const DemoModal: FC<Props> = (props) => {
+export const FXModal: FC<Props> = (props) => {
     const ddd: HTMLDivElement = null;
     const [popup, setPopup] = useState(ddd)
 
@@ -82,9 +34,15 @@ export const DemoModal: FC<Props> = (props) => {
             <div className="modal-container" onClick={() => {
                 close(popup)
             }}></div>
-            <div className="modal-content" onClick={(evt) => {
+            <div className="fx-modal-content" onClick={(evt) => {
                 evt.preventDefault();
-            }}>
+            }}
+                {...props.attr}
+            >
+                {props.showCloseBtn &&
+                    <div className="modal-close-btn" onClick={() => { close(popup) }}>X</div>
+                }
+
                 {props.children}
             </div>
         </>, popup)

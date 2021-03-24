@@ -43,8 +43,8 @@ export class AlbumController {
 			})
 
 			resp.Album.Cover = null;
-			resp.Album.Name = //resp.Album.CNName;
-				resp.Album.CNName = null;
+			resp.Album.Name = resp.Album.CNName;
+			resp.Album.CNName = null;
 			resp.Album.Path = null;
 		}
 

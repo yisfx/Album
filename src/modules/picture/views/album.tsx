@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import MasterPage from "../../../framework/master/@masterPage"
 import Master from "../../../framework/master/master"
 import Swiper from "react-id-swiper";
@@ -17,7 +17,6 @@ if (process.env.BROWSER) {
 function Cover(props: { AlbumList: Album[] }) {
     const pc = window.screen.height < window.screen.width
 
-    const mmm = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0,]
     const params = {
         direction: 'horizontal',
         // grabCursor: true,
@@ -70,10 +69,28 @@ function Cover(props: { AlbumList: Album[] }) {
 }
 
 function Content(initalState: AlbumState) {
+
+    const [openMenu, setShowMenu] = useState(false)
+
+
     return (
         <div className="bgground">
             <div className="main-menum">
-                <button className="btn">---___</button>
+                <div className={`glyphicon ${openMenu ? "glyphicon-menu-up" : "glyphicon-menu-down"}`}
+                    onClick={() => {
+                        setShowMenu(!openMenu);
+                    }}>
+                </div>
+                {openMenu &&
+                    <div>
+                        <ul>
+                            <li>1</li>
+                            <li>1</li>
+                            <li>1</li>
+                            <li>1</li>
+                        </ul>
+                    </div>
+                }
             </div>
             <div className="Cover">
                 <Cover AlbumList={initalState.AlbumList} />
