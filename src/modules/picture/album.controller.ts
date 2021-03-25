@@ -7,13 +7,15 @@ import { Decrypt, Demo, Encrypt } from "../../framework/encryption/hmac";
 import { GetAlbumRequest } from '../../model/request/getAlbumRequest';
 import { GetAlbumResponse } from '../../model/response/getAlbumResponse';
 import { BuildImageEncryptionUri } from '../../framework/encryption/encryptionUri';
+import { BuildMenu } from './utils/menu-tool';
+import { Album } from '../../model/album';
 
 @Controller()
 export class AlbumController {
 	constructor(private readonly httpClient: HttpClient) {
 	}
 
-	async getAlbumList(): Promise<AlbumListResponse> {
+	async getAlbumList(): Promise<{ [key: string]: Album[] }> {
 		let resp = await this.httpClient.createClient<AlbumListResponse>("ablumListApi");
 		if (resp?.Result) {
 			resp.AlbumList = resp.AlbumList.map(album => {
@@ -27,7 +29,9 @@ export class AlbumController {
 				return a
 			})
 		}
-		return resp;
+
+		let albumList = BuildMenu(resp.AlbumList)
+		return albumList;
 	}
 
 	async getAlbum(albumName: string): Promise<GetAlbumResponse> {
@@ -61,8 +65,8 @@ export class AlbumController {
 	@Get()
 	@RouteRender(RouteConfig.ALBUM.name)
 	async Homepage() {
-		let resp = await this.getAlbumList();
-		return { initData: { ...resp } }
+		let albumList = await this.getAlbumList();
+		return { initData: { AlbumList: albumList } }
 	}
 
 	@Get(RouteConfig.AlbumPictureList.route)

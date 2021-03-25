@@ -14,7 +14,7 @@ if (process.env.BROWSER) {
 }
 
 
-function Cover(props: { AlbumList: Album[] }) {
+function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
     const pc = window.screen.height < window.screen.width
 
     const params = {
@@ -35,7 +35,10 @@ function Cover(props: { AlbumList: Album[] }) {
         },
     }
 
-    const albumList = props?.AlbumList;
+    const albumList = props?.AlbumList[];
+
+
+
     return <>
         <Swiper {...params}>
             {albumList?.map((v, i) =>
@@ -76,13 +79,13 @@ function Content(initalState: AlbumState) {
     return (
         <div className="bgground">
             <div className="main-menum">
-                <div className={`glyphicon ${openMenu ? "glyphicon-menu-up" : "glyphicon-menu-down"}`}
+                <div className={`menu-icon glyphicon ${openMenu ? "glyphicon-menu-up" : "glyphicon-menu-down"}`}
                     onClick={() => {
                         setShowMenu(!openMenu);
                     }}>
                 </div>
                 {openMenu &&
-                    <div>
+                    <div className="main-menu-list">
                         <ul>
                             <li>1</li>
                             <li>1</li>

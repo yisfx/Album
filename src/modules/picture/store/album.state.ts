@@ -1,5 +1,5 @@
 import { Album } from "../../../model/album";
 
 export interface AlbumState {
-    AlbumList: Album[]
+    AlbumList: { [key: string]: Album[] }
 }
