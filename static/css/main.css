@@ -114,3 +114,19 @@
     position: relative;
     width: 130px;
 }
+
+.main-menu-list-ul {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.main-menu-list li {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    cursor: pointer;
+}
+
+.child-menu-list-ul {
+    list-style-type: none;
+    padding-left: 25px;
+}

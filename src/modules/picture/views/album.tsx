@@ -34,15 +34,17 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
             },
         },
     }
-
-    const albumList = props?.AlbumList[];
-
-
+    const firstAlbumList = (): Album[] => {
+        let list = Object.keys(props?.AlbumList).map(key => parseInt(key))
+        let key = list.sort((a, b) => a - b)[0]
+        return props?.AlbumList[key]
+    }
+    const albumList = firstAlbumList();
 
     return <>
         <Swiper {...params}>
             {albumList?.map((v, i) =>
-                <div key={i} >
+                <div key={i + "_swiap"} >
                     <div className="main-sider">
                         <div className="image-container">
                             <div>
@@ -71,27 +73,47 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
     </>
 }
 
+function RenderAlbumMenuList(props: { albumList: Album[] }) {
+    return <div>
+        <ul className="child-menu-list-ul">{props.albumList.map(album =>
+            <li onClick={() => {
+                window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.CNName);
+            }} key={album.Name + "_menu_album"}>{album.Name}</li>)}
+        </ul>
+    </div>
+}
+
+function MenumList(props: { initalState: AlbumState }) {
+    const [selectYear, setSelectYear] = useState("");
+    const yearList = Object.keys(props.initalState?.AlbumList).map(key => key)
+
+    return <ul className="main-menu-list-ul">
+        {yearList.map(year => <li key={year + "_menu_year"}>
+            <div onClick={() => {
+                setSelectYear(year == selectYear ? "" : year);
+            }}><i className={`glyphicon glyphicon-menu-${selectYear == year ? "down" : "right"}`}></i>&nbsp;&nbsp;{year}</div>
+            {selectYear == year && <RenderAlbumMenuList albumList={props.initalState?.AlbumList[year]} />}
+        </li>)}
+    </ul>
+}
+
+
 function Content(initalState: AlbumState) {
 
     const [openMenu, setShowMenu] = useState(false)
-
 
     return (
         <div className="bgground">
             <div className="main-menum">
                 <div className={`menu-icon glyphicon ${openMenu ? "glyphicon-menu-up" : "glyphicon-menu-down"}`}
+
                     onClick={() => {
                         setShowMenu(!openMenu);
                     }}>
                 </div>
                 {openMenu &&
                     <div className="main-menu-list">
-                        <ul>
-                            <li>1</li>
-                            <li>1</li>
-                            <li>1</li>
-                            <li>1</li>
-                        </ul>
+                        <MenumList initalState={initalState} />
                     </div>
                 }
             </div>
@@ -101,8 +123,6 @@ function Content(initalState: AlbumState) {
         </div>
     )
 }
-
-
 
 @MasterPage(Master)
 export class AlbumPage extends React.Component<AlbumState, any>{
