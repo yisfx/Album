@@ -65,7 +65,7 @@ function Top() {
     return <div className="page-header">
         <h3>{state.Album.Name}
             <br />
-            <small dangerouslySetInnerHTML={{ __html: state.Album.Description }}></small>
+            <small style={{ wordWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: state.Album.Description }}></small>
         </h3>
     </div>
 }

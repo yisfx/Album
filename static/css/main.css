@@ -97,6 +97,15 @@
     text-align: center;
 }
 
+.main-menum-mobile {
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+    text-align: center;
+    background-color: #2a5caa;
+    font-size: xx-large;
+}
+
 .menu-icon::before {
     border-radius: 30%;
     background-color: gray;
@@ -107,12 +116,25 @@
     padding-bottom: 8px;
 }
 
+.menu-icon-mobile::before {
+    color: white;
+    font-size: xxx-large;
+}
+
 .main-menu-list {
     border-radius: 10%;
     text-align: left;
     background-color: white;
     position: relative;
     width: 130px;
+}
+
+.main-menu-list-mobile {
+    border-top: white 1px solid;
+    text-align: left;
+    position: relative;
+    width: 100%px;
+    color: white;
 }
 
 .main-menu-list-ul {
@@ -129,4 +151,9 @@
 .child-menu-list-ul {
     list-style-type: none;
     padding-left: 25px;
+}
+
+.child-menu-list-ul-mobile {
+    list-style-type: none;
+    padding-left: 80px;
 }

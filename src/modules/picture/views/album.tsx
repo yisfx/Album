@@ -7,6 +7,7 @@ import { Album } from "../../../model/album";
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
+import { isMobile } from "../../../framework/utils";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/main.css')
@@ -75,10 +76,12 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
 
 function RenderAlbumMenuList(props: { albumList: Album[] }) {
     return <div>
-        <ul className="child-menu-list-ul">{props.albumList.map(album =>
-            <li onClick={() => {
-                window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.CNName);
-            }} key={album.Name + "_menu_album"}>{album.Name}</li>)}
+        <ul className={isMobile ? "child-menu-list-ul-mobile" : "child-menu-list-ul"}>
+            {props.albumList.map(album =>
+                <li onClick={() => {
+                    window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.CNName);
+                }} key={album.Name + "_menu_album"}>{album.Name}
+                </li>)}
         </ul>
     </div>
 }
@@ -88,12 +91,16 @@ function MenumList(props: { initalState: AlbumState }) {
     const yearList = Object.keys(props.initalState?.AlbumList).map(key => key)
 
     return <ul className="main-menu-list-ul">
-        {yearList.map(year => <li key={year + "_menu_year"}>
-            <div onClick={() => {
-                setSelectYear(year == selectYear ? "" : year);
-            }}><i className={`glyphicon glyphicon-menu-${selectYear == year ? "down" : "right"}`}></i>&nbsp;&nbsp;{year}</div>
-            {selectYear == year && <RenderAlbumMenuList albumList={props.initalState?.AlbumList[year]} />}
-        </li>)}
+        {yearList.map(year =>
+            <li key={year + "_menu_year"}>
+                <div onClick={() => {
+                    setSelectYear(year == selectYear ? "" : year);
+                }}>
+                    <i className={`glyphicon glyphicon-menu-${selectYear == year ? "down" : "right"}`}></i>
+                &nbsp;&nbsp;{year}
+                </div>
+                {selectYear == year && <RenderAlbumMenuList albumList={props.initalState?.AlbumList[year]} />}
+            </li>)}
     </ul>
 }
 
@@ -101,18 +108,17 @@ function MenumList(props: { initalState: AlbumState }) {
 function Content(initalState: AlbumState) {
 
     const [openMenu, setShowMenu] = useState(false)
-
     return (
         <div className="bgground">
-            <div className="main-menum">
-                <div className={`menu-icon glyphicon ${openMenu ? "glyphicon-menu-up" : "glyphicon-menu-down"}`}
+            <div className={isMobile ? "main-menum-mobile" : "main-menum"}>
+                <div className={`${isMobile ? "menu-icon-mobile" : "menu-icon"} glyphicon ${openMenu ? "glyphicon-menu-up" : "glyphicon-menu-down"}`}
 
                     onClick={() => {
                         setShowMenu(!openMenu);
                     }}>
                 </div>
                 {openMenu &&
-                    <div className="main-menu-list">
+                    <div className={isMobile ? "main-menu-list-mobile" : "main-menu-list"}>
                         <MenumList initalState={initalState} />
                     </div>
                 }
