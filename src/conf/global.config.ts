@@ -17,6 +17,7 @@ function getGlobalConfig(): Partial<GlobalSetting> {
         md5 = crypto.createHash("md5");
         let SHAIV = md5.update(setting.SHAIVOrg).digest("hex");
         globalSetting = {
+            AdminPwd: setting?.AdminPwd,
             AlbumPath: setting?.AlbumPath,
             SHAIVOrg: "",
             SHAKEYOrg: "",

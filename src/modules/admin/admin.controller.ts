@@ -54,7 +54,7 @@ export class AdminController {
     @Post("PictureUploadApi")
     @UseInterceptors(FilesInterceptor("files", 1))
     async UploadBase64Picture(@Res() response, @UploadedFile("files") files, @Body() body) {
-        
+
         let request: GetAlbumRequest = { AlbumName: body["AlbumName"] }
         let album = await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
         if (album.Album?.PicList?.find((p) => p.Name === files[0].originalname)) {
@@ -68,6 +68,13 @@ export class AdminController {
         stream.write(file.buffer);
         stream.close();
         response.send({ Result: true })
+    }
+
+
+    @Get(RouteConfig.AdminLogin.route)
+    @RouteRender(RouteConfig.AdminLogin.name)
+    async login() {
+        return { initData: {} }
     }
 
 }
