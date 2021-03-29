@@ -8,6 +8,7 @@ import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { isMobile } from "../../../framework/utils";
+import { splitDesc } from "../utils/strUtils";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/main.css')
@@ -59,11 +60,9 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
                                         window.location.href = urlBuilder(PageNameList.AlbumPictureList, v.CNName);
                                     }}
                                 >
-                                    {v.Name}
-                                    <br />
-                                    {v.Date}
-                                    <br />
-                                    {v.Description}
+                                    <div>{v.Name}</div>
+                                    <div>{v.Date}</div>
+                                    <div >{splitDesc(v.Description)}...</div>
                                 </div>
                             </div>
                         </div>

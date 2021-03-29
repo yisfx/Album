@@ -40,7 +40,7 @@ export const FXModal: FC<Props> = (props) => {
                 {...props.attr}
             >
                 {props.showCloseBtn &&
-                    <div className="modal-close-btn" onClick={() => { close(popup) }}>X</div>
+                    <i className="modal-close-btn glyphicon glyphicon-remove" onClick={() => { close(popup) }}></i>
                 }
 
                 {props.children}

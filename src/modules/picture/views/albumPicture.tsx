@@ -5,6 +5,7 @@ import Master from "../../../framework/Master/master"
 import { AlbumPictureContext, AlbumPictureReducer, AlbumPictureState } from "../store/AlbumPictureState.store"
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { FXModal } from "../../../framework/components/modal/fxModal";
+import { splitDesc } from "../utils/strUtils";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/albumPictureList.css')
@@ -62,12 +63,38 @@ function List() {
 
 function Top() {
     const { state, dispatcher } = useContext(AlbumPictureContext)
+    const [showMore, setShowMore] = useState(false)
+    const isfix = state.Album.Description.length > 50;
+
+
     return <div className="page-header">
         <h3>{state.Album.Name}
-            <br />
-            <small style={{ wordWrap: "break-word" }} dangerouslySetInnerHTML={{ __html: state.Album.Description }}></small>
+            <br />&nbsp;&nbsp;
+            {!showMore && isfix &&
+                <>
+                    <small style={{ wordWrap: "break-word" }}
+                        dangerouslySetInnerHTML={{ __html: `${splitDesc(state.Album.Description)}${isfix ? "..." : ""}` }}></small>
+                    {isfix &&
+                        <small style={{ wordWrap: "break-word" }}>
+                            <a href="#" onClick={() => { setShowMore(true) }} style={{ wordWrap: "break-word" }}> more</a>
+                        </small>
+                    }
+                </>
+            }
+            {(showMore || !isfix) &&
+                <>
+                    <small style={{ wordWrap: "break-word" }}
+                        dangerouslySetInnerHTML={{ __html: state.Album.Description }}></small>
+                    {isfix &&
+                        <small style={{ wordWrap: "break-word" }}>
+                            <a href="#" onClick={() => { setShowMore(false) }} style={{ wordWrap: "break-word" }}> less</a>
+                        </small>
+                    }
+                </>
+            }
+
         </h3>
-    </div>
+    </div >
 }
 
 function Content(initalState: AlbumPictureState) {
