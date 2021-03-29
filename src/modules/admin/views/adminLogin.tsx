@@ -21,6 +21,7 @@ function Content(props: any) {
                             setPwd(evt.target.value);
                         }} />
                     <div className="input-group-btn">
+                        <button className="btn btn-default" type="button">{showPwd ? "hide" : "Show"}</button>
                         <button className="btn btn-default" type="button">Input</button>
                     </div>
                 </div>
