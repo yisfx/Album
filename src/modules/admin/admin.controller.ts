@@ -8,6 +8,9 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { GetAlbumResponse } from "../../model/response/getAlbumResponse";
 import { createWriteStream } from "fs";
 import { join } from "path"
+import { ServerResponse } from "http";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { Encrypt } from "src/framework/encryption/hmac";
 
 
 @Controller()
@@ -73,8 +76,17 @@ export class AdminController {
 
     @Get(RouteConfig.AdminLogin.route)
     @RouteRender(RouteConfig.AdminLogin.name)
-    async login() {
+    async loginPage() {
         return { initData: {} }
+    }
+
+    @Post("/ajax/api/loginapi")
+    async login(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
+        let pwd = req.body;
+        Object.keys(pwd).map(key => {
+            pwd[key];
+        })
+        res.send("123123");
     }
 
 }

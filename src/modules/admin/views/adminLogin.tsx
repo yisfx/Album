@@ -1,7 +1,7 @@
 import React, { useContext, useReducer, useState } from "react";
 import Master from "../../../framework/Master/master";
 import MasterPage from "../../../framework/Master/@masterPage";
-import { Ajax } from "src/framework/httpclient/ajax";
+import { Ajax } from "../../../framework/httpclient/ajax";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/login.css')
@@ -37,6 +37,11 @@ function Content(props: any) {
     const [pwd, setPwd] = useState(initPwdList);
 
     const submit = () => {
+        pwdKeyList.map(key => {
+            if (!pwd[key]) {
+                return;
+            }
+        })
         Ajax("loginapi", pwd).then(resp => {
             if (resp.Result) {
                 ///set cookie
@@ -55,7 +60,11 @@ function Content(props: any) {
                         v[key] = value
                         setPwd({ ...v });
                     }} />)}
-                <button type="button" className="btn btn-primary">（首选项）Primary</button>
+                <button type="button" className="btn btn-primary"
+                    onClick={() => {
+                        submit()
+                    }}
+                >SUBMIT</button>
             </div>
         </div >
     </div >

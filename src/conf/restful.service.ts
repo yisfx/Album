@@ -7,12 +7,14 @@ class Resuful {
 
 
 enum ServiceType {
-    Album = "Album"
+    Album = "Album",
+    Admin = "Admin"
 }
 
 
 const ServiceHost: { [key: string]: string } = {
     "Album": "http://localhost:9001/",
+    "Admin": "http://localhost:9001/",
 }
 
 const RestfulService: { [key: string]: Resuful } = {
@@ -36,13 +38,17 @@ const RestfulService: { [key: string]: Resuful } = {
         URL: "Manage/BuildAlbumImage",
         Service: ServiceType.Album
     },
-    "deleteAlbumPicApi":{
-        Method:"POST",
-        URL:"Manage/DeleteAlbumPic",
-        Service:ServiceType.Album
+    "deleteAlbumPicApi": {
+        Method: "POST",
+        URL: "Manage/DeleteAlbumPic",
+        Service: ServiceType.Album
+    },
+    "loginapi": {
+        Method: "POST",
+        URL: "Manage/login",
+        Service: ServiceType.Album
     }
 }
-
 
 export { RestfulService, ServiceHost }
 
