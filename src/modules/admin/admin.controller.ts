@@ -12,6 +12,8 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { Encrypt } from "../../framework/encryption/hmac";
 import { Password } from "../../model/adminModel/password.model";
 import { LoginResponse } from "../../model/response/response.login";
+import { GlobalConfig } from "../../conf/global.config";
+import { BaseResponse } from "src/model/response/baseResponse";
 
 
 @Controller()
@@ -85,13 +87,23 @@ export class AdminController {
     async login(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
         let pwd = req.body;
         let encryptPwd: Password = { PasswordList: {}, Date: new Date().toString(), IP: req.ip }
+        let isError: boolean = false;
         Object.keys(pwd).map(key => {
-            encryptPwd.PasswordList[key] = Encrypt(pwd[key]);
+            let p = Encrypt(pwd[key])
+            if (GlobalConfig.AdminPwd[key] != Encrypt(pwd[key])) {
+                isError = true;
+            } else {
+                encryptPwd.PasswordList[key] = p
+            }
         })
-        let token = Encrypt(JSON.stringify(encryptPwd));
-        let result: LoginResponse = { Result: true, ErrorMessage: null, LoginToken: token };
-        Encrypt(JSON.stringify(encryptPwd));
-        res.send(result);
+        if (!isError) {
+            let token = Encrypt(JSON.stringify(encryptPwd));
+            let result: BaseResponse = { Result: true, ErrorMessage: null };
+            res.header("Set-Cookie", token);
+            res.send(result);
+        } else {
+            res.send({ Result: false, ErrorMessage: "pwd error" });
+        }
     }
 
 }

@@ -1,10 +1,13 @@
 
 
-export class CookieConfig{
-    OnlyIdentificationKey:"fx%5OIK"
+export class CookieConfig {
+    OnlyIdentificationKey: {
+        Key: "fx%5OIK",
+        ExprieData: ""
+    }
 }
 
 
-export class CookieUtility{
-    
+export class CookieUtility {
+
 }

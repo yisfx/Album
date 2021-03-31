@@ -19,7 +19,7 @@ function Pwd(props: { K: string, setValue: (key: string, value: string) => void 
         <input type={showPwd ? "text" : "password"} className="form-control" value={pwd}
             onChange={(evt) => {
                 setPwd(evt.target.value);
-                props.setValue(props.K, pwd);
+                props.setValue(props.K, evt.target.value);
             }} />
         <div className="input-group-btn">
             <button className="btn btn-default" type="button"

@@ -12,11 +12,11 @@ export interface SystemConfig {
 }
 
 export interface GlobalSetting {
-    AdminPwd: string[],
+    AdminPwd: { [key: string]: string },
     AlbumPath: string,
     SHAKEYOrg: string,
     SHAIVOrg: string,
     SHAKey: string,
-    SHAIV: string
+    SHAIV: string,
 }
 

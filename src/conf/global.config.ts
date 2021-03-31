@@ -12,17 +12,19 @@ function getGlobalConfig(): Partial<GlobalSetting> {
         console.log("init global setting")
         let setting: GlobalSetting = require(SysConfig.GlobalConfigPath);
 
-        let md5 = crypto.createHash("md5");
-        let SHAKey = md5.update(setting.SHAKEYOrg).digest("hex");
-        md5 = crypto.createHash("md5");
-        let SHAIV = md5.update(setting.SHAIVOrg).digest("hex");
+
+        let password: { [key: string]: string } = {}
+        Object.keys(setting).map(key => {
+
+        })
+
         globalSetting = {
             AdminPwd: setting?.AdminPwd,
             AlbumPath: setting?.AlbumPath,
             SHAIVOrg: "",
             SHAKEYOrg: "",
-            SHAKey,
-            SHAIV
+            SHAKey: setting.SHAKey,
+            SHAIV: setting.SHAIV,
         }
         global["globalSetting"] = globalSetting
     }
@@ -30,7 +32,8 @@ function getGlobalConfig(): Partial<GlobalSetting> {
     return {
         AlbumPath: globalSetting?.AlbumPath,
         SHAKey: globalSetting?.SHAKey,
-        SHAIV: globalSetting?.SHAIV
+        SHAIV: globalSetting?.SHAIV,
+        AdminPwd: globalSetting?.AdminPwd,
     }
 }
 
