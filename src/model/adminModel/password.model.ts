@@ -1,5 +1,6 @@
 
 export interface Password {
-    Password: string[]
+    PasswordList: { [key: string]: string }
     Date: string
+    IP: string
 }
