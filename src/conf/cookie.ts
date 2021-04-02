@@ -3,7 +3,13 @@
 export class CookieConfig {
     OnlyIdentificationKey: {
         Key: "fx%5OIK",
-        ExprieData: ""
+        options:{
+            path:"/",
+            expireAfter:"",
+            level:"top",
+            secure:true,
+            sameSite:"None"
+        }
     }
 }
 
