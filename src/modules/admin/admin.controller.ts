@@ -9,6 +9,7 @@ import { GetAlbumResponse } from "../../model/response/getAlbumResponse";
 import { createWriteStream } from "fs";
 import { join } from "path"
 import { FastifyReply, FastifyRequest } from "fastify";
+import { fastifyCookie } from "fastify-cookie";
 import { Encrypt } from "../../framework/encryption/hmac";
 import { Password } from "../../model/adminModel/password.model";
 import { LoginResponse } from "../../model/response/response.login";

@@ -1,15 +1,13 @@
-import { NestFactory, } from '@nestjs/core';
+import { NestFactory, FastifyAdapter } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from "path";
 import { AppModule } from './app.module';
 import { LayoutInterceptor } from './framework/interceptor/Layout.Intercept';
 import reactView from './framework/ReactView';
 import { SysConfig } from './conf/site.config';
-import { GlobalConfig } from './conf/global.config';
-import { Encrypt } from './framework/encryption/hmac';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, new FastifyAdapter());
 
   app.useGlobalInterceptors(new LayoutInterceptor());
   app.useStaticAssets(join(__dirname), {
@@ -29,7 +27,7 @@ async function bootstrap() {
   // console.log("D", ":", Encrypt("wozaiguloudeyesezhongweinichanghuaxiangzilai"))
   // })
   // console.log("global Config-----------------------------------------:")
-  
+
   await app.listen(SysConfig.port);
   console.log("listen at", SysConfig.port);
 }
