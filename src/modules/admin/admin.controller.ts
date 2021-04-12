@@ -100,7 +100,7 @@ export class AdminController {
         if (!isError) {
             let token = Encrypt(JSON.stringify(encryptPwd));
             let result: BaseResponse = { Result: true, ErrorMessage: null };
-            res.header("Set-Cookie", token);
+            res.setCookie("", token, { httpOnly: true, secure: true, sameSite: "lax" })
             res.send(result);
         } else {
             res.send({ Result: false, ErrorMessage: "pwd error" });
