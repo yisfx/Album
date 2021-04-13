@@ -10,7 +10,10 @@ import fastify from 'fastify';
 
 async function bootstrap() {
   let instance = fastify();
-  const app = await NestFactory.create(AppModule, new FastifyAdapter(instance));
+  let adapter = new FastifyAdapter({ logger: true })
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,adapter
+  );
 
   app.useGlobalInterceptors(new LayoutInterceptor());
   // app.useStaticAssets(join(__dirname), {
@@ -30,7 +33,7 @@ async function bootstrap() {
   // })
   // console.log("global Config-----------------------------------------:")
 
-  await app.listen(SysConfig.port);
+  await app.listen(SysConfig.port, "0.0.0.0");
   console.log("listen at", SysConfig.port);
 }
 bootstrap();
