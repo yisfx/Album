@@ -5,16 +5,17 @@ import { AppModule } from './app.module';
 import { LayoutInterceptor } from './framework/interceptor/Layout.Intercept';
 import reactView from './framework/ReactView';
 import { SysConfig } from './conf/site.config';
-import { FastifyAdapter } from "@nestjs/platform-fastify";
+import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
+import fastify from 'fastify';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  let instance = fastify();
+  const app = await NestFactory.create(AppModule, new FastifyAdapter(instance));
 
   app.useGlobalInterceptors(new LayoutInterceptor());
-  app.useStaticAssets(join(__dirname), {
-    prefix: SysConfig.VisualStaticPath
-  })
-
+  // app.useStaticAssets(join(__dirname), {
+  //   prefix: SysConfig.VisualStaticPath
+  // })
   app.set('views', join(__dirname));
   app.set('view engine', 'js');
 
