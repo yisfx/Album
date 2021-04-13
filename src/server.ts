@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { LayoutInterceptor } from './framework/interceptor/Layout.Intercept';
 import reactView from './framework/ReactView';
 import { SysConfig } from './conf/site.config';
+import { FastifyAdapter } from "@nestjs/platform-fastify";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
