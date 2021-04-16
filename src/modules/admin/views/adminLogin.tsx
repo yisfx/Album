@@ -8,9 +8,9 @@ if (process.env.BROWSER) {
 }
 
 
-function Pwd(props: { K: string, setValue: (key: string, value: string) => void }) {
+function Pwd(props: { K: string, value: string, setValue: (key: string, value: string) => void }) {
     const [showPwd, setShowPwd] = useState(false);
-    const [pwd, setPwd] = useState("");
+    const [pwd, setPwd] = useState(props.value);
 
     return <div className="input-group">
         <div className="input-group-btn">
@@ -32,7 +32,12 @@ function Pwd(props: { K: string, setValue: (key: string, value: string) => void 
 }
 
 function Content(props: any) {
-    const initPwdList = { A: "", B: "", C: "", D: "" }
+    const initPwdList = {
+        A: "关于郑州我知道的不多",
+        B: "看沉默的电话她什么都不说",
+        C: "让我查一下谷歌地图北仑怎么走",
+        D: "我在鼓楼的夜色中为你唱花香自来"
+    }
     const pwdKeyList = ["A", "B", "C", "D"]
     const [pwd, setPwd] = useState(initPwdList);
 
@@ -44,6 +49,7 @@ function Content(props: any) {
         })
         Ajax("loginapi", pwd).then(resp => {
             if (resp.Result) {
+                
                 ///set cookie
                 ///
             }
@@ -55,6 +61,7 @@ function Content(props: any) {
             <div className="col-xs-12">
                 <div style={{ height: "30px" }}></div>
                 {pwdKeyList.map(key => <Pwd key={key} K={key}
+                    value={pwd[key]}
                     setValue={(key, value) => {
                         let v = pwd;
                         v[key] = value

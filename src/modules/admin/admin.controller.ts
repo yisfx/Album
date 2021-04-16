@@ -91,7 +91,7 @@ export class AdminController {
         let isError: boolean = false;
         Object.keys(pwd).map(key => {
             let p = Encrypt(pwd[key])
-            if (GlobalConfig.AdminPwd[key] != Encrypt(pwd[key])) {
+            if (GlobalConfig.AdminPwd[key] != p) {
                 isError = true;
             } else {
                 encryptPwd.PasswordList[key] = p
@@ -99,8 +99,8 @@ export class AdminController {
         })
         if (!isError) {
             let token = Encrypt(JSON.stringify(encryptPwd));
-            let result: BaseResponse = { Result: true, ErrorMessage: null };
-            res.setCookie("Token", token, { httpOnly: true, secure: true, sameSite: "lax" })
+            let result: LoginResponse = { Result: true, ErrorMessage: null, LoginToken: token };
+
             res.send(result);
         } else {
             res.send({ Result: false, ErrorMessage: "pwd error" });
