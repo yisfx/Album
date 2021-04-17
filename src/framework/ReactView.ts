@@ -1,8 +1,15 @@
 
+
+interface Options {
+    css: string
+    initData: any
+    script: string
+}
+
+
 export default function reactView(
-    filePath: string,///template
-    viewOptions,
-    callback
+    viewOptions: Options,
+    callback: (any, html: string) => {}
 ) {
 
     const css = viewOptions.css
