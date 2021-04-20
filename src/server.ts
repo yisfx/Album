@@ -5,7 +5,7 @@ import { SysConfig } from './conf/site.config';
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import fastify from 'fastify';
 import { AllExceptionsFilter } from './framework/filter/exception-filter';
-
+import * as compression from 'fastify-compress';
 async function bootstrap() {
   let instance = fastify({
     ignoreTrailingSlash: true,
@@ -19,16 +19,15 @@ async function bootstrap() {
   })
 
 
-
-  let adapter = new FastifyAdapter({ logger: true })
+  new FastifyAdapter(instance)
   const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule, new FastifyAdapter(instance)
+    AppModule,
+    new FastifyAdapter(instance)
   );
-
+  app.use(compression, { encodings: ['gzip', 'deflate'] })
   app.useGlobalInterceptors(new LayoutInterceptor());
-  // app.useStaticAssets(join(__dirname), {
-  //   prefix: SysConfig.VisualStaticPath
-  // })
+
+  // app.setViewEngine({})
   // app.set('views', join(__dirname));
   // app.set('view engine', 'js');
 
@@ -36,7 +35,6 @@ async function bootstrap() {
 
   app.useGlobalFilters(
     ...[new AllExceptionsFilter()],
-
   )
 
 

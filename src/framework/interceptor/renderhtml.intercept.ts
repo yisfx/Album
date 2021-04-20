@@ -1,6 +1,7 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from "@nestjs/common";
 import { ComponentType } from "react";
 import { Observable } from "rxjs";
+import reactView from "../ReactView";
 
 
 export class RenderHtmlIntercepteor implements NestInterceptor {

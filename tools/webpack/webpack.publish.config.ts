@@ -2,8 +2,11 @@ import path from "path";
 import { SysConfig } from "../../src/conf/site.config";
 import { RouteConfig } from "../../src/framework/route.config"
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { smart } from 'webpack-merge';
+import CommonConfig from "./webpack.common";
 
-const config = {
+
+const config = smart(CommonConfig, {
     entry: () => {
         let dic = {}
         for (let route in RouteConfig) {
@@ -29,7 +32,7 @@ const config = {
         extensions: ['.ts', '.tsx', '.config', '.js', '.json', '.css', ".png"]
     },
     watch: false,
-};
+});
 
 module.exports = config;
 

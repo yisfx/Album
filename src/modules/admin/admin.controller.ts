@@ -4,7 +4,7 @@ import { RouteConfig } from "../../framework/route.config";
 import { HttpClient } from "../../framework/httpclient/http.client";
 import { AlbumListResponse } from "../../model/response/albumListResponse";
 import { GetAlbumRequest } from "../../model/request/getAlbumRequest";
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { } from "@nestjs/platform-fastify";
 import { GetAlbumResponse } from "../../model/response/getAlbumResponse";
 import { createWriteStream } from "fs";
 import { join } from "path"
@@ -14,7 +14,7 @@ import { Encrypt } from "../../framework/encryption/hmac";
 import { Password } from "../../model/adminModel/password.model";
 import { LoginResponse } from "../../model/response/response.login";
 import { GlobalConfig } from "../../conf/global.config";
-import { BaseResponse } from "src/model/response/baseResponse";
+import { BaseResponse } from "../../model/response/baseResponse";
 
 
 @Controller()
@@ -41,7 +41,7 @@ export class AdminController {
     }
 
     @Post("PictureUploadApi")
-    @UseInterceptors(FilesInterceptor("files", 1))
+    // @UseInterceptors(FilesInterceptor("files", 1))
     async PictureUpload(@Res() response, @UploadedFile("files") files, @Body() body) {
         let request: GetAlbumRequest = { AlbumName: body["AlbumName"] }
         let album = await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
@@ -59,7 +59,7 @@ export class AdminController {
     }
 
     @Post("PictureUploadApi")
-    @UseInterceptors(FilesInterceptor("files", 1))
+    // @UseInterceptors(FilesInterceptor("files", 1))
     async UploadBase64Picture(@Res() response, @UploadedFile("files") files, @Body() body) {
 
         let request: GetAlbumRequest = { AlbumName: body["AlbumName"] }
