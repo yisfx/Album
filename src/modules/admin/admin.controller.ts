@@ -40,7 +40,7 @@ export class AdminController {
         return { initData: { ...resp } }
     }
 
-    @Post("PictureUploadApi")
+    // @Post("PictureUploadApi")
     // @UseInterceptors(FilesInterceptor("files", 1))
     async PictureUpload(@Res() response, @UploadedFile("files") files, @Body() body) {
         let request: GetAlbumRequest = { AlbumName: body["AlbumName"] }

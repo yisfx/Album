@@ -6,6 +6,8 @@ import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify
 import fastify from 'fastify';
 import { AllExceptionsFilter } from './framework/filter/exception-filter';
 import * as compression from 'fastify-compress';
+
+
 async function bootstrap() {
   let instance = fastify({
     ignoreTrailingSlash: true,
@@ -18,8 +20,6 @@ async function bootstrap() {
     done(null, payload)
   })
 
-
-  new FastifyAdapter(instance)
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(instance)
@@ -47,11 +47,12 @@ async function bootstrap() {
   // })
   console.log("global Config-----------------------------------------:")
 
-  await app.listen(SysConfig.port, "0.0.0.0", (error, address) => {
+  await app.listen(SysConfig.port, (error, address) => {
     if (error) {
-      console.log(error.message);
+      console.log(error);
       process.exit(1)
-    } else {
+    }
+    else {
       console.log("listen at", SysConfig.port);
     }
   });

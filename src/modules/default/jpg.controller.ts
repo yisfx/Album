@@ -12,7 +12,7 @@ export class JPGController {
 
     }
 
-    @Get(SysConfig.VisualStaticPath + "/album/*.jpg")
+    @Get(`${SysConfig.VisualStaticPath}/album/:albumName`)
     albumJpg(@Req() req, @Res() res) {
         let dir: string[] = req.url.split("/")
         let name: string[] = dir[dir.length - 1].split("-")
@@ -26,7 +26,7 @@ export class JPGController {
         }
     }
 
-    @Get(SysConfig.VisualStaticPath + SysConfig.MixPath + "/album/*")
+    @Get(`${SysConfig.VisualStaticPath}${SysConfig.MixPath}/album/:mixAlbum`)
     mixAlbumJpg(@Req() req, @Res() res) {
         let dir: string[] = req.url.split("/")
         const uri: PictureUrlLink = ParseImageEncryptionUri(dir[dir.length - 1])
@@ -43,17 +43,30 @@ export class JPGController {
     }
 
 
-    @Get(SysConfig.VisualStaticPath + "/*.jpg")
+    @Get(`${SysConfig.VisualStaticPath}/:picture`)
     staticJpg(@Req() req, @Res() res) {
         let dir: [] = req.url.split("/")
         let f = dir[dir.length - 1]
         res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
     }
 
-    @Get(SysConfig.VisualStaticPath + "/*.png")
-    staticPng(@Req() req, @Res() res) {
+    @Get(`${SysConfig.VisualStaticPath}/:cssjs`)
+    cssFile(@Req() req, @Res() res) {
         let dir: [] = req.url.split("/")
         let f = dir[dir.length - 1]
-        res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
+        //if css 
+        SysConfig.CssPath
+        // if js
+        SysConfig.JsPath
+        // if picture
+        SysConfig.ImagePath
+        res.sendFile(join(__dirname, '../../', SysConfig.JsPath, f))
     }
+
+    // @Get(SysConfig.VisualStaticPath + "/*.png")
+    // staticPng(@Req() req, @Res() res) {
+    //     let dir: [] = req.url.split("/")
+    //     let f = dir[dir.length - 1]
+    //     res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
+    // }
 }

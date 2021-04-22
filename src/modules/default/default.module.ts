@@ -6,9 +6,11 @@ import { ExceptionController } from "./exception.controller";
 
 @Module({
     imports: [],
-    controllers: [DefaultController,
+    controllers: [
+        DefaultController,
         JPGController,
-        ExceptionController],
+        ExceptionController
+    ],
     providers: [HttpClient],
 })
 
