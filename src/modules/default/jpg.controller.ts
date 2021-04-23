@@ -5,6 +5,7 @@ import fs from "fs";
 import { GlobalConfig } from "../../conf/global.config";
 import { ParseImageEncryptionUri } from "../../framework/encryption/encryptionUri";
 import { PictureUrlLink } from "../../model/album";
+import { FastifyRequest } from "fastify";
 
 @Controller()
 export class JPGController {
@@ -42,31 +43,17 @@ export class JPGController {
         }
     }
 
-
-    @Get(`${SysConfig.VisualStaticPath}/:picture`)
-    staticJpg(@Req() req, @Res() res) {
-        let dir: [] = req.url.split("/")
+    @Get(`${SysConfig.VisualStaticPath}/:file`)
+    cssFile(@Req() req: FastifyRequest, @Res() res) {
+        let dir: string[] = req.url.split("/")
         let f = dir[dir.length - 1]
-        res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
+        let path: string
+        if (req.url.endsWith(".css"))
+            path = SysConfig.CssPath
+        else if (req.url.endsWith(".js"))
+            path = SysConfig.JsPath;
+        else
+            path = SysConfig.ImagePath
+        res.sendFile(join(__dirname, '../../', path, f))
     }
-
-    @Get(`${SysConfig.VisualStaticPath}/:cssjs`)
-    cssFile(@Req() req, @Res() res) {
-        let dir: [] = req.url.split("/")
-        let f = dir[dir.length - 1]
-        //if css 
-        SysConfig.CssPath
-        // if js
-        SysConfig.JsPath
-        // if picture
-        SysConfig.ImagePath
-        res.sendFile(join(__dirname, '../../', SysConfig.JsPath, f))
-    }
-
-    // @Get(SysConfig.VisualStaticPath + "/*.png")
-    // staticPng(@Req() req, @Res() res) {
-    //     let dir: [] = req.url.split("/")
-    //     let f = dir[dir.length - 1]
-    //     res.sendFile(join(__dirname, '../../', SysConfig.ImagePath, f))
-    // }
 }

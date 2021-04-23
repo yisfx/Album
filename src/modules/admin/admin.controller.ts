@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { RouteRender } from "../../framework/decorators/RouteRender.decorator";
 import { RouteConfig } from "../../framework/route.config";
 import { HttpClient } from "../../framework/httpclient/http.client";
@@ -14,10 +14,12 @@ import { Encrypt } from "../../framework/encryption/hmac";
 import { Password } from "../../model/adminModel/password.model";
 import { LoginResponse } from "../../model/response/response.login";
 import { GlobalConfig } from "../../conf/global.config";
-import { BaseResponse } from "../../model/response/baseResponse";
+import { RenderHtmlIntercepteor } from "../../framework/interceptor/renderhtml.intercept";
+import { LayoutInterceptor } from "../../framework/interceptor/Layout.Intercept";
 
 
 @Controller()
+@UseInterceptors(LayoutInterceptor,RenderHtmlIntercepteor)
 export class AdminController {
     constructor(private readonly httpClient: HttpClient) {
     }
@@ -80,6 +82,7 @@ export class AdminController {
 
     @Get(RouteConfig.AdminLogin.route)
     @RouteRender(RouteConfig.AdminLogin.name)
+    @Render("RenderHtmlIntercepteor")
     async loginPage() {
         return { initData: {} }
     }

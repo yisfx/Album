@@ -6,6 +6,7 @@ import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify
 import fastify from 'fastify';
 import { AllExceptionsFilter } from './framework/filter/exception-filter';
 import * as compression from 'fastify-compress';
+import { join } from 'path';
 
 
 async function bootstrap() {
@@ -19,6 +20,10 @@ async function bootstrap() {
     // reply.header("","")
     done(null, payload)
   })
+  instance.addHook("onRequest", (req, reply, done) => {
+    console.log("onRequest");
+    done();
+  })
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -26,13 +31,14 @@ async function bootstrap() {
   );
   app.use(compression, { encodings: ['gzip', 'deflate'] })
   app.useGlobalInterceptors(new LayoutInterceptor());
-
-  // app.setViewEngine({})
+  
   // app.set('views', join(__dirname));
   // app.set('view engine', 'js');
 
   // app.engine('js', reactView);
-
+  app.useGlobalInterceptors(
+    new LayoutInterceptor(),
+  )
   app.useGlobalFilters(
     ...[new AllExceptionsFilter()],
   )
