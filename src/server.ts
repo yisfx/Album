@@ -20,25 +20,17 @@ async function bootstrap() {
     // reply.header("","")
     done(null, payload)
   })
-  instance.addHook("onRequest", (req, reply, done) => {
-    console.log("onRequest");
-    done();
-  })
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(instance)
   );
   app.use(compression, { encodings: ['gzip', 'deflate'] })
-  app.useGlobalInterceptors(new LayoutInterceptor());
   
   // app.set('views', join(__dirname));
   // app.set('view engine', 'js');
 
   // app.engine('js', reactView);
-  app.useGlobalInterceptors(
-    new LayoutInterceptor(),
-  )
   app.useGlobalFilters(
     ...[new AllExceptionsFilter()],
   )
