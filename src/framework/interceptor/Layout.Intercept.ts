@@ -21,7 +21,7 @@ export class LayoutInterceptor implements NestInterceptor {
             .pipe(
                 tap(() => {
                     if (!!route) {
-
+                        debugger
                         response.locals = {
                             ...response.locals,
                             script: SysConfig.VisualStaticPath + "/" + content,

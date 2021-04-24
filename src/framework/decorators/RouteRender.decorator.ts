@@ -1,6 +1,7 @@
 
 import { RENDER_METADATA } from "@nestjs/common/constants";
 import { join } from "path";
+import reactView from "../ReactView";
 import metadate from "./constants";
 
 
@@ -11,9 +12,10 @@ export function RouteRender(page: string) {
             page,
             describe.value
         );
+        
         Reflect.defineMetadata(
             RENDER_METADATA,
-            join("modules/RenderMateData.js"),
+            reactView,
             describe.value
         );
         return describe

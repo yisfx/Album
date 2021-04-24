@@ -9,5 +9,6 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
 
     catch(exception: any, host: ArgumentsHost) {
         //process
+        throw new exception("error");
     }
 }

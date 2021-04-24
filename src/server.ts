@@ -6,13 +6,12 @@ import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify
 import fastify from 'fastify';
 import { AllExceptionsFilter } from './framework/filter/exception-filter';
 import * as compression from 'fastify-compress';
-import { join } from 'path';
 
 
 async function bootstrap() {
   let instance = fastify({
-    ignoreTrailingSlash: true,
-    caseSensitive: false,
+    // ignoreTrailingSlash: true,
+    // caseSensitive: false,
     // querystringParser: queryParser,
   });
   // instance.register()
@@ -26,14 +25,17 @@ async function bootstrap() {
     new FastifyAdapter(instance)
   );
   app.use(compression, { encodings: ['gzip', 'deflate'] })
-  
+
   // app.set('views', join(__dirname));
   // app.set('view engine', 'js');
 
   // app.engine('js', reactView);
-  app.useGlobalFilters(
-    ...[new AllExceptionsFilter()],
-  )
+  
+
+
+  // app.useGlobalFilters(
+  //   ...[new AllExceptionsFilter()],
+  // )
 
 
   console.log("global Config-----------------------------------------:")

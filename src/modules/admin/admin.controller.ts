@@ -19,12 +19,11 @@ import { LayoutInterceptor } from "../../framework/interceptor/Layout.Intercept"
 
 
 @Controller()
-@UseInterceptors(LayoutInterceptor,RenderHtmlIntercepteor)
 export class AdminController {
     constructor(private readonly httpClient: HttpClient) {
     }
 
-    @Get(RouteConfig.AdminAlbumList.route)
+    // @Get(RouteConfig.AdminAlbumList.route)
     @RouteRender(RouteConfig.AdminAlbumList.name)
     async Album() {
         let resp = await this.httpClient.createClient<AlbumListResponse>("ablumListApi");
@@ -33,7 +32,7 @@ export class AdminController {
         }
     }
 
-    @Get(RouteConfig.AdminAlbumPicList.route)
+    // @Get(RouteConfig.AdminAlbumPicList.route)
     @RouteRender(RouteConfig.AdminAlbumPicList.name)
     async AlbumPicList(@Param("route") route) {
         let request: GetAlbumRequest = { AlbumName: route }
@@ -60,7 +59,7 @@ export class AdminController {
         response.send({ Result: true })
     }
 
-    @Post("PictureUploadApi")
+    // @Post("PictureUploadApi")
     // @UseInterceptors(FilesInterceptor("files", 1))
     async UploadBase64Picture(@Res() response, @UploadedFile("files") files, @Body() body) {
 
@@ -80,14 +79,19 @@ export class AdminController {
     }
 
 
-    @Get(RouteConfig.AdminLogin.route)
-    @RouteRender(RouteConfig.AdminLogin.name)
-    @Render("RenderHtmlIntercepteor")
+    // @Get(RouteConfig.AdminLogin.route)
+    // @UseInterceptors(LayoutInterceptor)
+    // @RouteRender(RouteConfig.AdminLogin.name)
     async loginPage() {
         return { initData: {} }
     }
 
-    @Post("/ajax/api/loginapi")
+    @Get("/a")
+    loginppp() {
+        return { a: "aaa" }
+    }
+
+    // @Post("/ajax/api/loginapi")
     async login(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
         let pwd = req.body;
         let encryptPwd: Password = { PasswordList: {}, Date: new Date().toString(), IP: req.ip }
