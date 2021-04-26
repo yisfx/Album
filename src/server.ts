@@ -10,22 +10,18 @@ import * as compression from 'fastify-compress';
 //https://blog.csdn.net/qq_29334605/article/details/109670133
 //https://github.com/JeniTurtle/nestjs-fastify/blob/master/src/server.ts
 async function bootstrap() {
-  let instance = fastify({
-    // ignoreTrailingSlash: true,
-    // caseSensitive: false,
-    // querystringParser: queryParser,
-  });
+  let instance = fastify();
   // instance.register()
-  instance.addHook("onSend", (request, reply, payload, done) => {
-    // reply.header("","")
-    done(null, payload)
-  })
-
+  // instance.addHook("onSend", (request, reply, payload, done) => {
+  //   // reply.header("","")
+  //   done(null, payload)
+  // })
+  const adapter=new FastifyAdapter();
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(instance)
+    adapter
   );
-  app.use(compression, { encodings: ['gzip', 'deflate'] })
+  // app.use(compression, { encodings: ['gzip', 'deflate'] })
 
   // app.set('views', join(__dirname));
   // app.set('view engine', 'js');

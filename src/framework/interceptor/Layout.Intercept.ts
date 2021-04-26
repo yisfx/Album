@@ -16,6 +16,8 @@ export class LayoutInterceptor implements NestInterceptor {
             content = ass[404];
         let cssFile = css[route];
         const response = context.switchToHttp().getResponse();
+        response.view = (context.getHandler() as any)
+            .__Root_React_Element__;
         return next
             .handle()
             .pipe(

@@ -19,6 +19,7 @@ import { LayoutInterceptor } from "../../framework/interceptor/Layout.Intercept"
 
 
 @Controller()
+@UseInterceptors(LayoutInterceptor)
 export class AdminController {
     constructor(private readonly httpClient: HttpClient) {
     }
@@ -79,16 +80,10 @@ export class AdminController {
     }
 
 
-    // @Get(RouteConfig.AdminLogin.route)
-    // @UseInterceptors(LayoutInterceptor)
-    // @RouteRender(RouteConfig.AdminLogin.name)
+    @Get(RouteConfig.AdminLogin.route)
+    @RouteRender(RouteConfig.AdminLogin.name)
     async loginPage() {
         return { initData: {} }
-    }
-
-    @Get("/a")
-    loginppp() {
-        return { a: "aaa" }
     }
 
     // @Post("/ajax/api/loginapi")
