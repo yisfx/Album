@@ -7,7 +7,7 @@ import fastify from 'fastify';
 import { AllExceptionsFilter } from './framework/filter/exception-filter';
 import * as compression from 'fastify-compress';
 
-
+//https://blog.csdn.net/qq_29334605/article/details/109670133
 async function bootstrap() {
   let instance = fastify({
     // ignoreTrailingSlash: true,
