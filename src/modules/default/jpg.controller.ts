@@ -5,7 +5,7 @@ import fs from "fs";
 import { GlobalConfig } from "../../conf/global.config";
 import { ParseImageEncryptionUri } from "../../framework/encryption/encryptionUri";
 import { PictureUrlLink } from "../../model/album";
-import { FastifyRequest } from "fastify";
+import { FastifyRequest, FastifyReply } from "fastify";
 
 @Controller()
 export class JPGController {
@@ -44,7 +44,7 @@ export class JPGController {
     }
 
     @Get(`${SysConfig.VisualStaticPath}/:file`)
-    cssFile(@Req() req: FastifyRequest, @Res() res) {
+    cssFile(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
         let dir: string[] = req.url.split("/")
         let f = dir[dir.length - 1]
         let path: string
@@ -54,6 +54,9 @@ export class JPGController {
             path = SysConfig.JsPath;
         else
             path = SysConfig.ImagePath
-        res.sendFile(join(__dirname, '../../', path, f))
+
+        fs.readFile(join(__dirname, '../../', path, f), (err, fileBuffer) => {
+            res.send(err || fileBuffer)
+        })
     }
 }

@@ -1,10 +1,13 @@
 import { NestInterceptor, Injectable, ExecutionContext, CallHandler } from "@nestjs/common";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { rejects } from "assert";
+import { resolve } from "path";
+import { from, Observable, of } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import { SysConfig } from "../../conf/site.config";
 let ass = require("../../conf/assets.conf")
 let css = require("../../conf/assets.css")
 import metadata from "../decorators/constants";
+import reactView from "../ReactView";
 
 @Injectable()
 export class LayoutInterceptor implements NestInterceptor {
@@ -15,23 +18,19 @@ export class LayoutInterceptor implements NestInterceptor {
         if (!content)
             content = ass[404];
         let cssFile = css[route];
+        const initalData = next.handle();
         const response = context.switchToHttp().getResponse();
-        response.view = (context.getHandler() as any)
-            .__Root_React_Element__;
-        return next
-            .handle()
-            .pipe(
-                tap(() => {
-                    if (!!route) {
-                        debugger
-                        response.locals = {
-                            ...response.locals,
-                            script: SysConfig.VisualStaticPath + "/" + content,
-                            css: !!cssFile ? SysConfig.VisualStaticPath + "/" + cssFile : undefined,
-                        };
-                    }
+        if (!route) {
+            response.header("content-type", "text/html; charset=utf-8")
+            return from(new Promise((resolve, rejects) => resolve(JSON.stringify(initalData))))
+        }
 
-                })
-            );
+        const html = reactView({
+            css: !cssFile ? SysConfig.VisualStaticPath + "/" + cssFile : undefined,
+            initData: initalData,
+            script: SysConfig.VisualStaticPath + "/" + content,
+        })
+        response.header("content-type", "text/html; charset=utf-8")
+        return from(new Promise((resolve, rejects) => resolve(html)))
     }
 }

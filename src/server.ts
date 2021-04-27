@@ -12,27 +12,20 @@ import * as compression from 'fastify-compress';
 async function bootstrap() {
   let instance = fastify();
   // instance.register()
-  // instance.addHook("onSend", (request, reply, payload, done) => {
-  //   // reply.header("","")
-  //   done(null, payload)
-  // })
-  const adapter=new FastifyAdapter();
+  instance.addHook("onSend", (request, reply, payload, done) => {
+    reply.header("content-type", "text/html; charset=utf-8")
+    done(null, payload)
+  })
+  const adapter = new FastifyAdapter();
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter
   );
-  // app.use(compression, { encodings: ['gzip', 'deflate'] })
+  app.use(compression, { encodings: ['gzip', 'deflate'] })
 
-  // app.set('views', join(__dirname));
-  // app.set('view engine', 'js');
-
-  // app.engine('js', reactView);
-  
-
-
-  // app.useGlobalFilters(
-  //   ...[new AllExceptionsFilter()],
-  // )
+  app.useGlobalFilters(
+    ...[new AllExceptionsFilter()],
+  )
 
 
   console.log("global Config-----------------------------------------:")

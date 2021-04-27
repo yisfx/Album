@@ -14,7 +14,6 @@ import { Encrypt } from "../../framework/encryption/hmac";
 import { Password } from "../../model/adminModel/password.model";
 import { LoginResponse } from "../../model/response/response.login";
 import { GlobalConfig } from "../../conf/global.config";
-import { RenderHtmlIntercepteor } from "../../framework/interceptor/renderhtml.intercept";
 import { LayoutInterceptor } from "../../framework/interceptor/Layout.Intercept";
 
 
@@ -24,7 +23,7 @@ export class AdminController {
     constructor(private readonly httpClient: HttpClient) {
     }
 
-    // @Get(RouteConfig.AdminAlbumList.route)
+    @Get(RouteConfig.AdminAlbumList.route)
     @RouteRender(RouteConfig.AdminAlbumList.name)
     async Album() {
         let resp = await this.httpClient.createClient<AlbumListResponse>("ablumListApi");
@@ -33,7 +32,7 @@ export class AdminController {
         }
     }
 
-    // @Get(RouteConfig.AdminAlbumPicList.route)
+    @Get(RouteConfig.AdminAlbumPicList.route)
     @RouteRender(RouteConfig.AdminAlbumPicList.name)
     async AlbumPicList(@Param("route") route) {
         let request: GetAlbumRequest = { AlbumName: route }
@@ -42,8 +41,7 @@ export class AdminController {
         return { initData: { ...resp } }
     }
 
-    // @Post("PictureUploadApi")
-    // @UseInterceptors(FilesInterceptor("files", 1))
+    @Post("PictureUploadApi")
     async PictureUpload(@Res() response, @UploadedFile("files") files, @Body() body) {
         let request: GetAlbumRequest = { AlbumName: body["AlbumName"] }
         let album = await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
@@ -86,7 +84,7 @@ export class AdminController {
         return { initData: {} }
     }
 
-    // @Post("/ajax/api/loginapi")
+    @Post("/ajax/api/loginapi")
     async login(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
         let pwd = req.body;
         let encryptPwd: Password = { PasswordList: {}, Date: new Date().toString(), IP: req.ip }
@@ -102,7 +100,6 @@ export class AdminController {
         if (!isError) {
             let token = Encrypt(JSON.stringify(encryptPwd));
             let result: LoginResponse = { Result: true, ErrorMessage: null, LoginToken: token };
-
             res.send(result);
         } else {
             res.send({ Result: false, ErrorMessage: "pwd error" });

@@ -13,11 +13,11 @@ export function RouteRender(page: string) {
             describe.value
         );
         
-        Reflect.defineMetadata(
-            RENDER_METADATA,
-            reactView,
-            describe.value
-        );
+        // Reflect.defineMetadata(
+        //     RENDER_METADATA,
+        //     reactView,
+        //     describe.value
+        // );
         return describe
     }
 }

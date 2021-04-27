@@ -8,8 +8,7 @@ interface Options {
 
 
 export default function reactView(
-    viewOptions: Options,
-    callback: (any, html: string) => {}
+    viewOptions: Options
 ) {
 
     const css = viewOptions.css
@@ -52,6 +51,6 @@ export default function reactView(
         </body>
     </html>`;
 
-    callback(null, html)
+    return html;
 
 }
