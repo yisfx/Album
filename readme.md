@@ -12,18 +12,6 @@ $ npm install
 $ yarn start
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
 ## Stay in touch
 - Website - [www.fxfxfxfx.cn](www.fxfxfxfx.cn)
 - file to base64 - [file to base64](https://blog.csdn.net/qq_21987433/article/details/108344682)
