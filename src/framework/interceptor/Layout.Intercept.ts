@@ -19,10 +19,11 @@ export class LayoutInterceptor implements NestInterceptor {
             content = ass[404];
         let cssFile = css[route];
         const initalData = next.handle();
+
         const response = context.switchToHttp().getResponse();
         if (!route) {
-            response.header("content-type", "text/html; charset=utf-8")
-            return from(new Promise((resolve, rejects) => resolve(JSON.stringify(initalData))))
+            response.header("content-type", "text/json; charset=utf-8")
+            return initalData
         }
 
         const html = reactView({
@@ -31,6 +32,6 @@ export class LayoutInterceptor implements NestInterceptor {
             script: SysConfig.VisualStaticPath + "/" + content,
         })
         response.header("content-type", "text/html; charset=utf-8")
-        return from(new Promise((resolve, rejects) => resolve(html)))
+        return html
     }
 }

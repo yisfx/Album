@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Redirect } from '@nestjs/common';
+import { Controller, Get, Param, Redirect, UseInterceptors } from '@nestjs/common';
 import { RouteRender } from '../../framework/decorators/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 import { HttpClient } from '../../framework/httpclient/http.client';
@@ -9,8 +9,10 @@ import { GetAlbumResponse } from '../../model/response/getAlbumResponse';
 import { BuildImageEncryptionUri } from '../../framework/encryption/encryptionUri';
 import { BuildMenu } from './utils/menu-tool';
 import { Album } from '../../model/album';
+import { LayoutInterceptor } from '../../framework/interceptor/Layout.Intercept';
 
 @Controller()
+@UseInterceptors(LayoutInterceptor)
 export class AlbumController {
 	constructor(private readonly httpClient: HttpClient) {
 	}

@@ -21,11 +21,11 @@ async function bootstrap() {
     AppModule,
     adapter
   );
-  app.use(compression, { encodings: ['gzip', 'deflate'] })
+  // app.use(compression)
 
-  app.useGlobalFilters(
-    ...[new AllExceptionsFilter()],
-  )
+  // app.useGlobalFilters(
+  //   ...[new AllExceptionsFilter()],
+  // )
 
 
   console.log("global Config-----------------------------------------:")
