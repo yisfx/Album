@@ -37,7 +37,6 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
         },
     }
     const firstAlbumList = (): Album[] => {
-        debugger
         let list = Object.keys(props?.AlbumList).map(key => parseInt(key))
         let key = list.sort((a, b) => a - b)[0]
         return props?.AlbumList[key]

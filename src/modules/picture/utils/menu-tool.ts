@@ -12,6 +12,5 @@ export function BuildMenu(albumList: Album[]): { [key: string]: Album[] } {
             yearList[year].push(album);
         }
     })
-    debugger
     return yearList
 }

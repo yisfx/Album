@@ -27,7 +27,7 @@ export class JPGController {
         }
     }
 
-    @Get(`${SysConfig.VisualStaticPath}${SysConfig.MixPath}/album/:mixAlbum`)
+    @Get(`${SysConfig.VisualStaticPath}${SysConfig.MixPath}/album/*`)
     mixAlbumJpg(@Req() req, @Res() res) {
         let dir: string[] = req.url.split("/")
         const uri: PictureUrlLink = ParseImageEncryptionUri(dir[dir.length - 1])
@@ -37,7 +37,9 @@ export class JPGController {
 
         let p = join(GlobalConfig.AlbumPath, uri.AlbumName, uri.Name + "-" + uri.Type) + ".jpg";
         if (fs.existsSync(p)) {
-            res.sendFile(p)
+            fs.readFile(p, (err, fileBuffer) => {
+                res.send(err || fileBuffer)
+            })
         } else {
             res.send("");
         }
@@ -49,11 +51,21 @@ export class JPGController {
         let f = dir[dir.length - 1]
         let path: string
         if (req.url.endsWith(".css"))
-            path = SysConfig.CssPath
+            path = SysConfig.JsPath;// SysConfig.CssPath///文件夹还未分开
         else if (req.url.endsWith(".js"))
             path = SysConfig.JsPath;
         else
             path = SysConfig.ImagePath
+
+        fs.readFile(join(__dirname, '../../', path, f), (err, fileBuffer) => {
+            res.send(err || fileBuffer)
+        })
+    }
+    @Get(`${SysConfig.VisualStaticPath}/image/:file`)
+    staticImage(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
+        let dir: string[] = req.url.split("/")
+        let f = dir[dir.length - 1]
+        let path: string = SysConfig.ImagePath
 
         fs.readFile(join(__dirname, '../../', path, f), (err, fileBuffer) => {
             res.send(err || fileBuffer)

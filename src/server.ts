@@ -10,12 +10,6 @@ import * as compression from 'fastify-compress';
 //https://blog.csdn.net/qq_29334605/article/details/109670133
 //https://github.com/JeniTurtle/nestjs-fastify/blob/master/src/server.ts
 async function bootstrap() {
-  let instance = fastify();
-  // instance.register()
-  instance.addHook("onSend", (request, reply, payload, done) => {
-    reply.header("content-type", "text/html; charset=utf-8")
-    done(null, payload)
-  })
   const adapter = new FastifyAdapter();
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,

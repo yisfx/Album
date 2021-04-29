@@ -27,11 +27,13 @@ export class LayoutInterceptor implements NestInterceptor {
         }
 
         const html = reactView({
-            css: !cssFile ? SysConfig.VisualStaticPath + "/" + cssFile : undefined,
+            css: cssFile ? SysConfig.VisualStaticPath + "/" + cssFile : undefined,
             initData: initalData,
             script: SysConfig.VisualStaticPath + "/" + content,
+            response
         })
         response.header("content-type", "text/html; charset=utf-8")
+        html.subscribe(content => response.send(content));
         return html
     }
 }
