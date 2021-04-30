@@ -13,7 +13,6 @@ import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { AddAlbumRequest } from "src/model/request/addAlbumRequest";
 
-
 function EditAlbumPopu(props: { album: Album }) {
 
     const [album, setAlbum] = useState(props.album || ({} as Album))
@@ -32,7 +31,7 @@ function EditAlbumPopu(props: { album: Album }) {
     }
 
     return <form>
-        <div className="row">
+        <div style={{ margin: "10px" }}>
             <div className="form-group">
                 <label>CN Name</label>
                 <input type="text"

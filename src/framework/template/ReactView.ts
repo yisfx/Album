@@ -22,14 +22,13 @@ const RenderHtml = (data: any, cssFile, scriptFile, response) => {
         <head>
             <title>TRAVEL</title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-            `
+        </head>
+        <body>
+        `
         +
         cssLink
         +
         `
-        
-        </head>
-        <body>
         <script>
             window.__reactData__=`+ JSON.stringify(data.initData) + `
         </script>
@@ -53,12 +52,6 @@ const RenderHtml = (data: any, cssFile, scriptFile, response) => {
     return html
 }
 
-
-
-const SendContent = (response, content) => {
-    response.send(content);
-    return content;
-}
 
 export default function reactView(
     viewOptions: Options

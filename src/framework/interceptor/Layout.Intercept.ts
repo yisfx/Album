@@ -7,7 +7,7 @@ import { SysConfig } from "../../conf/site.config";
 let ass = require("../../conf/assets.conf")
 let css = require("../../conf/assets.css")
 import metadata from "../decorators/constants";
-import reactView from "../ReactView";
+import reactView from "../template/ReactView";
 
 @Injectable()
 export class LayoutInterceptor implements NestInterceptor {

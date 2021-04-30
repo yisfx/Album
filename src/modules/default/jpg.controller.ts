@@ -6,6 +6,7 @@ import { GlobalConfig } from "../../conf/global.config";
 import { ParseImageEncryptionUri } from "../../framework/encryption/encryptionUri";
 import { PictureUrlLink } from "../../model/album";
 import { FastifyRequest, FastifyReply } from "fastify";
+import { ContentType } from "../../framework/types/contentType";
 
 @Controller()
 export class JPGController {
@@ -50,10 +51,14 @@ export class JPGController {
         let dir: string[] = req.url.split("/")
         let f = dir[dir.length - 1]
         let path: string
-        if (req.url.endsWith(".css"))
+        if (req.url.endsWith(".css")) {
+            res.header("content-type", ContentType.Css)
             path = SysConfig.JsPath;// SysConfig.CssPath///文件夹还未分开
-        else if (req.url.endsWith(".js"))
+        }
+        else if (req.url.endsWith(".js")) {
+            res.header("content-type", ContentType.Script)
             path = SysConfig.JsPath;
+        }
         else
             path = SysConfig.ImagePath
 
