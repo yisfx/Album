@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Redirect, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Query, Redirect, Req, UseInterceptors } from '@nestjs/common';
 import { RouteRender } from '../../framework/decorators/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 import { HttpClient } from '../../framework/httpclient/http.client';
@@ -10,6 +10,7 @@ import { BuildImageEncryptionUri } from '../../framework/encryption/encryptionUr
 import { BuildMenu } from './utils/menu-tool';
 import { Album } from '../../model/album';
 import { LayoutInterceptor } from '../../framework/interceptor/Layout.Intercept';
+import { FastifyRequest } from 'fastify';
 
 @Controller()
 @UseInterceptors(LayoutInterceptor)
@@ -60,8 +61,8 @@ export class AlbumController {
 	@Get(RouteConfig.ALBUM.route)
 	@RouteRender(RouteConfig.ALBUM.name)
 	async getHello() {
-		let resp = await this.getAlbumList();
-		return { initData: { ...resp } }
+		let albumList = await this.getAlbumList();
+		return { initData: { AlbumList: albumList } }
 	}
 
 	@Get()
@@ -71,11 +72,11 @@ export class AlbumController {
 		return { initData: { AlbumList: albumList } }
 	}
 
-	@Get(RouteConfig.AlbumPictureList.route)
+	@Get("/album/:route")
 	@RouteRender(RouteConfig.AlbumPictureList.name)
-	async AlbumPicture(@Param("route") route) {
+	async AlbumPicture(@Req() request: FastifyRequest, @Param() params) {
 
-		let name: string[] = Decrypt(route).split("-")
+		let name: string[] = Decrypt(params.route).split("-")
 		let albumName = name[0];
 		let date = name[1];
 		if (((new Date().getTime()) - (new Date(date)).getTime()) / (1000 * 60) > 100) {
@@ -85,5 +86,4 @@ export class AlbumController {
 		let resp = await this.getAlbum(albumName)
 		return { initData: { ...resp } }
 	}
-
 }

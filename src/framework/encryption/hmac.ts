@@ -11,10 +11,15 @@ const iv = Buffer.from(GlobalConfig.SHAIV);
 
 
 function Decrypt(txt: string): string {
-    const decipher = crypto.createDecipheriv(algorithm, key, iv); // 初始化解密算法
-    var ss = decipher.update(txt, "hex", "utf8")
-    return ss
+    try {
+        const decipher = crypto.createDecipheriv(algorithm, key, iv); // 初始化解密算法
+        var ss = decipher.update(txt, "hex", "utf8")
 
+        return ss
+    }
+    catch {
+        return ""
+    }
 }
 
 function Encrypt(txt: string) {
