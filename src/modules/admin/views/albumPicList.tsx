@@ -5,15 +5,12 @@ import { AlbumPicListContext, AlbumPicListReducer, AlbumPicListState, dispatchMi
 import { FXModal } from "../../../framework/components/modal/fxModal";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
-import { Upload } from "../../../framework/components/upload";
 import { BaseResponse } from "../../../model/response/baseResponse";
 import { Picture, Album } from "../../../model/album";
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { Ajax } from "../../../framework/httpclient/ajax";
 import { DeleteAlbumPictureRequest } from "src/model/request/deleteAlbumPicRequest";
 import { AddAlbumRequest } from "src/model/request/addAlbumRequest";
-
-declare let File: any
 
 enum DeleteType {
     Image = "Image",
@@ -56,6 +53,7 @@ function Pic(props: { p: Picture, album: Album }) {
             <div className="col-xs-4" style={{ wordWrap: "break-word" }}>
                 {props.p.Name}
             </div>
+            
             <div className="col-xs-4">
                 <button onClick={() => {
                     setDeleteConfirmModal({ show: true, deleteType: DeleteType.Image, ErrorMsg: "" })
@@ -122,13 +120,13 @@ function Top() {
     const [file, setFile] = useState(null);
 
     useEffect(() => {
-        File.prototype.convertToBase64 = function (callback) {
-            var FR = new FileReader();
-            FR.onload = function (e) {
-                callback(e.target.result)
-            };
-            FR.readAsDataURL(this);
-        }
+        // File.prototype.convertToBase64 = function (callback) {
+        //     var FR = new FileReader();
+        //     FR.onload = function (e) {
+        //         callback(e.target.result)
+        //     };
+        //     FR.readAsDataURL(this);
+        // }
     }, [])
 
 
@@ -140,6 +138,7 @@ function Top() {
                         <h1>{state.Album.Name}-{state.Album.CNName} <small>picture count({state.Album?.PicList?.length || 0})</small></h1>
                     </div>
                 </div>
+                
                 <div className="col-md-4">
                     <div className="page-header">
                         <button className="btn btn-default" type="submit" onClick={() => {
@@ -166,22 +165,12 @@ function Top() {
             close={() => { setOpenModal(false) }}
         >
             <div>
-                <Upload UploadUrl={"/PictureUploadApi"}
-                    Success={(response: BaseResponse) => {
-                        if (response.Result) {
-                            window.location.reload();
-                        }
-                    }}>
-                    {file &&
-                        <img src={`data:image/jpg;base64,${file}`} />
-                    }
-                    <input type="text" readOnly hidden={true} name="AlbumName" value={state.Album.Name} />
-                    <input type="file" name="files" onChange={(evt: any) => {
-                        evt.target.files[0].convertToBase64(base64 => {
-                            setFile(base64)
-                        })
-                    }} />
-                </Upload>
+                {file &&
+                    <img src={`data:image/jpg;base64,${file}`} />
+                }
+                <hr></hr>
+                <input type="file"></input>
+                <input type={"submit"} value="submit" />
             </div>
         </FXModal>
     </div>

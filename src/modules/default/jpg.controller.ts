@@ -22,7 +22,9 @@ export class JPGController {
         let picName = name.join("-").replace(`${albumName}-`, "")
         let p = join(GlobalConfig.AlbumPath, albumName, picName);
         if (fs.existsSync(p)) {
-            res.sendFile(p)
+            fs.readFile(p, (err, fileBuffer) => {
+                res.send(err || fileBuffer)
+            })
         } else {
             res.send("");
         }
