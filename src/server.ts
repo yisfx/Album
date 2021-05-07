@@ -5,15 +5,23 @@ import { SysConfig } from './conf/site.config';
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import fastify from 'fastify';
 import { AllExceptionsFilter } from './framework/filter/exception-filter';
+import bodyParser from "body-parser";
 
 //https://blog.csdn.net/qq_29334605/article/details/109670133
 //https://github.com/JeniTurtle/nestjs-fastify/blob/master/src/server.ts
 async function bootstrap() {
   const adapter = new FastifyAdapter();
+
+  // adapter.use(bodyParser.urlencoded({ limit: '20mb', extended: true }))
+  adapter.use(bodyParser.json())
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter
   );
+
+  app.register(bodyParser.json({ limit: '20mb' }));
+
+  app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
   // app.use(compression)
 
   // app.useGlobalFilters(

@@ -186,7 +186,7 @@ function Top() {
             <div>
                 {file.name &&
                     <div>
-                        <img src={file.base64} />
+                        <img src={file.base64} style={{ width: "50%", height: "50%", objectFit: "contain" }} />
                         <div>{file.name}</div>
                     </div>
                 }

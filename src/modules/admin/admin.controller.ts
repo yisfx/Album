@@ -41,7 +41,7 @@ export class AdminController {
         return { initData: { ...resp } }
     }
 
-    @Post("PictureUploadApi")
+    @Post("/ajax/api/PictureUploadApi")
     async PictureUpload(@Res() response, @UploadedFile("files") files, @Body() body) {
         let request: GetAlbumRequest = { AlbumName: body["AlbumName"] }
         let album = await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
@@ -57,26 +57,6 @@ export class AdminController {
         stream.close();
         response.send({ Result: true })
     }
-
-    // @Post("PictureUploadApi")
-    // @UseInterceptors(FilesInterceptor("files", 1))
-    async UploadBase64Picture(@Res() response, @UploadedFile("files") files, @Body() body) {
-
-        let request: GetAlbumRequest = { AlbumName: body["AlbumName"] }
-        let album = await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
-        if (album.Album?.PicList?.find((p) => p.Name === files[0].originalname)) {
-            response.send({ Result: false, ErrorMessage: "Exists Picture" })
-        }
-        ///save
-        let file = files[0];
-        let name = (file.originalname as string).split(".")
-        let fileName = album.Album.Name + "-" + name[0] + "-org." + name[1];
-        let stream = createWriteStream(join(album.Album.Path, fileName))
-        stream.write(file.buffer);
-        stream.close();
-        response.send({ Result: true })
-    }
-
 
     @Get(RouteConfig.AdminLogin.route)
     @RouteRender(RouteConfig.AdminLogin.name)
