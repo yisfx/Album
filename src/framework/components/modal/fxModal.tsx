@@ -11,50 +11,32 @@ interface Props {
     close?(): void
     attr?: React.HTMLAttributes<HTMLDivElement>
     showCloseBtn: boolean
+    backDropClose?: boolean
 }
 
 export const FXModal: FC<Props> = (props) => {
-    const ddd: HTMLDivElement = null;
-    const [popup, setPopup] = useState(ddd)
-
     const close = (p) => {
         p && document.body.removeChild(p);
-        setPopup(null);
         props.close && props.close();
     }
 
-
-    const render = () => {
-        let popup = document.createElement("div");
-        popup.className = "";
-        setPopup(popup);
-        document.body.appendChild(popup);
-
-        ReactDOM.render(<>
+    if (props.isOpen) {
+        return ReactDOM.createPortal(<>
             <div className="modal-container" onClick={() => {
-                close(popup)
+                props.backDropClose && close(null)
             }}></div>
             <div className="fx-modal-content" onClick={(evt) => {
-                evt.preventDefault();
+                //evt.preventDefault();
             }}
                 {...props.attr}
             >
                 {props.showCloseBtn &&
-                    <i className="modal-close-btn glyphicon glyphicon-remove" onClick={() => { close(popup) }}></i>
+                    <i className="modal-close-btn glyphicon glyphicon-remove" onClick={() => { close(null) }}></i>
                 }
-
                 {props.children}
             </div>
-        </>, popup)
+        </>, document.body);
+    } else {
+        return <></>
     }
-
-    useEffect(() => {
-        if (props.isOpen) {
-            render();
-        } else {
-            close(popup)
-        }
-    }, [props.isOpen])
-
-    return null;
 }

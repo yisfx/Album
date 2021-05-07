@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 import MasterPage from "../../../framework/master/@masterPage";
 import AdminMaster from "../../../framework/master/adminMaster";
 import { AlbumPicListContext, AlbumPicListReducer, AlbumPicListState, dispatchMiddleWare } from "../store/albumPicList.store";
@@ -11,6 +11,7 @@ import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { Ajax } from "../../../framework/httpclient/ajax";
 import { DeleteAlbumPictureRequest } from "src/model/request/deleteAlbumPicRequest";
 import { AddAlbumRequest } from "src/model/request/addAlbumRequest";
+import { debounce } from "lodash";
 
 enum DeleteType {
     Image = "Image",
@@ -53,7 +54,7 @@ function Pic(props: { p: Picture, album: Album }) {
             <div className="col-xs-4" style={{ wordWrap: "break-word" }}>
                 {props.p.Name}
             </div>
-            
+
             <div className="col-xs-4">
                 <button onClick={() => {
                     setDeleteConfirmModal({ show: true, deleteType: DeleteType.Image, ErrorMsg: "" })
@@ -114,20 +115,38 @@ function List() {
     </div>
 }
 
+declare let File: any
+
 function Top() {
     const { state, dispatcher } = useContext(AlbumPicListContext);
     const [openModal, setOpenModal] = useState(false)
-    const [file, setFile] = useState(null);
-
+    const [file, setFile] = useState({ base64: "", name: "" });
+    const [uploadError, setUploadError] = useState("");
     useEffect(() => {
-        // File.prototype.convertToBase64 = function (callback) {
-        //     var FR = new FileReader();
-        //     FR.onload = function (e) {
-        //         callback(e.target.result)
-        //     };
-        //     FR.readAsDataURL(this);
-        // }
+        File.prototype.convertToBase64 = function (callback) {
+            var FR = new FileReader();
+            FR.onload = function (e) {
+                callback(e.target.result)
+            };
+            FR.readAsDataURL(this);
+        }
     }, [])
+
+    const UploadPicture = () => {
+        if (!file.name || !file.base64) {
+            window.location.reload();
+            return;
+        }
+
+        Ajax("PictureUploadApi", { ...file, AlbumName: state.Album.Name }).then(resp => {
+            if (resp.Result) {
+                window.location.reload();
+            } else {
+                setUploadError(resp.ErrorMessage);
+            }
+        })
+    }
+
 
 
     return <div>
@@ -138,7 +157,7 @@ function Top() {
                         <h1>{state.Album.Name}-{state.Album.CNName} <small>picture count({state.Album?.PicList?.length || 0})</small></h1>
                     </div>
                 </div>
-                
+
                 <div className="col-md-4">
                     <div className="page-header">
                         <button className="btn btn-default" type="submit" onClick={() => {
@@ -162,15 +181,29 @@ function Top() {
             </div>
         </div>
         <FXModal showCloseBtn={true} isOpen={openModal}
-            close={() => { setOpenModal(false) }}
+            close={() => { setFile(null); setOpenModal(false) }}
         >
             <div>
-                {file &&
-                    <img src={`data:image/jpg;base64,${file}`} />
+                {file.name &&
+                    <div>
+                        <img src={file.base64} />
+                        <div>{file.name}</div>
+                    </div>
                 }
-                <hr></hr>
-                <input type="file"></input>
-                <input type={"submit"} value="submit" />
+
+                <input type="file" name='file' onChange={(evt: any) => {
+                    let name = evt.target.files[0].size + evt.target.files[0].name;
+                    evt.target.files[0].convertToBase64(base64 => {
+                        setFile({ base64, name })
+                    })
+                }} />
+                {uploadError &&
+                    <div className="alert alert-danger" role="alert">{uploadError}</div>
+                }
+                <input type="submit" value="上传" onClick={() => {
+                    UploadPicture();
+                }} />
+
             </div>
         </FXModal>
     </div>

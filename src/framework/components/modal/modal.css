@@ -18,6 +18,7 @@
     background-color: white;
     opacity: 100%;
     z-index: 9999;
+    padding: 10px;
 }
 
 .modal-close-btn {
