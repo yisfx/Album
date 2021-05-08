@@ -1,16 +1,15 @@
-import { Controller, Get, Param, Query, Redirect, Req, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Redirect, UseInterceptors } from '@nestjs/common';
 import { RouteRender } from '../../framework/decorators/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 import { HttpClient } from '../../framework/httpclient/http.client';
 import { AlbumListResponse } from '../../model/response/albumListResponse';
-import { Decrypt, Demo, Encrypt } from "../../framework/encryption/hmac";
+import { Decrypt, Encrypt } from "../../framework/encryption/hmac";
 import { GetAlbumRequest } from '../../model/request/getAlbumRequest';
 import { GetAlbumResponse } from '../../model/response/getAlbumResponse';
 import { BuildImageEncryptionUri } from '../../framework/encryption/encryptionUri';
 import { BuildMenu } from './utils/menu-tool';
 import { Album } from '../../model/album';
-import { LayoutInterceptor } from '../../framework/interceptor/Layout.Intercept';
-import { FastifyRequest } from 'fastify';
+import { LayoutInterceptor } from '../../framework/interceptor/layout.Interceptor';
 
 @Controller()
 @UseInterceptors(LayoutInterceptor)
@@ -74,7 +73,7 @@ export class AlbumController {
 
 	@Get("/album/:route")
 	@RouteRender(RouteConfig.AlbumPictureList.name)
-	async AlbumPicture(@Req() request: FastifyRequest, @Param() params) {
+	async AlbumPicture(@Param() params) {
 
 		let name: string[] = Decrypt(params.route).split("-")
 		let albumName = name[0];

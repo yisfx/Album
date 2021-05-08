@@ -1,7 +1,9 @@
-import React, { useContext, useReducer, useState } from "react";
+import React, { useState } from "react";
 import Master from "../../../framework/Master/master";
 import MasterPage from "../../../framework/Master/@masterPage";
 import { Ajax } from "../../../framework/httpclient/ajax";
+import { urlBuilder } from "../../..//framework/urlBuilder";
+import { PageNameList } from "../../../framework/route.config";
 
 if (process.env.BROWSER) {
     require('../../../../static/css/login.css')
@@ -33,10 +35,10 @@ function Pwd(props: { K: string, value: string, setValue: (key: string, value: s
 
 function Content(props: any) {
     const initPwdList = {
-        A: "关于郑州我知道的不多",
-        B: "看沉默的电话她什么都不说",
-        C: "让我查一下谷歌地图北仑怎么走",
-        D: "我在鼓楼的夜色中为你唱花香自来"
+        A: "1",
+        B: "2",
+        C: "3",
+        D: "4"
     }
     const pwdKeyList = ["A", "B", "C", "D"]
     const [pwd, setPwd] = useState(initPwdList);
@@ -49,9 +51,8 @@ function Content(props: any) {
         })
         Ajax("loginapi", pwd).then(resp => {
             if (resp.Result) {
-                
-                ///set cookie
-                ///
+
+                window.location.href=urlBuilder(PageNameList.AdminAlbum)
             }
         })
     }

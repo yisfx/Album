@@ -50,6 +50,7 @@ function List() {
                     setOpenImg(null);
                 }}
                 showCloseBtn={true}
+                backDropClose={true}
                 attr={{ style: { width: "100%", height: "100%", top: 0, left: 0, backgroundColor: "transparent" } }}
             >
                 <FXImage style={{ width: "100%", height: "100%", objectFit: "contain" }}
@@ -84,7 +85,7 @@ function Top() {
             {(showMore || !isfix) &&
                 <>
                     <small style={{ wordWrap: "break-word" }}
-                        dangerouslySetInnerHTML={{ __html: state.Album.Description }}></small>
+                        dangerouslySetInnerHTML={{ __html: splitDesc(state.Album.Description,true) }}></small>
                     {isfix &&
                         <small style={{ wordWrap: "break-word" }}>
                             <a href="#" onClick={() => { setShowMore(false) }} style={{ wordWrap: "break-word" }}> less</a>

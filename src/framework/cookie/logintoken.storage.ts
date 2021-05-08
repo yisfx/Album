@@ -1,12 +1,14 @@
-import { FastifyReply } from "fastify";
+import { FXCellCookie } from "./cellFXCookie";
+import { CookieName } from "./cookieName";
 
 
-export function useLoginTokenStorage(cookie: FastifyReply) {
+export function useLoginTokenStorage(cookie: FXCellCookie[]) {
 
-    const kookie = cookie;
+    const currentCookie = cookie?.find(d => d.key == CookieName.OnlyIdentificationKey);
+
     return {
         getToken() {
-            return kookie.cookie[""]
+            return currentCookie?.value
         }
     }
 

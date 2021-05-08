@@ -1,41 +1,39 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { LayoutInterceptor } from './framework/interceptor/Layout.Intercept';
 import { SysConfig } from './conf/site.config';
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import fastify from 'fastify';
-import { AllExceptionsFilter } from './framework/filter/exception-filter';
-import bodyParser from "body-parser";
+import * as hmac from "./framework/encryption/hmac";
+import { CSPInterceptor } from './framework/interceptor/csp.interceptor';
+
+
 
 //https://blog.csdn.net/qq_29334605/article/details/109670133
 //https://github.com/JeniTurtle/nestjs-fastify/blob/master/src/server.ts
 async function bootstrap() {
-  const adapter = new FastifyAdapter();
 
-  // adapter.use(bodyParser.urlencoded({ limit: '20mb', extended: true }))
-  adapter.use(bodyParser.json())
+  const instance = fastify({ bodyLimit: 10240000, maxParamLength: 180 })
+  const adapter = new FastifyAdapter(instance);
+
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter
   );
 
-  app.register(bodyParser.json({ limit: '20mb' }));
-
-  app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
   // app.use(compression)
 
+  app.useGlobalInterceptors(...[new CSPInterceptor()])
   // app.useGlobalFilters(
   //   ...[new AllExceptionsFilter()],
   // )
 
 
   console.log("global Config-----------------------------------------:")
-  // Object.keys(GlobalConfig.AdminPwd).map(key => {
-  // console.log("A", ":", Encrypt(""))
-  // console.log("B", ":", Encrypt(""))
-  // console.log("C", ":", Encrypt(""))
-  // console.log("D", ":", Encrypt(""))
-  // })
+  console.log("A", ":", hmac.Encrypt("1"))
+  console.log("B", ":", hmac.Encrypt("2"))
+  console.log("C", ":", hmac.Encrypt("3"))
+  console.log("D", ":", hmac.Encrypt("4"))
+
   console.log("global Config-----------------------------------------:")
 
   await app.listen(SysConfig.port, (error, address) => {

@@ -9,9 +9,8 @@ import { BaseResponse } from "../../../model/response/baseResponse";
 import { Picture, Album } from "../../../model/album";
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { Ajax } from "../../../framework/httpclient/ajax";
-import { DeleteAlbumPictureRequest } from "src/model/request/deleteAlbumPicRequest";
-import { AddAlbumRequest } from "src/model/request/addAlbumRequest";
-import { debounce } from "lodash";
+import { DeleteAlbumPictureRequest } from "../../../model/request/deleteAlbumPicRequest";
+import { AddAlbumRequest } from "../../../model/request/addAlbumRequest";
 
 enum DeleteType {
     Image = "Image",
@@ -181,7 +180,7 @@ function Top() {
             </div>
         </div>
         <FXModal showCloseBtn={true} isOpen={openModal}
-            close={() => { setFile(null); setOpenModal(false) }}
+            close={() => { setFile({ name: "", base64: "" }); setOpenModal(false) }}
         >
             <div>
                 {file.name &&

@@ -62,7 +62,7 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
                                 >
                                     <div>{v.Name}</div>
                                     <div>{v.Date}</div>
-                                    <div >{splitDesc(v.Description)}...</div>
+                                    <div dangerouslySetInnerHTML={{ __html: `${splitDesc(v.Description)}...` }} >{ }</div>
                                 </div>
                             </div>
                         </div>

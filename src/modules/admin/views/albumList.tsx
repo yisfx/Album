@@ -12,6 +12,7 @@ import { Album } from "../../../model/album";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { AddAlbumRequest } from "src/model/request/addAlbumRequest";
+import { splitDesc } from "../../../modules/picture/utils/strUtils";
 
 function EditAlbumPopu(props: { album: Album }) {
 
@@ -152,7 +153,7 @@ function AlbumContent(prop: { album: Album }) {
                 <div>Name:{prop.album.Name}</div>
                 <div>CNName:{prop.album.CNName}</div>
                 <div>Date:{prop.album.Date}</div>
-                <div>Description:{prop.album.Description}</div>
+                <div dangerouslySetInnerHTML={{ __html: `Description:${splitDesc(prop.album.Description)}` }}></div>
             </div>
             <div className="col-lg-2"></div>
             <button type="button" className="btn btn-info"
