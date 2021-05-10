@@ -52,9 +52,13 @@ export class HttpClient {
                         },
                         body: str
                     }, (err, response, body) => {
+
                         if (!!err) {
                             reject(err)
                         } else {
+                            if (response.statusCode != 200) {
+                                reject({ error: "service error", htttpStatus: response.statusCode })
+                            }
                             try {
                                 let resp = JSON.parse((body as string))
                                 resolve(resp);
@@ -64,12 +68,10 @@ export class HttpClient {
                         }
                     })
             } catch (ex) {
-                reject({ Result: false, ErrorMessage: "sevice error" })
+                reject("service error")
             }
         })
         return result;
 
     }
-
-
 }

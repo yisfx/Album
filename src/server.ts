@@ -5,10 +5,10 @@ import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify
 import fastify from 'fastify';
 import * as hmac from "./framework/encryption/hmac";
 import { CSPInterceptor } from './framework/interceptor/csp.interceptor';
+import { AllExceptionsFilter } from './framework/filter/exception-filter';
 
 
 
-//https://blog.csdn.net/qq_29334605/article/details/109670133
 //https://github.com/JeniTurtle/nestjs-fastify/blob/master/src/server.ts
 async function bootstrap() {
 
@@ -22,10 +22,11 @@ async function bootstrap() {
 
   // app.use(compression)
 
-  app.useGlobalInterceptors(...[new CSPInterceptor()])
-  // app.useGlobalFilters(
-  //   ...[new AllExceptionsFilter()],
-  // )
+  app.useGlobalInterceptors(new CSPInterceptor())
+  app.useGlobalFilters(
+    new AllExceptionsFilter(),
+  )
+
 
 
   console.log("global Config-----------------------------------------:")
@@ -33,8 +34,11 @@ async function bootstrap() {
   console.log("B", ":", hmac.Encrypt("2"))
   console.log("C", ":", hmac.Encrypt("3"))
   console.log("D", ":", hmac.Encrypt("4"))
-
   console.log("global Config-----------------------------------------:")
+
+  process.on("uncaughtException", (err: Error) => {
+    console.log(err)
+  });
 
   await app.listen(SysConfig.port, (error, address) => {
     if (error) {

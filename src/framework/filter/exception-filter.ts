@@ -1,14 +1,16 @@
-import { ArgumentsHost, Catch } from "@nestjs/common";
+import { ArgumentsHost, Catch, HttpException } from "@nestjs/common";
 import { BaseExceptionFilter } from "@nestjs/core";
 
 @Catch()
 export class AllExceptionsFilter extends BaseExceptionFilter {
     constructor() {
-        super();
+        super()
     }
-
     catch(exception: any, host: ArgumentsHost) {
-        //process
-        throw new exception("error");
+
+        throw new HttpException(JSON.stringify({
+            status: 500,
+            error: 'oops',
+        }), 500);
     }
 }

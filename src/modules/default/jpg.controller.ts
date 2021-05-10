@@ -55,7 +55,7 @@ export class JPGController {
         let path: string
         if (req.url.endsWith(".css")) {
             res.header("content-type", ContentType.Css)
-            path = SysConfig.JsPath;// SysConfig.CssPath///文件夹还未分开
+            path = SysConfig.CssPath;
         }
         else if (req.url.endsWith(".js")) {
             res.header("content-type", ContentType.Script)
