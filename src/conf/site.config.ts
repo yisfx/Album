@@ -9,7 +9,7 @@ const SysConfig: SystemConfig = {
     CssPath: "public/css",
     ImagePath: "public/image",
 
-    GlobalConfigPath: "C://Users//wangs//Desktop//site//github//album//src//conf//global.setting.json",
+    GlobalConfigPath: "/global/global.setting.json",
 }
 
 

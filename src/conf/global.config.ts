@@ -1,7 +1,5 @@
 import { GlobalSetting } from "../model/SystemConfig"
 import { SysConfig } from "./site.config";
-import crypto from "crypto";
-
 
 function getGlobalConfig(): Partial<GlobalSetting> {
     if (process.env.BROWSER)
