@@ -1,13 +1,14 @@
 import gulp, { series } from "gulp";
 import webpack from "webpack";
-import wenpackDevConfig from "./tools/webpack/webpack.dev.config"
+import webpackDevConfig from "./tools/webpack/webpack.dev.config"
 import webpackPublishConfig from "./tools/webpack/webpack.publish.config";
+import fs from "fs";
 
-import ts from "gulp-typescript";
+
 import { exec } from "child_process";
 
-const tsProject = ts.createProject("tsconfig.json")
 import * as os from "os"
+import { string } from "yargs";
 
 type Platform = 'aix'
     | 'android'
@@ -30,10 +31,31 @@ gulp.task("listening", (cb) => {
     })
 })
 
+gulp.task("staticPublish", (cb) => {
+    gulp.src("./static/image/**.*")
+        .pipe(gulp.dest("./dist/release/public/static/image/"))
+    // gulp.src("./package.json")
+    //     .pipe(gulp.dest("./dist/release"))
+
+    let pkg = JSON.parse(fs.readFileSync("./package.json").toString("utf-8"));
+    pkg.devDependencies = undefined;
+    fs.writeFileSync("./dist/release/package.json", JSON.stringify(pkg, null, 4))
+
+    gulp.src("./Dockerfile")
+        .pipe(gulp.dest("./dist/release"))
+    cb();
+})
+
+gulp.task("devStatic", (cb) => {
+    gulp.src("./static/image/**.*")
+        .pipe(gulp.dest("./dist//dev/public/static/image/"))
+    cb();
+})
+
 
 gulp.task("webpack", (cb) => {
     webpack(
-        <webpack.Configuration>{ ...wenpackDevConfig },
+        <webpack.Configuration>{ ...webpackDevConfig },
         (err, stats) => {
             cb();
             if (!!err)
@@ -55,7 +77,7 @@ gulp.task("webpackPublish", (cb) => {
 gulp.task("tscPublish", (cb) => {
     try {
         console.log("tscPublish ing")
-        exec("tsc -b");
+        exec("tsc -b tsconfig.release.json");
     } finally {
         cb()
     }
@@ -63,11 +85,7 @@ gulp.task("tscPublish", (cb) => {
 
 gulp.task("tsc", async (cb) => {
     try {
-        await exec("start cmd.exe /K tsc -b --watch")
-        // return tsProject.src()
-        //     .pipe(tsProject())
-        //     .js
-        //     .pipe(gulp.dest("dist"))
+        await exec("start cmd.exe /K tsc -b tsconfig.json --watch")
     } finally {
         cb()
     }
@@ -75,7 +93,7 @@ gulp.task("tsc", async (cb) => {
 
 gulp.task("run", async (cb) => {
     try {
-        await exec("start cmd.exe /K nodemon --inspect ./dist/server.js")
+        await exec("start cmd.exe /K node ./node_modules/nodemon/bin/nodemon.js ./dist/dev/server.js")
     } finally {
         cb()
     }
@@ -92,10 +110,12 @@ gulp.task("run", async (cb) => {
 exports.publish = series(
     "webpackPublish",
     "tscPublish",
+    "staticPublish",
 );
 exports.dev = series(
     "webpack",
     "tsc",
+    "devStatic",
     "run"
 )
 exports.default = series(

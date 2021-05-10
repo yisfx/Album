@@ -9,7 +9,7 @@
     "target": "es6",
     "jsx": "react",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "./dist/dev",
     "baseUrl": "./",
     "incremental": true,
     "esModuleInterop": true

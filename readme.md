@@ -14,7 +14,7 @@ $ yarn start
 
 ## Stay in touch
 - Website - [www.fxfxfxfx.cn](www.fxfxfxfx.cn)
-- file to base64 - [file to base64](https://blog.csdn.net/qq_21987433/article/details/108344682)
+- docker virual driver host machine windows - [docker virual driver host machine windows](https://www.cnblogs.com/bincoding/p/12009780.html)
 
 ## License
 
