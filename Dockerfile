@@ -1,15 +1,15 @@
 FROM docker.io/wangsaihaizai/node:v1
-# WORKDIR /app
+WORKDIR /app
 COPY dist/release/ .
-# RUN yarn --production
+RUN yarn install --production
 
 
 FROM docker.io/wangsaihaizai/node:v1
-# RUN apk update && apk add --no-cache tzdata
+RUN yarn install --production
 # USER node
 WORKDIR /app
-COPY --from=build /app /app
-# EXPOSE 9000
-# ENV NODE_ENV=production
-# ENV GLOBCONFIG=/global/global.setting.json
-CMD [ "node", "--max-http-header-size=262144", "./server.js" ]
+COPY /dist/release /app
+EXPOSE 9000
+ENV NODE_ENV=production
+ENV GLOBCONFIG=/global/global.setting.json
+CMD ["yarn" ]
