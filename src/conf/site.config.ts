@@ -9,7 +9,7 @@ const SysConfig: SystemConfig = {
     CssPath: "public/css",
     ImagePath: "public/image",
 
-    GlobalConfigPath: "/global/global.setting.json",
+    GlobalConfigPath: "C://Users//wangs//Desktop//album//DockerDesktop//global/global.setting.json",
 }
 
 

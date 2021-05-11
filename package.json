@@ -7,7 +7,9 @@
     "license": "UNLICENSED",
     "scripts": {
         "start": "gulp dev",
-        "release": "gulp publish"
+        "release": "gulp publish",
+        "docker:run": "ts-node dockerRun.ts",
+        "docker:build": "ts-node dockerBuild.ts"
     },
     "dependencies": {
         "@nestjs/cli": "7.0.0",
