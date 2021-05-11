@@ -3,12 +3,12 @@ import webpack from "webpack";
 import webpackDevConfig from "./tools/webpack/webpack.dev.config"
 import webpackPublishConfig from "./tools/webpack/webpack.publish.config";
 import fs from "fs";
-
+import del from "del"
+import vinylPaths from "vinyl-paths"
 
 import { exec } from "child_process";
 
 import * as os from "os"
-import { string } from "yargs";
 
 type Platform = 'aix'
     | 'android'
@@ -31,6 +31,14 @@ gulp.task("listening", (cb) => {
     })
 })
 
+
+gulp.task('delete', async (cb) => {
+    gulp.src("./dist/release/*")
+        .pipe(vinylPaths(del))
+    cb();
+})
+
+
 gulp.task("staticPublish", (cb) => {
     gulp.src("./static/image/**.*")
         .pipe(gulp.dest("./dist/release/public/static/image/"))
@@ -40,9 +48,6 @@ gulp.task("staticPublish", (cb) => {
     let pkg = JSON.parse(fs.readFileSync("./package.json").toString("utf-8"));
     pkg.devDependencies = undefined;
     fs.writeFileSync("./dist/release/package.json", JSON.stringify(pkg, null, 4))
-
-    gulp.src("./Dockerfile")
-        .pipe(gulp.dest("./dist/release"))
     cb();
 })
 
@@ -108,6 +113,7 @@ gulp.task("run", async (cb) => {
 // }
 
 exports.publish = series(
+    "delete",
     "webpackPublish",
     "tscPublish",
     "staticPublish",

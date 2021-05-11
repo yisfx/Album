@@ -1,6 +1,6 @@
 import path from "path";
 import os from 'os';
-import { smart } from 'webpack-merge';
+import smart from 'webpack-merge';
 import { RouteConfig } from "../../src/framework/route.config";
 import { SysConfig } from "../../src/conf/site.config";
 import CommonConfig from "./webpack.common";
