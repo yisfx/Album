@@ -4,7 +4,6 @@ COPY /dist/release/ /app
 RUN npm install
 # USER node
 EXPOSE 9000
-VOLUME ["/","/app"]
 ENV NODE_ENV=production
 ENV GLOBCONFIG=/global/global.setting.json
 CMD ["node","server.js"]
