@@ -40,7 +40,7 @@ async function bootstrap() {
     console.log(err)
   });
 
-  await app.listen(SysConfig.port, (error, address) => {
+  await app.listen(SysConfig.port,"0.0.0.0", (error, address) => {
     if (error) {
       console.log(error);
       process.exit(1)
