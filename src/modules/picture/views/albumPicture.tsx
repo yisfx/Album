@@ -7,9 +7,9 @@ import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { FXModal } from "../../../framework/components/modal/fxModal";
 import { splitDesc } from "../utils/strUtils";
 
-if (process.env.BROWSER) {
+// if (process.env.BROWSER) {
     require('../../../../static/css/albumPictureList.css')
-}
+// }
 
 
 function Pic(props: { pic: Picture }) {

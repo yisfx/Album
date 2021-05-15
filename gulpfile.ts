@@ -104,14 +104,6 @@ gulp.task("run", async (cb) => {
     }
 })
 
-// if (process.argv && process.argv.length > 2) {
-//     let name = process.argv[2];
-//     switch (name) {
-//         case "build": break;
-//         default: task = [...task, "run"];
-//     }
-// }
-
 exports.publish = series(
     "delete",
     "webpackPublish",

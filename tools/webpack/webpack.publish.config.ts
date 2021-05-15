@@ -8,6 +8,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HappyPack from "happypack";
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 import AssetsPlugin from "assets-webpack-plugin";
+import { filterFileName } from "../fileTool";
 
 const config = smart(CommonConfig, {
     entry: () => {
@@ -21,6 +22,7 @@ const config = smart(CommonConfig, {
     },
     output: {
         filename: '[name]-[contenthash:8].js',
+        publicPath:"",
         path: path.join(__dirname, "../../dist/release", SysConfig.JsPath)
     },
     plugins: [
@@ -49,7 +51,7 @@ const config = smart(CommonConfig, {
                     (acc, [k, v]) => v.js ? ({ [k]: v.js, ...acc }) : acc, {}
                 );
                 console.log("js map path:", path.join(__dirname, "../../dist/release/conf"))
-                console.log("js assets:", output);
+                console.log("js assets:", scripts);
                 return `${JSON.stringify(scripts, null, 2)}`;
             }
         }),
@@ -61,7 +63,7 @@ const config = smart(CommonConfig, {
 
                 for (let key in x) {
                     if (!!key && !!x[key].css) {
-                        styles[key] = x[key].css;
+                        styles[key] = filterFileName(x[key].css);
                     }
                 }
                 console.log("css map path:", path.join(__dirname, "../../dist/release/conf"))

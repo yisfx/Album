@@ -5,9 +5,9 @@ import { Ajax } from "../../../framework/httpclient/ajax";
 import { urlBuilder } from "../../..//framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 
-if (process.env.BROWSER) {
+// if (!process!.env!.BROWSER) {
     require('../../../../static/css/login.css')
-}
+// }
 
 
 function Pwd(props: { K: string, value: string, setValue: (key: string, value: string) => void }) {
@@ -52,7 +52,7 @@ function Content(props: any) {
         Ajax("loginapi", pwd).then(resp => {
             if (resp.Result) {
 
-                window.location.href=urlBuilder(PageNameList.AdminAlbum)
+                window.location.href = urlBuilder(PageNameList.AdminAlbum)
             }
         })
     }

@@ -11,7 +11,7 @@ import { FXImage, ImageType } from "../../../framework/components/FXImage";
 import { Album } from "../../../model/album";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
-import { AddAlbumRequest } from "src/model/request/addAlbumRequest";
+import { AddAlbumRequest } from "../../../model/request/addAlbumRequest";
 import { splitDesc } from "../../../modules/picture/utils/strUtils";
 
 function EditAlbumPopu(props: { album: Album }) {

@@ -30,3 +30,11 @@ function walkDir(from: string, target: string) {
         }
     });
 }
+
+export function filterFileName(name) {
+    if (typeof name == "string") {
+        let n = name.split('/')
+        return n[n.length - 1]
+    }
+    return name;
+}

@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-if (process.env.BROWSER) {
+// if (process.env.BROWSER) {
     require('./modal.css')
-}
+// }
 
 interface Props {
     size?: { width: string, height: string, marginLeft: string, marginTop: string }

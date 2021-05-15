@@ -10,10 +10,10 @@ import { PageNameList } from "../../../framework/route.config";
 import { isMobile } from "../../../framework/utils";
 import { splitDesc } from "../utils/strUtils";
 
-if (process.env.BROWSER) {
+// if (process.env.BROWSER) {
     require('../../../../static/css/main.css')
     require('swiper/dist/css/swiper.css')
-}
+// }
 
 
 function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
