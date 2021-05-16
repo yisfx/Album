@@ -73,8 +73,18 @@ export class JPGController {
         let dir: string[] = req.url.split("/")
         let f = dir[dir.length - 1]
         let path: string = SysConfig.ImagePath
-
+        
         fs.readFile(join(__dirname, '../../', path, f), (err, fileBuffer) => {
+            res.send(err || fileBuffer)
+        })
+    }
+
+    @Get("favicon.ico")
+    favicon(@Res() res: FastifyReply){
+        let path = SysConfig.ImagePath;
+        res.header("content-type", "content-type: image/x-icon");
+        
+        fs.readFile(join(__dirname, '../../', path, "snow.png"), (err, fileBuffer) => {
             res.send(err || fileBuffer)
         })
     }

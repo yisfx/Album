@@ -9,6 +9,6 @@ const SysConfig: SystemConfig = {
     ImagePath: "public/image",
     GlobalConfigPath: "/app/album/global.setting.json",
 }
-
+// "C://Users//wangs//Desktop//album//DockerDesktop//global//global.setting.json",
 
 export { SysConfig }

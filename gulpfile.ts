@@ -41,7 +41,7 @@ gulp.task('delete', async (cb) => {
 
 gulp.task("staticPublish", (cb) => {
     gulp.src("./static/image/**.*")
-        .pipe(gulp.dest("./dist/release/public/static/image/"))
+        .pipe(gulp.dest("./dist/release/public/image/"))
     // gulp.src("./package.json")
     //     .pipe(gulp.dest("./dist/release"))
 
@@ -53,7 +53,7 @@ gulp.task("staticPublish", (cb) => {
 
 gulp.task("devStatic", (cb) => {
     gulp.src("./static/image/**.*")
-        .pipe(gulp.dest("./dist//dev/public/static/image/"))
+        .pipe(gulp.dest("./dist//dev/public/image/"))
     cb();
 })
 
