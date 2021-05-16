@@ -1,7 +1,7 @@
 import { SystemConfig } from "../model/SystemConfig"
 const SysConfig: SystemConfig = {
     port: 9000,
-    domain: "https://www.fxfxfxfx.cn",
+    domain: "",
     VisualStaticPath: "/kjsdfh",
     MixPath: "/mix",
     JsPath: "public/script",

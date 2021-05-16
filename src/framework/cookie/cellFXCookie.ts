@@ -19,7 +19,7 @@ export class FXCellCookie {
     }
     private get expires() {
         if (this.config.session)
-            return "Thu, 01 Jan 1970 00:00:01 GMT";
+            return "";
         return expiresGMTString(this.config.options.expireAfter);
     }
     private get secure() {

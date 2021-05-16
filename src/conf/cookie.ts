@@ -17,7 +17,7 @@ export type CookieType = {
 const _CookieConfig: { [s: string]: CookieType } = {
     OnlyIdentificationKey: {
         key: "fx%5OIK",
-        session: false,
+        session: true,
         options: {
             path: "/",
             expireAfter: 300000,
