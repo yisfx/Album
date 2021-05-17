@@ -22,7 +22,7 @@ export class AlbumController {
 		if (resp?.Result) {
 			resp.AlbumList = resp.AlbumList.map(album => {
 				let a: any = {
-					Cover: BuildImageEncryptionUri(album.Name, album.Cover, "Max"),
+					Cover: BuildImageEncryptionUri(album.Name, album.Cover, "max"),
 					Name: album.CNName,
 					Date: album.Date,
 					Description: album.Description,
@@ -43,8 +43,8 @@ export class AlbumController {
 			resp.Album.PicList.map(p => {
 				p.Album = null
 				p.OrgPath = null;
-				p.MaxPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "Max");
-				p.MiniPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "Mini");
+				p.MaxPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "max");
+				p.MiniPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "mini");
 				p.Name = null;
 			})
 

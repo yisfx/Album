@@ -21,7 +21,7 @@ export interface Picture {
 
 export interface PictureUrlLink {
     Name: string
-    Type: "Max" | "Mini"
+    Type: "max" | "mini"
     DateTime: string
     AlbumName: string
 }

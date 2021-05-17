@@ -10,9 +10,9 @@ export const ValidateLogin = (token: string, request: FastifyRequestWithCookie) 
     if (password.IP != request.ip) {
         return false;
     }
-    if (((new Date()).getTime() - new Date(password.Date).getTime()) / 1000 > 5 * 60) {
-        return false;
-    }
+    // if (((new Date()).getTime() - new Date(password.Date).getTime()) / 1000 > 5 * 60) {
+    //     return false;
+    // }
 
     let result = Object.keys(password.PasswordList).map(key => {
         return GlobalConfig.AdminPwd[key] == password.PasswordList[key]
