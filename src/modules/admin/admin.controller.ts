@@ -58,7 +58,7 @@ export class AdminController {
         let dataBuffer = Buffer.from(base64Data, 'base64');
         let name = (body.name).split(".")
 
-        let fileName = path.join(album.Album.Path, album.Album.Name + "-" + name[0] + "-org." + name[1]);
+        let fileName = path.join(album.Album.Path, (album.Album.Name + "-" + name[0] + "-org." + name[1]).toLocaleLowerCase());
 
         fs.writeFileSync(fileName, dataBuffer)
         response.send({ Result: true })
