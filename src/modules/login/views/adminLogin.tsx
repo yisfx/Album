@@ -35,10 +35,10 @@ function Pwd(props: { K: string, value: string, setValue: (key: string, value: s
 
 function Content(props: any) {
     const initPwdList = {
-        A: "1",
-        B: "2",
-        C: "3",
-        D: "4"
+        A: "A",
+        B: "B",
+        C: "C",
+        D: "D"
     }
     const pwdKeyList = ["A", "B", "C", "D"]
     const [pwd, setPwd] = useState(initPwdList);

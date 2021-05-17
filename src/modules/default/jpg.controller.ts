@@ -26,7 +26,7 @@ export class JPGController {
                 res.send(err || fileBuffer)
             })
         } else {
-            res.send("");
+            res.send("404");
         }
     }
 
@@ -35,16 +35,17 @@ export class JPGController {
         let dir: string[] = req.url.split("/")
         const uri: PictureUrlLink = ParseImageEncryptionUri(dir[dir.length - 1])
         if (!uri) {
-            res.send("");
+            res.send("url error");
         }
 
         let p = join(GlobalConfig.AlbumPath, uri.AlbumName, uri.Name + "-" + uri.Type) + ".jpg";
         if (fs.existsSync(p)) {
+            res.header("content-type", ContentType.Jpg)
             fs.readFile(p, (err, fileBuffer) => {
                 res.send(err || fileBuffer)
             })
         } else {
-            res.send("");
+            res.send("file 404");
         }
     }
 
