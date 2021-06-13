@@ -13,8 +13,8 @@ enum ServiceType {
 
 
 const ServiceHost: { [key: string]: string } = {
-    "Album": "http://localhost:9001/",
-    "Admin": "http://localhost:9001/",
+    "Album": "http://localhost:9001/api/",
+    "Admin": "http://localhost:9001/api/",
 }
 
 const RestfulService: { [key: string]: Resuful } = {

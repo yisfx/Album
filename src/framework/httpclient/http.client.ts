@@ -45,7 +45,7 @@ export class HttpClient {
             try {
                 request(uri,
                     {
-                        method: "GET",
+                        method: restful.Method,
                         timeout: 5000,
                         headers: {
                             "content-type": "application/json"
