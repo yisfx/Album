@@ -115,7 +115,7 @@ function List() {
 }
 
 declare let File: any
-
+const preCount = 80000
 function Top() {
     const { state, dispatcher } = useContext(AlbumPicListContext);
     const [openModal, setOpenModal] = useState(false)
@@ -131,19 +131,44 @@ function Top() {
         }
     }, [])
 
-    const UploadPicture = () => {
+
+    const upload =async (part: string, partIndex: number) => {
+        let request: PicturePartUploadRequest = {
+            PartIndex: partIndex,
+            Value: part,
+            IsLastPart: false,
+            PictureName: file.name,
+            AlbumName: state.Album.Name
+        }
+        await Ajax("uploadImagePartApi", request).then()
+
+        console.log(request)
+    }
+
+    const UploadPicture = async () => {
         if (!file.name || !file.base64) {
             window.location.reload();
             return;
         }
 
-        Ajax("PictureUploadApi", { ...file, AlbumName: state.Album.Name }).then(resp => {
-            if (resp.Result) {
-                window.location.reload();
-            } else {
-                setUploadError(resp.ErrorMessage);
-            }
-        })
+
+        let count = file.base64.length / 80000;
+
+        if (count < 2) {
+            await upload(file.base64, 0)
+        }
+
+        for (let index = 0; index <= count; index++) {
+            upload(file.base64.substr(index * preCount, preCount), index)
+        }
+        alert("done")
+        // Ajax("PictureUploadApi", { ...file, AlbumName: state.Album.Name }).then(resp => {
+        //     if (resp.Result) {
+        //         window.location.reload();
+        //     } else {
+        //         setUploadError(resp.ErrorMessage);
+        //     }
+        // })
     }
 
 
