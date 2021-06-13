@@ -132,17 +132,15 @@ function Top() {
     }, [])
 
 
-    const upload =async (part: string, partIndex: number) => {
+    const upload =async (part: string, partIndex: number,isLast:boolean) => {
         let request: PicturePartUploadRequest = {
             PartIndex: partIndex,
             Value: part,
-            IsLastPart: false,
+            IsLastPart: isLast,
             PictureName: file.name,
             AlbumName: state.Album.Name
         }
         await Ajax("uploadImagePartApi", request).then()
-
-        console.log(request)
     }
 
     const UploadPicture = async () => {
@@ -151,15 +149,24 @@ function Top() {
             return;
         }
 
-
         let count = file.base64.length / 80000;
 
         if (count < 2) {
-            await upload(file.base64, 0)
+            await upload(file.base64, 0,true)
         }
-
+        let isContinue=true;
+        let index=0;
+        while(isContinue){
+            let pre= file.base64.substr(index * preCount, preCount)
+            if(!pre){
+                isContinue=false
+            }
+            await upload(pre, index,!pre)
+            index++;
+        }
         for (let index = 0; index <= count; index++) {
-            upload(file.base64.substr(index * preCount, preCount), index)
+            file.base64.substr(index * preCount, preCount)
+            await upload(file.base64.substr(index * preCount, preCount), index,index==count)
         }
         alert("done")
         // Ajax("PictureUploadApi", { ...file, AlbumName: state.Album.Name }).then(resp => {
