@@ -10,6 +10,7 @@ import { LayoutInterceptor } from "../../framework/interceptor/layout.Intercepto
 import fs from "fs";
 import path from "path";
 import { LoginGuard } from "../../framework/guards/login.guard";
+import { BaseResponse } from "src/model/response/baseResponse";
 
 @Controller()
 @UseInterceptors(LayoutInterceptor)
@@ -59,7 +60,7 @@ export class AdminController {
         let name = (body.name).split(".")
 
         let fileName = path.join(album.Album.Path, (album.Album.Name + "-" + name[0] + "-org." + name[1]).toLocaleLowerCase());
-
+        await this.httpClient.createClient<BaseResponse>("uploadImage", { AlbumName: body.AlbumName, PictureName: album.Album.Name + "-" + name[0]});
         fs.writeFileSync(fileName, dataBuffer)
         response.send({ Result: true })
     }

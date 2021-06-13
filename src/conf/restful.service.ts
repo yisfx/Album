@@ -47,6 +47,11 @@ const RestfulService: { [key: string]: Resuful } = {
         Method: "POST",
         URL: "Manage/login",
         Service: ServiceType.Album
+    },
+    "uploadImage":{
+        Method:"POST",
+        URL:"Manage/UploadImage",
+        Service:ServiceType.Admin
     }
 }
 
