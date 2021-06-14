@@ -108,7 +108,7 @@ function Top() {
 
     return <div className="row">
         <div style={{ marginTop: "100px" }}></div>
-        <div className="col-md-8">
+        <div className="col-md-4">
             <div className="page-header">
                 <h3>Current Album Count({state.AlbumList?.length})</h3>
             </div>
@@ -122,6 +122,36 @@ function Top() {
                     setIsOpen(true)
                 }}
             >Create Album</button>
+        </div>
+        <div className="col-md-2">
+            <button
+                type="button"
+                className="btn btn-info"
+                onClick={() => {
+                    Ajax("buildAllAlbumApi", {}).then((resp: BaseResponse) => {
+                        if (resp.Result) {
+                            window.location.reload();
+                        } else {
+                            setErrorMsg(resp.ErrorMessage);
+                        }
+                    });
+                }}
+            >Buid All Album</button>
+        </div>
+        <div className="col-md-2">
+            <button
+                type="button"
+                className="btn btn-info"
+                onClick={() => {
+                    Ajax("buildAlbumPictureApi", {}).then((resp: BaseResponse) => {
+                        if (resp.Result) {
+                            window.location.reload();
+                        } else {
+                            setErrorMsg(resp.ErrorMessage);
+                        }
+                    });
+                }}
+            >Buid All Album Picture</button>
         </div>
         {isOpen &&
             <FXModal
@@ -153,7 +183,7 @@ function AlbumContent(prop: { album: Album }) {
                 <div>Name:{prop.album.Name}</div>
                 <div>CNName:{prop.album.CNName}</div>
                 <div>Date:{prop.album.Date}</div>
-                <div dangerouslySetInnerHTML={{ __html: `Description:${splitDesc(prop.album.Description)}` }}></div>
+                <div>{`Description:${splitDesc(prop.album.Description)}`}</div>
             </div>
             <div className="col-lg-2"></div>
             <button type="button" className="btn btn-info"

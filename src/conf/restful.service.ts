@@ -41,13 +41,13 @@ const RestfulService: { [key: string]: Resuful } = {
         Method: "POST",
         URL: "Manage/BuildAlbumImage",
         Service: ServiceType.Album,
-        NeedLogin: false
+        NeedLogin: true
     },
     "deleteAlbumPicApi": {
         Method: "POST",
         URL: "Manage/DeleteAlbumPic",
         Service: ServiceType.Album,
-        NeedLogin: false
+        NeedLogin: true
     },
     "loginapi": {
         Method: "POST",
@@ -64,6 +64,18 @@ const RestfulService: { [key: string]: Resuful } = {
     "uploadImagePartApi":{
         Method: "POST",
         URL: "Manage/UploadImagePart",
+        Service: ServiceType.Admin,
+        NeedLogin: true
+    },
+    "buildAllAlbumApi":{
+        Method: "POST",
+        URL: "Manage/BuildAllAlbum",
+        Service: ServiceType.Admin,
+        NeedLogin: true
+    },
+    "buildAlbumPictureApi":{
+        Method: "POST",
+        URL: "Manage/BuildPicForAlbum",
         Service: ServiceType.Admin,
         NeedLogin: true
     }
