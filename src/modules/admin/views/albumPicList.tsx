@@ -132,7 +132,7 @@ function Top() {
     }, [])
 
 
-    const upload =async (part: string, partIndex: number,isLast:boolean) => {
+    const upload = async (part: string, partIndex: number, isLast: boolean) => {
         let request: PicturePartUploadRequest = {
             PartIndex: partIndex,
             Value: part,
@@ -152,30 +152,24 @@ function Top() {
         let count = file.base64.length / 80000;
 
         if (count < 2) {
-            await upload(file.base64, 0,true)
+            await upload(file.base64, 0, true)
         }
-        let isContinue=true;
-        let index=0;
-        while(isContinue){
-            let pre= file.base64.substr(index * preCount, preCount)
-            if(!pre){
-                isContinue=false
+        let isContinue = true;
+        let index = 0;
+        while (isContinue) {
+            let pre = file.base64.substr(index * preCount, preCount)
+            if (!pre) {
+                isContinue = false
             }
-            await upload(pre, index,!pre)
+            await upload(pre, index, !pre)
             index++;
         }
         for (let index = 0; index <= count; index++) {
             file.base64.substr(index * preCount, preCount)
-            await upload(file.base64.substr(index * preCount, preCount), index,index==count)
+            await upload(file.base64.substr(index * preCount, preCount), index, index == count)
         }
         alert("done")
-        // Ajax("PictureUploadApi", { ...file, AlbumName: state.Album.Name }).then(resp => {
-        //     if (resp.Result) {
-        //         window.location.reload();
-        //     } else {
-        //         setUploadError(resp.ErrorMessage);
-        //     }
-        // })
+        window.location.reload();
     }
 
 
@@ -217,15 +211,18 @@ function Top() {
             <div>
                 {file.name &&
                     <div>
-                        <img src={file.base64} style={{ width: "50%", height: "50%", objectFit: "contain" }} />
+                        <img src={`data:image/jpeg;base64,${file.base64}`} style={{ width: "50%", height: "50%", objectFit: "contain" }} />
                         <div>{file.name}</div>
                     </div>
                 }
 
                 <input type="file" name='file' onChange={(evt: any) => {
-                    let name = evt.target.files[0].size + evt.target.files[0].name;
-                    evt.target.files[0].convertToBase64(base64 => {
-                        setFile({ base64, name })
+                    let name: string = evt.target.files[0].size + evt.target.files[0].name;
+                    evt.target.files[0].convertToBase64((base64: string) => {
+                        setFile({
+                            base64: base64.replace("data:image/jpeg;base64,", ""),
+                            name: name.toLocaleLowerCase().replace(".jpg", "")
+                        })
                     })
                 }} />
                 {uploadError &&
