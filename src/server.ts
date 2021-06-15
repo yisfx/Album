@@ -6,6 +6,8 @@ import fastify from 'fastify';
 import * as hmac from "./framework/encryption/hmac";
 import { CSPInterceptor } from './framework/interceptor/csp.interceptor';
 import { AllExceptionsFilter } from './framework/filter/exception-filter';
+import * as log4js from "log4js";
+import path from 'path';
 
 
 
@@ -19,8 +21,6 @@ async function bootstrap() {
     AppModule,
     adapter
   );
-
-  // app.use(compression)
 
   app.useGlobalInterceptors(new CSPInterceptor())
   app.useGlobalFilters(
@@ -36,16 +36,28 @@ async function bootstrap() {
   console.log("D", ":", hmac.Encrypt("4"))
   console.log("global Config-----------------------------------------:")
 
+  log4js.configure({
+    appenders: {
+      console: { type: "console" },
+      cheese:
+        { type: "file", filename: path.join(__dirname, "cheese.log") }
+    },
+    categories: { default: { appenders: ["cheese"], level: "error" } }
+  })
+  const logger = log4js.getLogger();
+
+
   process.on("uncaughtException", (err: Error) => {
-    console.log(err)
+    logger.error(err)
   });
 
-  await app.listen(SysConfig.port,"0.0.0.0", (error, address) => {
+  await app.listen(SysConfig.port, "0.0.0.0", (error, address) => {
     if (error) {
       console.log(error);
       process.exit(1)
     }
     else {
+      logger.log("listen at", SysConfig.port)
       console.log("listen at", SysConfig.port);
     }
   });
