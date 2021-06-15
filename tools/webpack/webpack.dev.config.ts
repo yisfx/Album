@@ -44,7 +44,7 @@ const config = smart(CommonConfig, {
         }),
         new AssetsPlugin({
             path: path.join(__dirname, "../../dist/dev/conf"),
-            filename: "assets.conf.json",
+            filename: "assets.script.json",
             processOutput: function (output) {
                 console.log("process assets");
                 const scripts = Object.entries(output).reduce(
@@ -75,8 +75,7 @@ const config = smart(CommonConfig, {
     mode: "development",
     watch: true,
     watchOptions: {
-        poll: 1, // 每秒询问多少次
-        aggregateTimeout: 1000,  //防抖 多少毫秒后再次触发
+        aggregateTimeout: 3000,  //防抖 多少毫秒后再次触发
         ignored: /node_modules/ //忽略时时监听
     }
 });

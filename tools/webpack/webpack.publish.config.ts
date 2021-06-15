@@ -44,7 +44,7 @@ const config = smart(CommonConfig, {
         }),
         new AssetsPlugin({
             path: path.join(__dirname, "../../dist/release/conf"),
-            filename: "assets.conf.json",
+            filename: "assets.script.json",
             processOutput: function (output) {
                 console.log("process assets");
                 const scripts = Object.entries(output).reduce(

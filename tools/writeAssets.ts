@@ -20,7 +20,7 @@ export function WriteAssets() {
         fs.mkdirSync(p)
     }
 
-    fs.writeFileSync(path.join(__dirname, "../dist", "conf", "assets.conf.json"), JSON.stringify(ass), { flag: 'w', encoding: 'utf-8', mode: '0666' })
+    fs.writeFileSync(path.join(__dirname, "../dist", "conf", "assets.script.json"), JSON.stringify(ass), { flag: 'w', encoding: 'utf-8', mode: '0666' })
 
 }
 export function publishStatic() {

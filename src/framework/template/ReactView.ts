@@ -3,18 +3,20 @@ import { flatMap, switchMap, tap } from "rxjs/operators";
 
 
 interface Options {
-    css: string
+    css: string[]
     initData: Observable<any>
-    script: string,
+    script: string[],
     response: any
 }
 
 
-const RenderHtml = (data: any, cssFile, scriptFile, response) => {
-    let cssLink = ""
-    if (cssFile) {
-        cssLink = `<link href='${cssFile}' rel='stylesheet'>`
-    }
+const RenderHtml = (data: any, cssFile: string[], scriptFile: string[], response) => {
+    let cssLink :string[]= []
+    let scriptLink:string[]=[]
+    cssFile.forEach(d=>cssLink.push(`<link href='${d}' rel='stylesheet'>`))
+    scriptFile.forEach(d=>scriptLink.push(`<script src='${d}'></script>`))
+
+
     ///master & template to build content
 
     const html = `<!DOCTYPE html>
@@ -26,7 +28,7 @@ const RenderHtml = (data: any, cssFile, scriptFile, response) => {
         <body>
         `
         +
-        cssLink
+        cssLink.map(d=>d)
         +
         `
         <script>
@@ -37,7 +39,7 @@ const RenderHtml = (data: any, cssFile, scriptFile, response) => {
         </div>
         `
         +
-        "<script src='" + scriptFile + "'></script>"
+        scriptLink.map(d=>d)
         +
         `
         <script>
