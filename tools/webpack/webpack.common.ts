@@ -50,7 +50,27 @@ export default <webpack.Configuration>{
     optimization: {
         minimizer: [
             new OptimizeCSSAssetsPlugin()
-        ]
+        ],
+        splitChunks: {
+            chunks: 'initial',
+            minSize: 20000,
+            minChunks: 1,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            name: false,
+            cacheGroups: {
+                default: false,
+                vendor: {
+                    name: 'vendor',
+                    test: /[\\/]node_modules[\\/]/
+                }
+                // common: {
+                //     name: 'common',
+                //     test: /[\\/]node_modules[\\/]@fx-package/,
+                //     priority: 10
+                // }
+            }
+        }
     },
     target: "web",
     resolve: {
