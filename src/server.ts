@@ -38,11 +38,10 @@ async function bootstrap() {
 
   log4js.configure({
     appenders: {
+      allLog: { type: 'dateFile', filename: path.join(__dirname,"logs/log"), pattern: '-yyyy-MM-dd.log', alwaysIncludePattern: true },
       console: { type: "console" },
-      cheese:
-        { type: "file", filename: path.join(__dirname, "cheese.log") }
     },
-    categories: { default: { appenders: ["cheese"], level: "error" } }
+    categories: { default: { appenders: ["allLog"], level: "error" } }
   })
   const logger = log4js.getLogger();
 
