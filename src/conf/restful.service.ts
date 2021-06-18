@@ -4,6 +4,7 @@ class Resuful {
     URL: string
     Service: ServiceType
     NeedLogin: boolean
+    ServiceOnly: boolean
 }
 
 
@@ -23,61 +24,71 @@ const RestfulService: { [key: string]: Resuful } = {
         Method: "POST",
         URL: "Manage/GetAlbumList",
         Service: ServiceType.Album,
-        NeedLogin: false
+        NeedLogin: false,
+        ServiceOnly:true
     },
     "AddAlbumApi": {
         Method: "POST",
         URL: "Manage/AddAlbum",
         Service: ServiceType.Album,
-        NeedLogin: false
+        NeedLogin: true,
+        ServiceOnly:false
     },
     "getAlbumPicApi": {
         Method: "POST",
         URL: "Manage/GetAlbumPicList",
         Service: ServiceType.Album,
-        NeedLogin: false
+        NeedLogin: false,
+        ServiceOnly:true
     },
     "rebuildAlbumApi": {
         Method: "POST",
         URL: "Manage/BuildAlbumImage",
         Service: ServiceType.Album,
-        NeedLogin: true
+        NeedLogin: true,
+        ServiceOnly:false
     },
     "deleteAlbumPicApi": {
         Method: "POST",
         URL: "Manage/DeleteAlbumPic",
         Service: ServiceType.Album,
-        NeedLogin: true
+        NeedLogin: true,
+        ServiceOnly:false
     },
     "loginapi": {
         Method: "POST",
         URL: "Manage/login",
         Service: ServiceType.Album,
-        NeedLogin: false
+        NeedLogin: false,
+        ServiceOnly:false
     },
     "uploadImage": {
         Method: "POST",
         URL: "Manage/UploadImage",
         Service: ServiceType.Admin,
-        NeedLogin: true
+        NeedLogin: true,
+        ServiceOnly:false
     },
-    "uploadImagePartApi":{
+    "uploadImagePartApi": {
         Method: "POST",
         URL: "Manage/UploadImagePart",
         Service: ServiceType.Admin,
-        NeedLogin: true
+        NeedLogin: true,
+        ServiceOnly:false
     },
-    "buildAllAlbumApi":{
+    "buildAllAlbumApi": {
         Method: "POST",
         URL: "Manage/BuildAllAlbum",
         Service: ServiceType.Admin,
-        NeedLogin: true
+        NeedLogin: true,
+        ServiceOnly:false
     },
-    "buildAlbumPictureApi":{
+    "buildAlbumPictureApi": {
         Method: "POST",
         URL: "Manage/BuildPicForAlbum",
         Service: ServiceType.Admin,
-        NeedLogin: true
+        NeedLogin: true,
+        ServiceOnly:false
     }
 }
 
