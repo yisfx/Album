@@ -5,6 +5,7 @@ export type CookieOption = {
     expireAfter: number,
     secure: boolean,
     sameSite: "Strict" | "None" | "Lax";
+    httpOnly: boolean
 }
 
 export type CookieType = {
@@ -22,7 +23,8 @@ const _CookieConfig: { [s: string]: CookieType } = {
             path: "/",
             expireAfter: 300000,
             secure: true,
-            sameSite: "None"
+            sameSite: "None",
+            httpOnly: true
         }
     },
     DemoCookie: {
@@ -32,7 +34,8 @@ const _CookieConfig: { [s: string]: CookieType } = {
             path: "/",
             expireAfter: 0,
             secure: true,
-            sameSite: "Lax"
+            sameSite: "Lax",
+            httpOnly: false
         }
     }
 }
