@@ -28,12 +28,17 @@ export class FXCellCookie {
     private get sameSite() {
         return this.config.options.sameSite;
     }
+    
+    private get httpOnly() {
+        return this.config.options.httpOnly;
+    }
+    
     private get optionString() {
         let result = [];
         if (this.domain) result.push(`Domain=${this.domain}`);
         if (this.path) result.push(`Path=${this.path}`);
         if (this.expires) result.push(`Expires=${this.expires}`);
-        // if (this.httpOnly) result.push(`HttpOnly`);
+        if (this.httpOnly) result.push(`HttpOnly`);
         if (this.secure) result.push(`Secure`);
         if (this.sameSite) result.push(`SameSite=${this.sameSite}`);
         return result.join("; ");
