@@ -63,11 +63,11 @@ export class JPGController {
             path = SysConfig.JsPath;
         }
         else
-            path = SysConfig.ImagePath
-
+            path = SysConfig.ImagePath;
+        res.header("cache-control", "max-age=946080000, private ");
         fs.readFile(join(__dirname, '../../', path, f), (err, fileBuffer) => {
-            res.send(err || fileBuffer)
-        })
+            res.send(err || fileBuffer);
+        });
     }
     @Get(`${SysConfig.VisualStaticPath}/image/:file`)
     staticImage(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
