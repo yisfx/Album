@@ -22,7 +22,7 @@ export class JPGController {
         let picName = name.join("-").replace(`${albumName}-`, "")
         let p = join(GlobalConfig.AlbumPath, albumName, picName);
         if (fs.existsSync(p)) {
-            res.header("cache-control", "max-age=946080000, private ");
+            res.header("cache-control", "max-age=946080000, public ");
             fs.readFile(p, (err, fileBuffer) => {
                 res.send(err || fileBuffer)
             })
@@ -65,7 +65,7 @@ export class JPGController {
         }
         else
             path = SysConfig.ImagePath;
-        res.header("cache-control", "max-age=946080000, private ");
+        res.header("cache-control", "max-age=946080000, public ");
         fs.readFile(join(__dirname, '../../', path, f), (err, fileBuffer) => {
             res.send(err || fileBuffer);
         });
@@ -75,7 +75,7 @@ export class JPGController {
         let dir: string[] = req.url.split("/")
         let f = dir[dir.length - 1]
         let path: string = SysConfig.ImagePath
-        res.header("cache-control", "max-age=946080000, private ");
+        res.header("cache-control", "max-age=946080000, public ");
         fs.readFile(join(__dirname, '../../', path, f), (err, fileBuffer) => {
             res.send(err || fileBuffer)
         })
@@ -85,7 +85,7 @@ export class JPGController {
     favicon(@Res() res: FastifyReply){
         let path = SysConfig.ImagePath;
         res.header("content-type", "content-type: image/x-icon");
-        res.header("cache-control", "max-age=946080000, private ");
+        res.header("cache-control", "max-age=946080000, public ");
         fs.readFile(join(__dirname, '../../', path, "snow.png"), (err, fileBuffer) => {
             res.send(err || fileBuffer)
         })
