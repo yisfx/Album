@@ -121,6 +121,7 @@ function Top() {
     const [openModal, setOpenModal] = useState(false)
     const [file, setFile] = useState({ base64: "", name: "" });
     const [uploadError, setUploadError] = useState("");
+    const [uploadState, SetUploadState] = useState(0)
     useEffect(() => {
         File.prototype.convertToBase64 = function (callback) {
             var FR = new FileReader();
@@ -140,7 +141,18 @@ function Top() {
             PictureName: file.name,
             AlbumName: state.Album.Name
         }
-        await Ajax("uploadImagePartApi", request).then()
+        if (!isLast) {
+            Ajax("uploadImagePartApi", request).then(res => {
+                let pre = file.base64.substr((partIndex + 1) * preCount, preCount)
+                SetUploadState(partIndex + 1);
+                upload(pre, partIndex + 1, !pre);
+            })
+        } else {
+            Ajax("uploadImagePartApi", request).then(res => {
+                alert("done");
+                window.location.reload();
+            })
+        }
     }
 
     const UploadPicture = async () => {
@@ -153,23 +165,22 @@ function Top() {
 
         if (count < 2) {
             await upload(file.base64, 0, true)
+            return;
         }
-        let isContinue = true;
-        let index = 0;
-        while (isContinue) {
-            let pre = file.base64.substr(index * preCount, preCount)
-            if (!pre) {
-                isContinue = false
-            }
-            await upload(pre, index, !pre)
-            index++;
-        }
-        for (let index = 0; index <= count; index++) {
-            file.base64.substr(index * preCount, preCount)
-            await upload(file.base64.substr(index * preCount, preCount), index, index == count)
-        }
-        alert("done")
-        window.location.reload();
+        SetUploadState(0);
+        let pre = file.base64.substr(0, preCount)
+        upload(pre, 0, !pre);
+
+        // while (isContinue) {
+        //     let pre = file.base64.substr(index * preCount, preCount)
+        //     if (!pre) {
+        //         isContinue = false
+        //     }
+        //     await upload(pre, index, !pre)
+        //     index++;
+        //     console.log(uploadState);
+        //     SetUploadState({ current: index, total: count + 1 });
+        // }
     }
 
 
@@ -231,7 +242,9 @@ function Top() {
                 <input type="submit" value="上传" onClick={() => {
                     UploadPicture();
                 }} />
-
+                {uploadState > 0 &&
+                    <div>{uploadState}</div>
+                }
             </div>
         </FXModal>
     </div>
