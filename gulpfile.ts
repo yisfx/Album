@@ -42,6 +42,8 @@ gulp.task('delete', async (cb) => {
 gulp.task("staticPublish", (cb) => {
     gulp.src("./static/image/**.*")
         .pipe(gulp.dest("./dist/release/public/image/"))
+    gulp.src("./static/svg/**.*")
+        .pipe(gulp.dest("./dist/release/public/svg/"))
     // gulp.src("./package.json")
     //     .pipe(gulp.dest("./dist/release"))
 
