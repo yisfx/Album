@@ -9,16 +9,16 @@ import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { isMobile } from "../../../framework/utils";
 import { splitDesc } from "../utils/strUtils";
+import { QeImage } from "../../../framework/components/queue-image-load";
 
 // if (process.env.BROWSER) {
-    require('../../../../static/css/main.css')
-    require('swiper/dist/css/swiper.css')
+require('../../../../static/css/main.css')
+require('swiper/dist/css/swiper.css')
 // }
 
 
 function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
     const pc = window.screen.height < window.screen.width
-
     const params = {
         direction: 'horizontal',
         // grabCursor: true,
@@ -32,7 +32,6 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
         },
         on: {
             paginationRender: () => {
-                console.log("paginationRender")
             },
         },
     }
@@ -53,6 +52,7 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
                                 <FXImage
                                     className={pc ? "main-img-pc" : "main-img-mobile"}
                                     name={v.Cover}
+                                    LoadEnd={() => { }}
                                     type={ImageType.MixAlbum}
                                     desc={v.Description} />
                                 <div className={pc ? "main-desc-pc" : "main-desc-mobile"}
@@ -96,7 +96,7 @@ function MenumList(props: { initalState: AlbumState }) {
                     setSelectYear(year == selectYear ? "" : year);
                 }}>
                     <i className={`glyphicon glyphicon-menu-${selectYear == year ? "down" : "right"}`}></i>
-                &nbsp;&nbsp;{year}
+                    &nbsp;&nbsp;{year}
                 </div>
                 {selectYear == year && <RenderAlbumMenuList albumList={props.initalState?.AlbumList[year]} />}
             </li>)}

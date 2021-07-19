@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Picture } from "../../../model/album";
 import MasterPage from "../../../framework/Master/@masterPage"
 import Master from "../../../framework/Master/master"
@@ -6,9 +6,10 @@ import { AlbumPictureContext, AlbumPictureReducer, AlbumPictureState } from "../
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { FXModal } from "../../../framework/components/modal/fxModal";
 import { splitDesc } from "../utils/strUtils";
+import { ConvertToQePic, PopupPic, QeImage } from "../../../framework/components/queue-image-load";
 
 // if (process.env.BROWSER) {
-    require('../../../../static/css/albumPictureList.css')
+require('../../../../static/css/albumPictureList.css')
 // }
 
 
@@ -16,7 +17,7 @@ function Pic(props: { pic: Picture }) {
     return <a href="#" className="thumbnail">
         <FXImage style={{ width: "200px", height: "200px", objectFit: "contain" }}
             name={props.pic.MiniPath}
-            type={ImageType.MixAlbum}
+            type={ImageType.MixAlbum} LoadEnd={() => { }}
             desc={props.pic.Album} />
     </a>
 }
@@ -26,6 +27,15 @@ function List() {
     let openImage: Picture
     const [openImg, setOpenImg] = useState(openImage);
 
+    const [curLoadImage, setCurLoadImage] = useState("");
+    const [qePicList, setQePicList] = useState([]);
+    useEffect(() => {
+        const sss = ConvertToQePic(state.Album.PicList.map(d => d.MiniPath))
+        setQePicList(sss);
+        let result = PopupPic(sss, "")
+        result?.next && setCurLoadImage(result.next)
+        result?.curList && setQePicList(result.curList);
+    }, [])
 
     return <>
         <div className="row">
@@ -38,7 +48,18 @@ function List() {
                             setOpenImg(pic)
                         }}
                     >
-                        <Pic pic={pic} />
+                        <a href="#" className="thumbnail">
+                            <QeImage style={{ width: "200px", height: "200px", objectFit: "contain" }}
+                                name={pic.MiniPath}
+                                type={ImageType.MixAlbum}
+                                LoadEnd={() => {
+                                    let result = PopupPic(qePicList, pic.MiniPath)
+                                    result?.next && setCurLoadImage(result.next)
+                                    result?.curList && setQePicList(result.curList);
+                                }}
+                                currentPicName={curLoadImage}
+                                desc={pic.Album} />
+                        </a>
                     </li>
                 })}
             </ul>
@@ -55,7 +76,7 @@ function List() {
             >
                 <FXImage style={{ width: "100%", height: "100%", objectFit: "contain" }}
                     name={openImg.MaxPath}
-                    type={ImageType.MixAlbum}
+                    type={ImageType.MixAlbum} LoadEnd={() => { }}
                     desc={openImg.Album} />
             </FXModal>
         }
@@ -85,7 +106,7 @@ function Top() {
             {(showMore || !isfix) &&
                 <>
                     <small style={{ wordWrap: "break-word" }}
-                        dangerouslySetInnerHTML={{ __html: splitDesc(state.Album.Description,true) }}></small>
+                        dangerouslySetInnerHTML={{ __html: splitDesc(state.Album.Description, true) }}></small>
                     {isfix &&
                         <small style={{ wordWrap: "break-word" }}>
                             <a href="#" onClick={() => { setShowMore(false) }} style={{ wordWrap: "break-word" }}> less</a>

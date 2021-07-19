@@ -9,7 +9,6 @@ export function Upload(props: React.PropsWithChildren<IProps>) {
 
     const [submit, startSubmit] = useState(0)//0 :未提交，1：提交渲染form，2：返回结果
     const onSubmit = () => {
-        console.log("onSubmit")
     }
     const form = () => {
         return <html>

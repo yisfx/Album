@@ -72,6 +72,7 @@ export class JPGController {
     }
     @Get(`${SysConfig.VisualStaticPath}/image/:file`)
     staticImage(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
+
         let dir: string[] = req.url.split("/")
         let f = dir[dir.length - 1]
         let path: string = SysConfig.ImagePath
@@ -80,9 +81,22 @@ export class JPGController {
             res.send(err || fileBuffer)
         })
     }
+    @Get(`${SysConfig.VisualStaticPath}/svg/:file`)
+    staticSvg(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
+
+        let dir: string[] = req.url.split("/")
+        let f = dir[dir.length - 1]
+        let path: string = SysConfig.ImagePath
+        res.header("cache-control", "max-age=946080000, public ");
+        fs.readFile(join(__dirname, '../../', path, f), (err, fileBuffer) => {
+            let ressss = "data:image/svg+xml;base64," + fileBuffer.toString("base64");
+            res.send(err || ressss)
+        })
+    }
+
 
     @Get("favicon.ico")
-    favicon(@Res() res: FastifyReply){
+    favicon(@Res() res: FastifyReply) {
         let path = SysConfig.ImagePath;
         res.header("content-type", "content-type: image/x-icon");
         res.header("cache-control", "max-age=946080000, public ");

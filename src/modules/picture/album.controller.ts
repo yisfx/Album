@@ -78,7 +78,7 @@ export class AlbumController {
 		let name: string[] = Decrypt(params.route).split("-")
 		let albumName = name[0];
 		let date = name[1];
-		if (((new Date().getTime()) - (new Date(date)).getTime()) / (1000 * 60) > 100) {
+		if (((new Date().getTime()) - (new Date(date)).getTime()) / (1000 * 60) > 1000) {
 			throw Redirect("404");
 		}
 

@@ -11,13 +11,14 @@ import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { Ajax } from "../../../framework/httpclient/ajax";
 import { DeleteAlbumPictureRequest } from "../../../model/request/deleteAlbumPicRequest";
 import { AddAlbumRequest } from "../../../model/request/addAlbumRequest";
+import { ConvertToQePic, PopupPic, QeImage } from "../../../framework/components/queue-image-load";
 
 enum DeleteType {
     Image = "Image",
     Abbreviation = "Abbreviation"
 }
 
-function Pic(props: { p: Picture, album: Album }) {
+function Pic(props: { p: Picture, album: Album, CurrentLoad: string, LoadEnd: (isSccess: boolean) => void }) {
 
     const [deleteConfirmModal, setDeleteConfirmModal] = useState({ show: false, deleteType: DeleteType.Abbreviation, ErrorMsg: "" });
 
@@ -44,9 +45,11 @@ function Pic(props: { p: Picture, album: Album }) {
         <div className="row">
             <div className="col-xs-2">
                 <div className="thumbnail">
-                    <FXImage style={{ width: "200px", height: "200px", objectFit: "contain" }}
+                    <QeImage style={{ width: "200px", height: "200px", objectFit: "contain" }}
                         name={`${props.p.Album}-${props.p.Name}-mini.jpg`}
                         type={ImageType.Album}
+                        currentPicName={props.CurrentLoad}
+                        LoadEnd={props.LoadEnd}
                         desc={undefined} />
                 </div>
             </div>
@@ -82,7 +85,12 @@ function Pic(props: { p: Picture, album: Album }) {
                 <div className="col-sm-2"></div> <div>are you sure delete this {deleteConfirmModal.deleteType}？</div>
             </div>
             <div className="thumbnail">
-                <FXImage style={{ height: "250px", objectFit: "contain" }} name={`${props.p.Album}-${props.p.Name}-mini.jpg`} type={ImageType.Album} desc={undefined} />
+
+                <FXImage style={{ height: "250px", objectFit: "contain" }}
+                    name={`${props.p.Album}-${props.p.Name}-mini.jpg`}
+                    type={ImageType.Album}
+                    desc={undefined}
+                />
             </div>
             <div className="row">
                 <div className="col-sm-2"></div>
@@ -107,9 +115,28 @@ function Pic(props: { p: Picture, album: Album }) {
 function List() {
     const { state, dispatcher } = useContext(AlbumPicListContext);
     const album = { ...state.Album, PicList: null }
+
+    const [curLoadImage, setCurLoadImage] = useState("");
+    const [qePicList, setQePicList] = useState([]);
+    useEffect(() => {
+        const sss = ConvertToQePic(state.Album.PicList.map(d => d.Name))
+        setQePicList(sss);
+        let result = PopupPic(sss, "")
+        result?.next && setCurLoadImage(result.next)
+        result?.curList && setQePicList(result.curList);
+    }, [])
+
+
     return <div>
         {state.Album?.PicList?.map(p => <div key={p.Name}>
-            <Pic p={p} album={album} />
+            <Pic p={p}
+                album={album}
+                CurrentLoad={`${p.Album}-${p.Name}-mini.jpg`}
+                LoadEnd={() => {
+                    let result = PopupPic(qePicList, p.Name)
+                    result?.next && setCurLoadImage(result.next)
+                    result?.curList && setQePicList(result.curList);
+                }} />
         </div>)}
     </div>
 }
@@ -170,17 +197,6 @@ function Top() {
         SetUploadState(0);
         let pre = file.base64.substr(0, preCount)
         upload(pre, 0, !pre);
-
-        // while (isContinue) {
-        //     let pre = file.base64.substr(index * preCount, preCount)
-        //     if (!pre) {
-        //         isContinue = false
-        //     }
-        //     await upload(pre, index, !pre)
-        //     index++;
-        //     console.log(uploadState);
-        //     SetUploadState({ current: index, total: count + 1 });
-        // }
     }
 
 

@@ -175,6 +175,7 @@ function AlbumContent(prop: { album: Album }) {
                 <FXImage style={{ width: "100px", height: "100px", objectFit: "contain" }}
                     name={`${prop.album.Name}-${prop.album.Cover}-mini.jpg`}
                     type={ImageType.Album}
+                    LoadEnd={() => { }}
                     desc={undefined} />
             </div>
             <div className="col-lg-8" onClick={() => {

@@ -38,7 +38,7 @@ async function bootstrap() {
 
   log4js.configure({
     appenders: {
-      allLog: { type: 'dateFile', filename: path.join(__dirname,"logs/log"), pattern: '-yyyy-MM-dd.log', alwaysIncludePattern: true },
+      allLog: { type: 'dateFile', filename: path.join(__dirname, "logs/log"), pattern: '-yyyy-MM-dd.log', alwaysIncludePattern: true },
       console: { type: "console" },
     },
     categories: { default: { appenders: ["allLog"], level: "error" } }
@@ -47,6 +47,7 @@ async function bootstrap() {
 
 
   process.on("uncaughtException", (err: Error) => {
+    console.log(err);
     logger.error(err)
   });
 
