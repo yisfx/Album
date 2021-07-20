@@ -26,7 +26,7 @@ export class AlbumController {
 					Name: album.CNName,
 					Date: album.Date,
 					Description: album.Description,
-					CNName: Encrypt(`${album.Name}-${new Date().toString()}`)
+					CNName: Encrypt(`${album.Name}-${new Date().getDate()}`)
 				}
 				return a
 			})
@@ -74,11 +74,10 @@ export class AlbumController {
 	@Get("/album/:route")
 	@RouteRender(RouteConfig.AlbumPictureList.name)
 	async AlbumPicture(@Param() params) {
-
 		let name: string[] = Decrypt(params.route).split("-")
 		let albumName = name[0];
-		let date = name[1];
-		if (((new Date().getTime()) - (new Date(date)).getTime()) / (1000 * 60) > 1000) {
+		let date: number = parseInt(name[1]);
+		if ((new Date().getDate()) != date) {
 			throw Redirect("404");
 		}
 

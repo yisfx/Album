@@ -47,7 +47,7 @@ async function bootstrap() {
 
 
   process.on("uncaughtException", (err: Error) => {
-    console.log(err);
+  
     logger.error(err)
   });
 

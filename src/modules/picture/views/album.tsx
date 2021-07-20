@@ -9,7 +9,6 @@ import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { isMobile } from "../../../framework/utils";
 import { splitDesc } from "../utils/strUtils";
-import { QeImage } from "../../../framework/components/queue-image-load";
 
 // if (process.env.BROWSER) {
 require('../../../../static/css/main.css')
