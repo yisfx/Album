@@ -16,6 +16,7 @@ export interface FXImageIProps extends React.ComponentProps<"img"> {
 function FXImage(props: FXImageIProps) {
     const [error, setError] = useState(false);
     const [image, setImage] = useState("");
+    const [preLoad, setPreLoad] = useState(true);
     useEffect(() => {
         if (error) {
             setImage(buildImageUrl("image/error.jpg"));
@@ -40,7 +41,24 @@ function FXImage(props: FXImageIProps) {
                 src={loadingBase64} alt={props.desc || ""} />
         </>
     } else
+
         return <>
+            {preLoad &&
+                <img
+                    hidden={true}
+                    style={props.style}
+                    className={props.className}
+                    onError={() => {
+                        setError(true)
+                        props.LoadEnd && props.LoadEnd(false);
+                        setPreLoad(false);
+                    }}
+                    onLoad={() => {
+                        setPreLoad(false);
+                    }}
+                    src={image} alt={props.desc || ""} />
+            }
+
             <img
                 style={props.style}
                 className={props.className}
@@ -51,7 +69,7 @@ function FXImage(props: FXImageIProps) {
                 onLoad={() => {
                     props.LoadEnd && props.LoadEnd(true);
                 }}
-                src={image} alt={props.desc || ""} />
+                src={preLoad ? loadingBase64 : image} alt={props.desc || ""} />
         </>
 }
 
