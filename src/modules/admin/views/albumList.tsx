@@ -169,6 +169,7 @@ function Top() {
 
 function AlbumContent(prop: { album: Album }) {
     const [isOpen, setOpen] = useState(false)
+    const [ShowDeleteDialog, setShowDeleteDialog] = useState(false)
     return <>
         <div className="row list-group-item" style={{ height: "120px", }}>
             <div className="col-lg-2">
@@ -184,14 +185,20 @@ function AlbumContent(prop: { album: Album }) {
                 <div>Name:{prop.album.Name}</div>
                 <div>CNName:{prop.album.CNName}</div>
                 <div>Date:{prop.album.Date}</div>
-                <div>{`Description:${splitDesc(prop.album.Description)}`}</div>
+                {/* <div>{`Description:${splitDesc(prop.album.Description)}`}</div> */}
             </div>
-            <div className="col-lg-2"></div>
-            <button type="button" className="btn btn-info"
-                onClick={(evt) => {
-                    setOpen(true)
-                }}
-            >Edit</button>
+            <div className="col-lg-2">
+                <button type="button" className="btn btn-info"
+                    onClick={(evt) => {
+                        setOpen(true)
+                    }}
+                >Edit</button>
+                <button type="button" className="btn btn-info"
+                    onClick={(evt) => {
+                        setShowDeleteDialog(true)
+                    }}
+                >Delete</button>
+            </div>
         </div>
         {isOpen &&
             <FXModal
@@ -202,6 +209,28 @@ function AlbumContent(prop: { album: Album }) {
                 }}
             >
                 <EditAlbumPopu album={prop.album} />
+            </FXModal>
+        }
+        {ShowDeleteDialog &&
+            <FXModal
+                showCloseBtn={true}
+                isOpen={ShowDeleteDialog}
+                close={() => {
+                    setShowDeleteDialog(false)
+                }}
+            >
+                <div>{prop.album.CNName}</div>
+                <div>{prop.album.Name}</div>
+                <div>
+                    <button
+                        onClick={() => {
+                            Ajax("deleteAlbumApi", { AlbumName: prop.album.Name }).then(() => {
+                                window.location.reload();
+                            })
+                        }}
+                    >Sure</button>
+                    <button onClick={() => { setShowDeleteDialog(false) }}>Close</button>
+                </div>
             </FXModal>
         }
     </>

@@ -33,7 +33,7 @@ function FXImage(props: FXImageIProps) {
     }, [props.name, error])
 
 
-    if (props.name.endsWith("svg")) {
+    if (image.endsWith("svg") || props.name.endsWith("svg")) {
         return <>
             <img
                 style={props.style}
@@ -41,24 +41,23 @@ function FXImage(props: FXImageIProps) {
                 src={loadingBase64} alt={props.desc || ""} />
         </>
     } else
-
         return <>
             {preLoad &&
-                <img
-                    hidden={true}
-                    style={props.style}
-                    className={props.className}
-                    onError={() => {
-                        setError(true)
-                        props.LoadEnd && props.LoadEnd(false);
-                        setPreLoad(false);
-                    }}
-                    onLoad={() => {
-                        setPreLoad(false);
-                    }}
-                    src={image} alt={props.desc || ""} />
+                <div hidden={true}>
+                    <img
+                        style={{ ...props.style, display: "" }}
+                        className={props.className}
+                        onError={() => {
+                            setPreLoad(false);
+                            setError(true)
+                            props.LoadEnd && props.LoadEnd(false);
+                        }}
+                        onLoad={() => {
+                            setPreLoad(false);
+                        }}
+                        src={image} alt={props.desc || ""} />
+                </div>
             }
-            {!preLoad &&
             <img
                 style={props.style}
                 className={props.className}
@@ -70,7 +69,6 @@ function FXImage(props: FXImageIProps) {
                     props.LoadEnd && props.LoadEnd(true);
                 }}
                 src={preLoad ? loadingBase64 : image} alt={props.desc || ""} />
-                }
         </>
 }
 
