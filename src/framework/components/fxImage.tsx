@@ -58,7 +58,7 @@ function FXImage(props: FXImageIProps) {
                     }}
                     src={image} alt={props.desc || ""} />
             }
-
+            {!preLoad &&
             <img
                 style={props.style}
                 className={props.className}
@@ -70,6 +70,7 @@ function FXImage(props: FXImageIProps) {
                     props.LoadEnd && props.LoadEnd(true);
                 }}
                 src={preLoad ? loadingBase64 : image} alt={props.desc || ""} />
+                }
         </>
 }
 
