@@ -7,7 +7,7 @@ export function BuildImageEncryptionUri(albumName: string, name: string, type: "
         AlbumName: albumName,
         Name: name,
         Type: type,
-        DateTime: (new Date()).toString()
+        DateTime: (new Date()).getDate()
     }
     return Encrypt(JSON.stringify(u));
 }
@@ -19,7 +19,7 @@ export function ParseImageEncryptionUri(u: string): PictureUrlLink {
             return null;
         if (m.Type != "max" && m.Type != "mini")
             return null;
-        let old = (new Date(m.DateTime)).getDate();
+        let old = m.DateTime;
         let n = (new Date()).getDate()
         if (old != n) {
             return null;

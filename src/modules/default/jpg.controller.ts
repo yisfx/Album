@@ -41,6 +41,7 @@ export class JPGController {
 
         let p = join(GlobalConfig.AlbumPath, uri.AlbumName, uri.Name + "-" + uri.Type) + ".jpg";
         if (fs.existsSync(p)) {
+            res.header("cache-control", "max-age=946080000, public ");
             res.header("content-type", ContentType.Jpg)
             fs.readFile(p, (err, fileBuffer) => {
                 res.send(err || fileBuffer)
