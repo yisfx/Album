@@ -31,7 +31,7 @@ export class AlbumController {
 				return a
 			})
 		}
-		resp.AlbumList.sort((a,b)=>(new Date(b.Date)).getDate()-(new Date(a.Date)).getDate())
+		resp.AlbumList.sort((a,b)=>(new Date(b.Date)).getTime()-(new Date(a.Date)).getTime())
 		let albumList = BuildMenu(resp.AlbumList)
 		return albumList;
 	}
