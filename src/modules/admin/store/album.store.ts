@@ -3,7 +3,7 @@ import { Album } from "../../../model/album";
 
 export class AlbumState {
     AlbumList: Album[]
-
+    YearList: string[]
     a: number = 0
 }
 

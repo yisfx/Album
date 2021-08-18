@@ -238,11 +238,18 @@ function AlbumContent(prop: { album: Album }) {
 
 function List() {
     const { state, dispatcher } = useContext(AlbumContext)
-    return <>
-        <div className="list-group">
-            {state.AlbumList?.map((a, index) => <AlbumContent key={`${a.Name}_${index}`} album={a}></AlbumContent>)}
+    return <div className="row">
+        <div className="col-sm-1">
+            <div className="list-group">
+                
+            </div>
         </div>
-    </>
+        <div className="col-sm-11">
+            <div className="list-group">
+                {state.AlbumList?.map((a, index) => <AlbumContent key={`${a.Name}_${index}`} album={a}></AlbumContent>)}
+            </div>
+        </div>
+    </div>
 }
 
 
