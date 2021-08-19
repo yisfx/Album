@@ -4,6 +4,7 @@ import { Album } from "../../../model/album";
 export class AlbumState {
     AlbumList: Album[]
     YearList: string[]
+    CurrentYear: string
     a: number = 0
 }
 

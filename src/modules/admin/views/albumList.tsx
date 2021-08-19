@@ -1,6 +1,6 @@
 
 
-import React, { useContext, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import { AlbumContext, AlbumReducer, AlbumState, dispatchMiddleWare } from "../store/album.store";
 import AdminMaster from "../../../framework/master/adminMaster";
 import MasterPage from "../../../framework/master/@masterPage";
@@ -13,6 +13,7 @@ import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { AddAlbumRequest } from "../../../model/request/addAlbumRequest";
 import { splitDesc } from "../../../modules/picture/utils/strUtils";
+import { stat } from "fs";
 
 function EditAlbumPopu(props: { album: Album }) {
 
@@ -106,52 +107,74 @@ function Top() {
 
     const [errorMessage, setErrorMsg] = useState("")
 
-    return <div className="row">
-        <div style={{ marginTop: "100px" }}></div>
-        <div className="col-md-4">
-            <div className="page-header">
-                <h3>Current Album Count({state.AlbumList?.length})</h3>
+    return <div className="row" style={{ paddingTop: "30px" }}>
+        <div className="col-sm-4">
+            <div className="row">
+                <div className="col-sm-12">
+                    <h3>Current Album Count({state.AlbumList?.length})</h3>
+                </div>
             </div>
         </div>
-        <div className="col-md-2">
-            <button
-                type="button"
-                className="btn btn-info"
-                onClick={() => {
-                    clearData()
-                    setIsOpen(true)
-                }}
-            >Create Album</button>
-        </div>
-        <div className="col-md-2">
-            <button
-                type="button"
-                className="btn btn-info"
-                onClick={() => {
-                    Ajax("buildAllAlbumApi", {}).then((resp: BaseResponse) => {
-                        if (resp.Result) {
-                            window.location.reload();
-                        } else {
-                            setErrorMsg(resp.ErrorMessage);
-                        }
-                    });
-                }}
-            >Buid All Album</button>
-        </div>
-        <div className="col-md-2">
-            <button
-                type="button"
-                className="btn btn-info"
-                onClick={() => {
-                    Ajax("buildAlbumPictureApi", {}).then((resp: BaseResponse) => {
-                        if (resp.Result) {
-                            window.location.reload();
-                        } else {
-                            setErrorMsg(resp.ErrorMessage);
-                        }
-                    });
-                }}
-            >Buid All Album Picture</button>
+        <div className="col-sm-8">
+            <div className="row">
+                <div className="col-md-3">
+                    <button
+                        type="button"
+                        className="btn btn-info"
+                        onClick={() => {
+                            Ajax("buildAlbumPictureApi", {}).then((resp: BaseResponse) => {
+                                if (resp.Result) {
+                                    window.location.reload();
+                                } else {
+                                    setErrorMsg(resp.ErrorMessage);
+                                }
+                            });
+                        }}
+                    >Buid All Album Picture</button>
+                </div>
+                <div className="col-md-2">
+                    <button
+                        type="button"
+                        className="btn btn-info"
+                        onClick={() => {
+                            Ajax("buildAllYears", {}).then((resp: BaseResponse) => {
+                                if (resp.Result) {
+                                    window.location.reload();
+                                } else {
+                                    setErrorMsg(resp.ErrorMessage);
+                                }
+                            });
+                        }}
+                    >Buid Year List</button>
+                </div>
+
+                <div className="col-md-2">
+                    <button
+                        type="button"
+                        className="btn btn-info"
+                        onClick={() => {
+                            clearData()
+                            setIsOpen(true)
+                        }}
+                    >Create Album</button>
+                </div>
+                <div className="col-md-2">
+                    <button
+                        type="button"
+                        className="btn btn-info"
+                        onClick={() => {
+                            Ajax("buildAllAlbumApi", {}).then((resp: BaseResponse) => {
+                                if (resp.Result) {
+                                    window.location.reload();
+                                } else {
+                                    setErrorMsg(resp.ErrorMessage);
+                                }
+                            });
+                        }}
+                    >Buid All Album</button>
+                </div>
+
+            </div>
         </div>
         {isOpen &&
             <FXModal
@@ -241,7 +264,14 @@ function List() {
     return <div className="row">
         <div className="col-sm-1">
             <div className="list-group">
-                
+                {state.YearList?.map((y, index) => {
+                    if (y == state.CurrentYear) {
+                        return <div key={"year" + y}>{y}</div>
+                    } else {
+                        <div key={"year" + y}><a>{y}</a></div>
+                    }
+
+                })}
             </div>
         </div>
         <div className="col-sm-11">
@@ -256,7 +286,9 @@ function List() {
 function Content(initalState: AlbumState) {
 
     const [state, dispatch] = useReducer(AlbumReducer, initalState);
-
+    useEffect(() => {
+        window.history.pushState(null, null, "?year=" + state.CurrentYear)
+    }, [])
     return <>
         <AlbumContext.Provider value={{ state, dispatcher: dispatchMiddleWare(dispatch) }}>
             <Top />

@@ -106,14 +106,14 @@ const RestfulService: { [key: string]: Resuful } = {
     },
     "buildAllYears": {
         Method: "POST",
-        URL: "Manage/DeleteAlbum",
+        URL: "Manage/BuildAllYears",
         Service: ServiceType.Admin,
         NeedLogin: true,
         ServiceOnly: false
     },
     "getAllYears": {
         Method: "POST",
-        URL: "Manage/DeleteAlbum",
+        URL: "Manage/GetAllYears",
         Service: ServiceType.Admin,
         NeedLogin: false,
         ServiceOnly: true

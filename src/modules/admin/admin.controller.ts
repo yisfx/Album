@@ -1,16 +1,17 @@
-import { Body, Controller, Get, Param, Post, Res, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, Res, UseGuards, UseInterceptors } from "@nestjs/common";
 import { RouteRender } from "../../framework/decorators/RouteRender.decorator";
 import { RouteConfig } from "../../framework/route.config";
 import { HttpClient } from "../../framework/httpclient/http.client";
 import { AlbumListResponse } from "../../model/response/albumListResponse";
 import { GetAlbumRequest } from "../../model/request/getAlbumRequest";
 import { GetAlbumResponse } from "../../model/response/getAlbumResponse";
-import { FastifyReply } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { LayoutInterceptor } from "../../framework/interceptor/layout.Interceptor";
 import fs from "fs";
 import path from "path";
 import { LoginGuard } from "../../framework/guards/login.guard";
-import { BaseResponse } from "src/model/response/baseResponse";
+import { BaseResponse } from "../../model/response/baseResponse";
+import { GetAllYearsResponse } from "../../model/response/getAllYearsResponse";
 
 @Controller()
 @UseInterceptors(LayoutInterceptor)
@@ -21,10 +22,15 @@ export class AdminController {
 
     @Get(RouteConfig.AdminAlbumList.route)
     @RouteRender(RouteConfig.AdminAlbumList.name)
-    async Album() {
-        let resp = await this.httpClient.createClient<AlbumListResponse>("ablumListApi");
+    async Album(@Req() request: FastifyRequest) {
+        let curYear: number = request.query["year"]
+        let yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
+        if (!curYear) {
+            curYear = yearListResponse.AllYears.sort((a, b) => a - b)[0]
+        }
+        let resp = await this.httpClient.createClient<AlbumListResponse>("getAlbumListByYear", { Year: curYear });
         return {
-            initData: { ...resp }
+            initData: { ...resp, YearList: yearListResponse.AllYears.sort((a, b) => a - b), CurrentYear: curYear }
         }
     }
 
@@ -60,7 +66,7 @@ export class AdminController {
         let name = (body.name).split(".")
 
         let fileName = path.join(album.Album.Path, (album.Album.Name + "-" + name[0] + "-org." + name[1]).toLocaleLowerCase());
-        await this.httpClient.createClient<BaseResponse>("uploadImage", { AlbumName: body.AlbumName, PictureName: album.Album.Name + "-" + name[0]});
+        await this.httpClient.createClient<BaseResponse>("uploadImage", { AlbumName: body.AlbumName, PictureName: album.Album.Name + "-" + name[0] });
         fs.writeFileSync(fileName, dataBuffer)
         response.send({ Result: true })
     }
