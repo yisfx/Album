@@ -14,7 +14,7 @@ export function urlBuilder(page: string, restfulRoute: string = null, para?: {})
     if (!!para) {
         url += "?"
         for (let key in para) {
-            url += key + "&" + para[key]
+            url += key + "=" + para[key]
         }
     }
 

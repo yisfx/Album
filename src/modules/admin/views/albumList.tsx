@@ -12,8 +12,7 @@ import { Album } from "../../../model/album";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { AddAlbumRequest } from "../../../model/request/addAlbumRequest";
-import { splitDesc } from "../../../modules/picture/utils/strUtils";
-import { stat } from "fs";
+import { splitDesc } from "../../picture/utils/strUtils";
 
 function EditAlbumPopu(props: { album: Album }) {
 
@@ -195,22 +194,22 @@ function AlbumContent(prop: { album: Album }) {
     const [ShowDeleteDialog, setShowDeleteDialog] = useState(false)
     return <>
         <div className="row list-group-item" style={{ height: "120px", }}>
-            <div className="col-lg-2">
+            <div className="col-sm-2">
                 <FXImage style={{ width: "100px", height: "100px", objectFit: "contain" }}
                     name={`${prop.album.Name}-${prop.album.Cover}-mini.jpg`}
                     type={ImageType.Album}
                     LoadEnd={() => { }}
                     desc={undefined} />
             </div>
-            <div className="col-lg-8" onClick={() => {
+            <div className="col-sm-8" onClick={() => {
                 window.location.href = urlBuilder(PageNameList.AdminAlbumPicList, prop.album.Name);
             }}>
                 <div>Name:{prop.album.Name}</div>
                 <div>CNName:{prop.album.CNName}</div>
                 <div>Date:{prop.album.Date}</div>
-                {/* <div>{`Description:${splitDesc(prop.album.Description)}`}</div> */}
+                <div>{`Description:${splitDesc(prop.album.Description)}`}</div>
             </div>
-            <div className="col-lg-2">
+            <div className="col-sm-2">
                 <button type="button" className="btn btn-info"
                     onClick={(evt) => {
                         setOpen(true)
@@ -268,7 +267,7 @@ function List() {
                     if (y == state.CurrentYear) {
                         return <div key={"year" + y}>{y}</div>
                     } else {
-                        <div key={"year" + y}><a>{y}</a></div>
+                        return <div key={"year" + y}><a href={urlBuilder(PageNameList.AdminAlbum, null, { year: y })}>{y}</a></div>
                     }
 
                 })}
