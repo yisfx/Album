@@ -25,12 +25,15 @@ export class AdminController {
     async Album(@Req() request: FastifyRequest) {
         let curYear: number = request.query["year"]
         let yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
+
+        let yearList = yearListResponse.AllYears.sort((a, b) => b - a)
+
         if (!curYear) {
-            curYear = yearListResponse.AllYears.sort((a, b) => a - b)[0]
+            curYear = yearList[0]
         }
         let resp = await this.httpClient.createClient<AlbumListResponse>("getAlbumListByYear", { Year: curYear });
         return {
-            initData: { ...resp, YearList: yearListResponse.AllYears.sort((a, b) => a - b), CurrentYear: curYear }
+            initData: { ...resp, YearList: yearList, CurrentYear: curYear }
         }
     }
 
