@@ -10,15 +10,16 @@ import { BuildImageEncryptionUri } from '../../framework/encryption/encryptionUr
 import { BuildMenu } from './utils/menu-tool';
 import { Album } from '../../model/album';
 import { LayoutInterceptor } from '../../framework/interceptor/layout.Interceptor';
+import { GetAllYearsResponse } from '../../model/response/getAllYearsResponse';
 
 @Controller()
 @UseInterceptors(LayoutInterceptor)
 export class AlbumController {
-	constructor(private readonly httpClient: HttpClient) {
-	}
+	constructor(private readonly httpClient: HttpClient) { }
 
-	async getAlbumList(): Promise<{ [key: string]: Album[] }> {
-		let resp = await this.httpClient.createClient<AlbumListResponse>("ablumListApi");
+	async getAlbumList(year: number): Promise<Album[]> {
+
+		let resp = await this.httpClient.createClient<AlbumListResponse>("getAlbumListByYear", { Year: year });
 		if (resp?.Result) {
 			resp.AlbumList = resp.AlbumList.map(album => {
 				let a: any = {
@@ -31,9 +32,7 @@ export class AlbumController {
 				return a
 			})
 		}
-		resp.AlbumList.sort((a,b)=>(new Date(b.Date)).getTime()-(new Date(a.Date)).getTime())
-		let albumList = BuildMenu(resp.AlbumList)
-		return albumList;
+		return resp.AlbumList.sort((a, b) => (new Date(b.Date)).getTime() - (new Date(a.Date)).getTime())
 	}
 
 	async getAlbum(albumName: string): Promise<GetAlbumResponse> {
@@ -60,15 +59,24 @@ export class AlbumController {
 	@Get(RouteConfig.ALBUM.route)
 	@RouteRender(RouteConfig.ALBUM.name)
 	async getHello() {
-		let albumList = await this.getAlbumList();
-		return { initData: { AlbumList: albumList } }
+		///yearList
+		let yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
+		let yearList = yearListResponse.AllYears.sort((a, b) => b - a)
+
+		let albumList = await this.getAlbumList(yearList[0]);
+		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0] } }
 	}
 
 	@Get()
 	@RouteRender(RouteConfig.ALBUM.name)
 	async Homepage() {
-		let albumList = await this.getAlbumList();
-		return { initData: { AlbumList: albumList } }
+
+		///yearList
+		let yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
+		let yearList = yearListResponse.AllYears.sort((a, b) => b - a)
+
+		let albumList = await this.getAlbumList(yearList[0]);
+		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0] } }
 	}
 
 	@Get("/album/:route")

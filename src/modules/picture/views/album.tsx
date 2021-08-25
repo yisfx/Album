@@ -16,7 +16,7 @@ require('swiper/dist/css/swiper.css')
 // }
 
 
-function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
+function Cover(props: { AlbumList: Album[] }) {
     const pc = window.screen.height < window.screen.width
     const params = {
         direction: 'horizontal',
@@ -34,16 +34,10 @@ function Cover(props: { AlbumList: { [key: string]: Album[] } }) {
             },
         },
     }
-    const firstAlbumList = (): Album[] => {
-        let list = Object.keys(props?.AlbumList).map(key => parseInt(key))
-        let key = list.sort((a, b) => a - b)[0]
-        return props?.AlbumList[key]
-    }
-    const albumList = firstAlbumList();
 
     return <>
         <Swiper {...params}>
-            {albumList?.map((v, i) =>
+            {props?.AlbumList?.map((v, i) =>
                 <div key={i + "_swiap"} >
                     <div className="main-sider">
                         <div className="image-container">
@@ -85,19 +79,19 @@ function RenderAlbumMenuList(props: { albumList: Album[] }) {
 }
 
 function MenumList(props: { initalState: AlbumState }) {
-    const [selectYear, setSelectYear] = useState("");
-    const yearList = Object.keys(props.initalState?.AlbumList).map(key => key)
+    const [selectYear, setSelectYear] = useState(0);
+    const yearList = props.initalState?.YearList
 
     return <ul className="main-menu-list-ul">
         {yearList.map(year =>
             <li key={year + "_menu_year"}>
                 <div onClick={() => {
-                    setSelectYear(year == selectYear ? "" : year);
+                    setSelectYear(year == selectYear ? 0 : year);
                 }}>
                     <i className={`glyphicon glyphicon-menu-${selectYear == year ? "down" : "right"}`}></i>
                     &nbsp;&nbsp;{year}
                 </div>
-                {selectYear == year && <RenderAlbumMenuList albumList={props.initalState?.AlbumList[year]} />}
+                {selectYear == year && <RenderAlbumMenuList albumList={props.initalState?.AlbumList} />}
             </li>)}
     </ul>
 }
