@@ -1,4 +1,5 @@
-import { SystemConfig } from "../model/SystemConfig"
+import { SystemConfig } from "../model/systemConfig"
+
 const SysConfig: SystemConfig = {
     port: 9000,
     domain: "",
@@ -7,7 +8,7 @@ const SysConfig: SystemConfig = {
     JsPath: "public/script",
     CssPath: "public/css",
     ImagePath: "public/image",
-    GlobalConfigPath: "/app/album/global.setting.json",
+    GlobalConfigPath: "/home/fx/fx-github/global.setting.json",
 }
 // "C://Users//wangs//Desktop//album//global.setting.json",
 

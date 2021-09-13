@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Master from "../../../framework/Master/master";
-import MasterPage from "../../../framework/Master/@masterPage";
+import Master from "../../../framework/master/master";
+import MasterPage from "../../../framework/master/@masterPage";
 import { Ajax } from "../../../framework/httpclient/ajax";
 import { urlBuilder } from "../../..//framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";

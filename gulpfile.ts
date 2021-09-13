@@ -92,7 +92,11 @@ gulp.task("tscPublish", (cb) => {
 
 gulp.task("tsc", async (cb) => {
     try {
-        await exec("start cmd.exe /K tsc -b tsconfig.json --watch")
+        if(isLunix){
+            await exec(`terminator --new-tab -x tsc -b tsconfig.json --watch`)
+        }else{
+            await exec("start cmd.exe /K tsc -b tsconfig.json --watch")
+        }
     } finally {
         cb()
     }
@@ -100,7 +104,11 @@ gulp.task("tsc", async (cb) => {
 
 gulp.task("run", async (cb) => {
     try {
+        if(isLunix){
+            await exec(`terminator --new-tab -x node ./node_modules/nodemon/bin/nodemon.js ./dist/dev/server.js`)
+        }else{
         await exec("start cmd.exe /K node ./node_modules/nodemon/bin/nodemon.js ./dist/dev/server.js")
+        }
     } finally {
         cb()
     }

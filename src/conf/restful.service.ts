@@ -10,13 +10,15 @@ class Resuful {
 
 enum ServiceType {
     Album = "Album",
-    Admin = "Admin"
+    Admin = "Admin",
+    Login="Login"
 }
 
 
 const ServiceHost: { [key: string]: string } = {
     "Album": "http://localhost:9001/api/",
     "Admin": "http://localhost:9001/api/",
+    "Login": "http://localhost:9001/api/",
 }
 
 const RestfulService: { [key: string]: Resuful } = {
@@ -115,6 +117,20 @@ const RestfulService: { [key: string]: Resuful } = {
         Method: "POST",
         URL: "Manage/GetAllYears",
         Service: ServiceType.Admin,
+        NeedLogin: false,
+        ServiceOnly: true
+    },
+    "loginApi":{
+        Method: "POST",
+        URL: "Login/Login",
+        Service: ServiceType.Login,
+        NeedLogin: false,
+        ServiceOnly: true
+    },
+    "loginAuthApi":{
+        Method: "POST",
+        URL: "Login/Auth",
+        Service: ServiceType.Login,
         NeedLogin: false,
         ServiceOnly: true
     }

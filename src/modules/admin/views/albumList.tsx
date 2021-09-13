@@ -7,7 +7,7 @@ import MasterPage from "../../../framework/master/@masterPage";
 import { FXModal } from "../../../framework/components/modal/fxModal";
 import { BaseResponse } from "../../../model/response/baseResponse";
 import { Ajax } from "../../../framework/httpclient/ajax";
-import { FXImage, ImageType } from "../../../framework/components/FXImage";
+import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { Album } from "../../../model/album";
 import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";

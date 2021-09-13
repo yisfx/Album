@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { SysConfig } from './conf/site.config';
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import fastify from 'fastify';
-import * as hmac from "./framework/encryption/hmac";
 import { CSPInterceptor } from './framework/interceptor/csp.interceptor';
 import { AllExceptionsFilter } from './framework/filter/exception-filter';
 import * as log4js from "log4js";
@@ -27,14 +26,6 @@ async function bootstrap() {
     new AllExceptionsFilter(),
   )
 
-
-
-  console.log("global Config-----------------------------------------:")
-  console.log("A", ":", hmac.Encrypt("1"))
-  console.log("B", ":", hmac.Encrypt("2"))
-  console.log("C", ":", hmac.Encrypt("3"))
-  console.log("D", ":", hmac.Encrypt("4"))
-  console.log("global Config-----------------------------------------:")
 
   log4js.configure({
     appenders: {

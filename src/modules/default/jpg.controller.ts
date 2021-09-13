@@ -3,7 +3,6 @@ import { join } from "path";
 import { SysConfig } from "../../conf/site.config";
 import fs from "fs";
 import { GlobalConfig } from "../../conf/global.config";
-import { ParseImageEncryptionUri } from "../../framework/encryption/encryptionUri";
 import { PictureUrlLink } from "../../model/album";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { ContentType } from "../../framework/types/contentType";
@@ -34,7 +33,7 @@ export class JPGController {
     @Get(`${SysConfig.VisualStaticPath}${SysConfig.MixPath}/album/*`)
     mixAlbumJpg(@Req() req, @Res() res) {
         let dir: string[] = req.url.split("/")
-        const uri: PictureUrlLink = ParseImageEncryptionUri(dir[dir.length - 1])
+        const uri: PictureUrlLink = null//dir[dir.length - 1]
         if (!uri) {
             res.send("url error");
         }

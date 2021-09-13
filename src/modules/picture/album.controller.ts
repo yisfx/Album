@@ -3,10 +3,8 @@ import { RouteRender } from '../../framework/decorators/RouteRender.decorator';
 import { RouteConfig } from '../../framework/route.config';
 import { HttpClient } from '../../framework/httpclient/http.client';
 import { AlbumListResponse } from '../../model/response/albumListResponse';
-import { Decrypt, Encrypt } from "../../framework/encryption/hmac";
 import { GetAlbumRequest } from '../../model/request/getAlbumRequest';
 import { GetAlbumResponse } from '../../model/response/getAlbumResponse';
-import { BuildImageEncryptionUri } from '../../framework/encryption/encryptionUri';
 import { BuildMenu } from './utils/menu-tool';
 import { Album } from '../../model/album';
 import { LayoutInterceptor } from '../../framework/interceptor/layout.Interceptor';
@@ -19,51 +17,24 @@ export class AlbumController {
 
 	async getAlbumList(year: number): Promise<Album[]> {
 
-		let resp = await this.httpClient.createClient<AlbumListResponse>("getAlbumListByYear", { Year: year });
-		if (resp?.Result) {
-			resp.AlbumList = resp.AlbumList.map(album => {
-				let a: any = {
-					Cover: BuildImageEncryptionUri(album.Name, album.Cover, "max"),
-					Name: album.CNName,
-					Date: album.Date,
-					Description: album.Description,
-					CNName: Encrypt(`${album.Name}-${new Date().getDate()}`)
-				}
-				return a
-			})
-		}
-		return resp.AlbumList.sort((a, b) => (new Date(b.Date)).getTime() - (new Date(a.Date)).getTime())
+		const resp = await this.httpClient.createClient<AlbumListResponse>("getAlbumListByYear", { Year: year });
+		return resp.AlbumList
 	}
 
 	async getAlbum(albumName: string): Promise<GetAlbumResponse> {
-		let request: GetAlbumRequest = { AlbumName: albumName }
-		let resp = await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
-		if (resp?.Result) {
-			resp.Album.PicList.map(p => {
-				p.Album = null
-				p.OrgPath = null;
-				p.MaxPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "max");
-				p.MiniPath = BuildImageEncryptionUri(resp.Album.Name, p.Name, "mini");
-				p.Name = null;
-			})
+		const request: GetAlbumRequest = { AlbumName: albumName }
+		return await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
 
-			resp.Album.Cover = null;
-			resp.Album.Name = resp.Album.CNName;
-			resp.Album.CNName = null;
-			resp.Album.Path = null;
-		}
-
-		return resp;
 	}
 
 	@Get(RouteConfig.ALBUM.route)
 	@RouteRender(RouteConfig.ALBUM.name)
 	async getHello() {
 		///yearList
-		let yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
-		let yearList = yearListResponse.AllYears.sort((a, b) => b - a)
+		const yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
+		const yearList = yearListResponse.AllYears.sort((a, b) => b - a)
 
-		let albumList = await this.getAlbumList(yearList[0]);
+		const albumList = await this.getAlbumList(yearList[0]);
 		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0] } }
 	}
 
@@ -72,24 +43,24 @@ export class AlbumController {
 	async Homepage() {
 
 		///yearList
-		let yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
-		let yearList = yearListResponse.AllYears.sort((a, b) => b - a)
+		const yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
+		const yearList = yearListResponse.AllYears.sort((a, b) => b - a)
 
-		let albumList = await this.getAlbumList(yearList[0]);
+		const albumList = await this.getAlbumList(yearList[0]);
 		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0] } }
 	}
 
 	@Get("/album/:route")
 	@RouteRender(RouteConfig.AlbumPictureList.name)
 	async AlbumPicture(@Param() params) {
-		let name: string[] = Decrypt(params.route).split("-")
-		let albumName = name[0];
-		let date: number = parseInt(name[1]);
+		const name: string[] = params.route.split("-")
+		const albumName = name[0];
+		const date: number = parseInt(name[1]);
 		if ((new Date().getDate()) != date) {
 			throw Redirect("404");
 		}
 
-		let resp = await this.getAlbum(albumName)
+		const resp = await this.getAlbum(albumName)
 		return { initData: { ...resp } }
 	}
 }

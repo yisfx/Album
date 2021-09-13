@@ -1,4 +1,4 @@
-import { GlobalSetting } from "../model/SystemConfig"
+import { GlobalSetting } from "../model/systemConfig"
 import { SysConfig } from "./site.config";
 
 function getGlobalConfig(): Partial<GlobalSetting> {

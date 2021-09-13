@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Picture } from "../../../model/album";
-import MasterPage from "../../../framework/Master/@masterPage"
-import Master from "../../../framework/Master/master"
-import { AlbumPictureContext, AlbumPictureReducer, AlbumPictureState } from "../store/AlbumPictureState.store"
+import MasterPage from "../../../framework/master/@masterPage"
+import Master from "../../../framework/master/master"
+import { AlbumPictureContext, AlbumPictureReducer, AlbumPictureState } from "../store/albumPictureState.store"
 import { FXImage, ImageType } from "../../../framework/components/fxImage";
 import { FXModal } from "../../../framework/components/modal/fxModal";
 import { splitDesc } from "../utils/strUtils";
