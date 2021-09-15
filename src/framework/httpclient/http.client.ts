@@ -10,7 +10,9 @@ import { useLoginTokenStorage } from "../cookie/logintoken.storage";
 
 @Injectable()
 export class HttpClient {
-    constructor() {
+    constructor(
+     @Inject(REQUEST) private readonly req: FastifyRequest
+    ) {
     }
 
 
