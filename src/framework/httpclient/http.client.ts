@@ -1,4 +1,4 @@
-import { Injectable, Req } from "@nestjs/common";
+import { Inject, Injectable, Req } from "@nestjs/common";
 import { FastifyRequest } from "fastify";
 
 import request from "request";
@@ -6,6 +6,7 @@ import { FastifyRequestWithCookie } from "../../model/types/FastifyReqWithCookie
 import { RestfulService, ServiceHost } from "../../conf/restful.service";
 import { FXCookie } from "../cookie/fxCookie";
 import { useLoginTokenStorage } from "../cookie/logintoken.storage";
+import { REQUEST } from "@nestjs/core";
 
 
 @Injectable()
