@@ -52,8 +52,8 @@ export class HttpClient {
             str = JSON.stringify(req)
         }
 
-        // let cookie = FXCookie(this.req as FastifyRequestWithCookie)
-        // let loginToken = useLoginTokenStorage(cookie).getToken()
+        let cookie = FXCookie(this.req as FastifyRequestWithCookie)
+        let loginToken = useLoginTokenStorage(cookie).getToken()
 
         // console.log("loginToken:",loginToken)
         // console.log("request header:", this.req["FXCookie"])
@@ -66,7 +66,7 @@ export class HttpClient {
                         timeout: 5000,
                         headers: {
                             "content-type": "application/json",
-                            // "Fx-Login-Token":loginToken
+                            "Fx-Login-Token":loginToken
                         },
                         body: str
                     }, (err, response, body) => {

@@ -6,10 +6,13 @@ import { GlobalConfig } from "../../conf/global.config";
 import { PictureUrlLink } from "../../model/album";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { ContentType } from "../../framework/types/contentType";
+import { HttpClient } from "../../framework/httpclient/http.client";
 
 @Controller()
 export class JPGController {
-    constructor() {
+    constructor(
+        private readonly httpClient: HttpClient
+    ) {
 
     }
 
@@ -31,8 +34,10 @@ export class JPGController {
     }
 
     @Get(`${SysConfig.VisualStaticPath}${SysConfig.MixPath}/album/*`)
-    mixAlbumJpg(@Req() req, @Res() res) {
+    async mixAlbumJpg(@Req() req, @Res() res) {
         let dir: string[] = req.url.split("/")
+        let entryImage = dir[dir.length - 1]
+        let imageModel = await this.httpClient.createClient("entryImageApi", { V: entryImage });
         const uri: PictureUrlLink = null//dir[dir.length - 1]
         if (!uri) {
             res.send("url error");

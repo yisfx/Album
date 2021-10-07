@@ -20,10 +20,12 @@ export class LoginGuard implements CanActivate {
         let fxCookie = FXCookie(request);
         let token = useLoginTokenStorage(fxCookie).getToken()
         if (token) {
-            this.httpClient.createClient<BaseResponse>("loginAuthApi",{})
-
-
-            return ValidateLogin(token, request);
+            return new Promise((resolve,reject)=>{
+                this.httpClient.createClient<BaseResponse>("loginAuthApi",{}).then(resp=>{
+                    resolve(resp.Result)
+                })
+            })
+            
         }
         return false;
     }

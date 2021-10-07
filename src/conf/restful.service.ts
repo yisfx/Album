@@ -57,13 +57,6 @@ const RestfulService: { [key: string]: Resuful } = {
         NeedLogin: true,
         ServiceOnly: false
     },
-    "loginapi": {
-        Method: "POST",
-        URL: "Manage/login",
-        Service: ServiceType.Album,
-        NeedLogin: false,
-        ServiceOnly: false
-    },
     "uploadImage": {
         Method: "POST",
         URL: "Manage/UploadImage",
@@ -133,6 +126,13 @@ const RestfulService: { [key: string]: Resuful } = {
         Service: ServiceType.Login,
         NeedLogin: false,
         ServiceOnly: true
+    },
+    "entryImageApi":{
+        Method: "POST",
+        URL: "Entry/DeEntry",
+        Service: ServiceType.Album,
+        NeedLogin: false,
+        ServiceOnly: false
     }
 }
 
