@@ -44,7 +44,7 @@ function Cover(props: { AlbumList: Album[] }) {
                             <div>
                                 <FXImage
                                     className={pc ? "main-img-pc" : "main-img-mobile"}
-                                    name={v.Cover}
+                                    name={v.Cover+"-max"}
                                     LoadEnd={() => { }}
                                     type={ImageType.MixAlbum}
                                     desc={v.Description} />

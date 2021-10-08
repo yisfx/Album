@@ -46,7 +46,7 @@ function Pic(props: { p: Picture, album: Album, CurrentLoad: string, LoadEnd: (i
             <div className="col-xs-2">
                 <div className="thumbnail">
                     <QeImage style={{ width: "200px", height: "200px", objectFit: "contain" }}
-                        name={`${props.p.Album}-${props.p.Name}-mini.jpg`}
+                        name={`${props.p.Name}-mini.jpg`}
                         type={ImageType.Album}
                         currentPicName={props.CurrentLoad}
                         LoadEnd={props.LoadEnd}
@@ -131,7 +131,7 @@ function List() {
         {state.Album?.PicList?.map(p => <div key={p.Name}>
             <Pic p={p}
                 album={album}
-                CurrentLoad={`${p.Album}-${p.Name}-mini.jpg`}
+                CurrentLoad={`${p.Name}-mini.jpg`}
                 LoadEnd={() => {
                     let result = PopupPic(qePicList, p.Name)
                     result?.next && setCurLoadImage(result.next)

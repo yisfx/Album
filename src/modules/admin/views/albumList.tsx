@@ -196,7 +196,7 @@ function AlbumContent(prop: { album: Album }) {
         <div className="row list-group-item" style={{ height: "120px", }}>
             <div className="col-sm-2">
                 <FXImage style={{ width: "100px", height: "100px", objectFit: "contain" }}
-                    name={`${prop.album.Name}-${prop.album.Cover}-mini.jpg`}
+                    name={`${prop.album.Cover}-mini.jpg`}
                     type={ImageType.Album}
                     LoadEnd={() => { }}
                     desc={undefined} />

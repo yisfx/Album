@@ -7,6 +7,9 @@ import { PictureUrlLink } from "../../model/album";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { ContentType } from "../../framework/types/contentType";
 import { HttpClient } from "../../framework/httpclient/http.client";
+import { FastifyRequestWithCookie } from "../../model/types/FastifyReqWithCookie";
+import { FXCookie } from "../../framework/cookie/fxCookie";
+import { useLoginTokenStorage } from "../../framework/cookie/logintoken.storage";
 
 @Controller()
 export class JPGController {
@@ -19,10 +22,11 @@ export class JPGController {
     @Get(`${SysConfig.VisualStaticPath}/album/:albumName`)
     albumJpg(@Req() req, @Res() res) {
         let dir: string[] = req.url.split("/")
-        let name: string[] = dir[dir.length - 1].split("-")
-        let albumName = name[0];
-        let picName = name.join("-").replace(`${albumName}-`, "")
-        let p = join(GlobalConfig.AlbumPath, albumName, picName);
+
+        let picName = dir[dir.length - 1]
+
+        let p = join(GlobalConfig.AlbumPath, picName.split("-")[0], picName);
+
         if (fs.existsSync(p)) {
             res.header("cache-control", "max-age=946080000, public ");
             fs.readFile(p, (err, fileBuffer) => {
@@ -37,13 +41,21 @@ export class JPGController {
     async mixAlbumJpg(@Req() req, @Res() res) {
         let dir: string[] = req.url.split("/")
         let entryImage = dir[dir.length - 1]
-        let imageModel = await this.httpClient.createClient("entryImageApi", { V: entryImage });
-        const uri: PictureUrlLink = null//dir[dir.length - 1]
-        if (!uri) {
+
+        let cookie = FXCookie(req as FastifyRequestWithCookie)
+        let loginToken = useLoginTokenStorage(cookie).getToken()
+
+        let p = ""
+        if (loginToken) {
+            p = join(GlobalConfig.AlbumPath, entryImage.split('-')[0], entryImage) + ".jpg";
+        } else {
+            p = await this.httpClient.createClient("entryImageApi", { V: entryImage });
+        }
+
+        if (!p) {
             res.send("url error");
         }
 
-        let p = join(GlobalConfig.AlbumPath, uri.AlbumName, uri.Name + "-" + uri.Type) + ".jpg";
         if (fs.existsSync(p)) {
             res.header("cache-control", "max-age=946080000, public ");
             res.header("content-type", ContentType.Jpg)
