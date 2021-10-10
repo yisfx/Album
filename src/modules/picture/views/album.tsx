@@ -9,6 +9,8 @@ import { urlBuilder } from "../../../framework/urlBuilder";
 import { PageNameList } from "../../../framework/route.config";
 import { isMobile } from "../../../framework/utils";
 import { splitDesc } from "../utils/strUtils";
+import { Ajax } from "../../../framework/httpclient/ajax";
+import { AlbumListResponse } from "../../../model/response/albumListResponse";
 
 // if (process.env.BROWSER) {
 require('../../../../static/css/main.css')
@@ -44,16 +46,16 @@ function Cover(props: { AlbumList: Album[] }) {
                             <div>
                                 <FXImage
                                     className={pc ? "main-img-pc" : "main-img-mobile"}
-                                    name={v.Cover+"-max"}
+                                    name={v.Cover}
                                     LoadEnd={() => { }}
                                     type={ImageType.MixAlbum}
                                     desc={v.Description} />
                                 <div className={pc ? "main-desc-pc" : "main-desc-mobile"}
                                     onClick={() => {
-                                        window.location.href = urlBuilder(PageNameList.AlbumPictureList, v.CNName);
+                                        window.location.href = urlBuilder(PageNameList.AlbumPictureList, v.Name);
                                     }}
                                 >
-                                    <div>{v.Name}</div>
+                                    <div>{v.CNName}</div>
                                     <div>{v.Date}</div>
                                     <div dangerouslySetInnerHTML={{ __html: `${splitDesc(v.Description)}...` }} >{ }</div>
                                 </div>
@@ -71,27 +73,38 @@ function RenderAlbumMenuList(props: { albumList: Album[] }) {
         <ul className={isMobile ? "child-menu-list-ul-mobile" : "child-menu-list-ul"}>
             {props.albumList.map(album =>
                 <li onClick={() => {
-                    window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.CNName);
-                }} key={album.Name + "_menu_album"}>{album.Name}
+                    window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.Name);
+                }} key={album.Name + "_menu_album"}>{album.CNName}
                 </li>)}
         </ul>
     </div>
 }
 
 function MenumList(props: { initalState: AlbumState }) {
-    const [selectYear, setSelectYear] = useState(0);
+    const [selectYear, setSelectYear] = useState({ currYear: 0, AlbumList: [] });
     const yearList = props.initalState?.YearList
 
     return <ul className="main-menu-list-ul">
         {yearList.map(year =>
             <li key={year + "_menu_year"}>
                 <div onClick={() => {
-                    setSelectYear(year == selectYear ? 0 : year);
+                    ///sen request
+                    let y = year == selectYear.currYear ? 0 : year
+                    if (props.initalState.CurrentYear == year) {
+                        setSelectYear({ currYear: y, AlbumList: props.initalState.AlbumList });
+                    } else {
+                        Ajax("getEntryAlbumListByYearApi", { Year: year }).then((resp: AlbumListResponse) => {
+                            if (resp.Result) {
+                                let y = year == selectYear.currYear ? 0 : year
+                                setSelectYear({ currYear: y, AlbumList: resp.AlbumList });
+                            }
+                        })
+                    }
                 }}>
-                    <i className={`glyphicon glyphicon-menu-${selectYear == year ? "down" : "right"}`}></i>
+                    <i className={`glyphicon glyphicon-menu-${selectYear.currYear == year ? "down" : "right"}`}></i>
                     &nbsp;&nbsp;{year}
                 </div>
-                {selectYear == year && <RenderAlbumMenuList albumList={props.initalState?.AlbumList} />}
+                {selectYear.currYear == year && <RenderAlbumMenuList albumList={selectYear.AlbumList} />}
             </li>)}
     </ul>
 }

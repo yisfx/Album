@@ -1,5 +1,5 @@
 import { Controller, Get, Req, Res } from "@nestjs/common";
-import { join } from "path";
+import path, { join } from "path";
 import { SysConfig } from "../../conf/site.config";
 import fs from "fs";
 import { GlobalConfig } from "../../conf/global.config";
@@ -10,6 +10,7 @@ import { HttpClient } from "../../framework/httpclient/http.client";
 import { FastifyRequestWithCookie } from "../../model/types/FastifyReqWithCookie";
 import { FXCookie } from "../../framework/cookie/fxCookie";
 import { useLoginTokenStorage } from "../../framework/cookie/logintoken.storage";
+import { DeEntryImageLinkResponse } from "../../model/response/deEntryImageResponse";
 
 @Controller()
 export class JPGController {
@@ -42,19 +43,12 @@ export class JPGController {
         let dir: string[] = req.url.split("/")
         let entryImage = dir[dir.length - 1]
 
-        let cookie = FXCookie(req as FastifyRequestWithCookie)
-        let loginToken = useLoginTokenStorage(cookie).getToken()
-
-        let p = ""
-        if (loginToken) {
-            p = join(GlobalConfig.AlbumPath, entryImage.split('-')[0], entryImage) + ".jpg";
-        } else {
-            p = await this.httpClient.createClient("entryImageApi", { V: entryImage });
-        }
-
-        if (!p) {
+        let result = await this.httpClient.createClient<DeEntryImageLinkResponse>("deentryImageApi", { V: entryImage });
+        if (!result.Result) {
             res.send("url error");
         }
+
+        let p = path.join(GlobalConfig.AlbumPath, result.ImagePath + ".jpg")
 
         if (fs.existsSync(p)) {
             res.header("cache-control", "max-age=946080000, public ");

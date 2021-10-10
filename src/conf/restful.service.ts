@@ -11,7 +11,7 @@ class Resuful {
 enum ServiceType {
     Album = "Album",
     Admin = "Admin",
-    Login="Login"
+    Login = "Login"
 }
 
 
@@ -96,8 +96,22 @@ const RestfulService: { [key: string]: Resuful } = {
         Method: "POST",
         URL: "Manage/GetAlbumListByYear",
         Service: ServiceType.Admin,
+        NeedLogin: true,
+        ServiceOnly: false
+    },
+    "getEntryAlbumListByYearApi": {
+        Method: "POST",
+        URL: "Manage/GetEntryAlbumListByYear",
+        Service: ServiceType.Admin,
         NeedLogin: false,
         ServiceOnly: false
+    },
+    "getEntryAlbumPicListApi": {
+        Method: "POST",
+        URL: "Manage/GetEntryAlbumPicList",
+        Service: ServiceType.Admin,
+        NeedLogin: false,
+        ServiceOnly: true
     },
     "buildAllYears": {
         Method: "POST",
@@ -113,26 +127,26 @@ const RestfulService: { [key: string]: Resuful } = {
         NeedLogin: false,
         ServiceOnly: true
     },
-    "loginApi":{
+    "loginApi": {
         Method: "POST",
         URL: "Login/Login",
         Service: ServiceType.Login,
         NeedLogin: false,
         ServiceOnly: true
     },
-    "loginAuthApi":{
+    "loginAuthApi": {
         Method: "POST",
         URL: "Login/Auth",
         Service: ServiceType.Login,
         NeedLogin: false,
         ServiceOnly: true
     },
-    "entryImageApi":{
+    "deentryImageApi": {
         Method: "POST",
         URL: "Entry/DeEntry",
         Service: ServiceType.Album,
         NeedLogin: false,
-        ServiceOnly: false
+        ServiceOnly: true
     }
 }
 

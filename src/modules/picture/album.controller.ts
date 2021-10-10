@@ -17,13 +17,14 @@ export class AlbumController {
 
 	async getAlbumList(year: number): Promise<Album[]> {
 
-		const resp = await this.httpClient.createClient<AlbumListResponse>("getAlbumListByYear", { Year: year });
+		const resp = await this.httpClient.createClient<AlbumListResponse>("getEntryAlbumListByYearApi", { Year: year });
+
 		return resp.AlbumList
 	}
 
 	async getAlbum(albumName: string): Promise<GetAlbumResponse> {
 		const request: GetAlbumRequest = { AlbumName: albumName }
-		return await this.httpClient.createClient<GetAlbumResponse>("getAlbumPicApi", request);
+		return await this.httpClient.createClient<GetAlbumResponse>("getEntryAlbumPicListApi", request);
 
 	}
 
@@ -53,14 +54,16 @@ export class AlbumController {
 	@Get("/album/:route")
 	@RouteRender(RouteConfig.AlbumPictureList.name)
 	async AlbumPicture(@Param() params) {
-		const name: string[] = params.route.split("-")
-		const albumName = name[0];
-		const date: number = parseInt(name[1]);
-		if ((new Date().getDate()) != date) {
-			throw Redirect("404");
-		}
+		try {
+			const resp = await this.getAlbum(params.route)
 
-		const resp = await this.getAlbum(albumName)
-		return { initData: { ...resp } }
+			if (!resp.Result) {
+				throw Redirect("404");
+			}
+
+			return { initData: { ...resp } }
+		} catch (ex) {
+			console.log(ex)
+		}
 	}
 }

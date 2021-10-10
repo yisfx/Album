@@ -1,7 +1,5 @@
 import { FXImage, FXImageIProps } from "./fxImage"
 import React, { useEffect, useState } from "react";
-import { buildImageUrl } from "../imageBuild";
-import { Picture } from "../../model/album";
 
 interface IProps extends FXImageIProps {
     currentPicName: string
