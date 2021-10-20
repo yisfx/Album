@@ -143,21 +143,13 @@ function List() {
 
 declare let File: any
 const preCount = 80000
-function Top() {
-    const { state, dispatcher } = useContext(AlbumPicListContext);
-    const [openModal, setOpenModal] = useState(false)
+
+
+function UploadCell(props: { Album: Album, Index: number, StartUpload: boolean, UpLoadEndCallBack: (index: number) => void, Delete: (index: number) => void }) {
+
     const [file, setFile] = useState({ base64: "", name: "" });
     const [uploadError, setUploadError] = useState("");
     const [uploadState, SetUploadState] = useState(0)
-    useEffect(() => {
-        File.prototype.convertToBase64 = function (callback) {
-            var FR = new FileReader();
-            FR.onload = function (e) {
-                callback(e.target.result)
-            };
-            FR.readAsDataURL(this);
-        }
-    }, [])
 
 
     const upload = async (part: string, partIndex: number, isLast: boolean) => {
@@ -166,7 +158,7 @@ function Top() {
             Value: part,
             IsLastPart: isLast,
             PictureName: file.name,
-            AlbumName: state.Album.Name
+            AlbumName: props.Album.Name
         }
         if (!isLast) {
             Ajax("uploadImagePartApi", request).then(res => {
@@ -176,8 +168,7 @@ function Top() {
             })
         } else {
             Ajax("uploadImagePartApi", request).then(res => {
-                alert("done");
-                window.location.reload();
+                props.UpLoadEndCallBack(props.Index)
             })
         }
     }
@@ -199,6 +190,61 @@ function Top() {
         upload(pre, 0, !pre);
     }
 
+
+    return <>
+        <div>
+            {file.name &&
+                <div>
+                    <img src={`data:image/jpeg;base64,${file.base64}`} style={{ width: "50%", height: "50%", objectFit: "contain" }} />
+                    <div>{file.name}</div>
+                </div>
+            }
+
+            <input type="file" name='file' onChange={(evt: any) => {
+                let name: string = evt.target.files[0].size + evt.target.files[0].name;
+                evt.target.files[0].convertToBase64((base64: string) => {
+                    setFile({
+                        base64: base64.replace("data:image/jpeg;base64,", ""),
+                        name: name.toLocaleLowerCase().replace(".jpg", "")
+                    })
+                })
+            }} />
+            {uploadError &&
+                <div className="alert alert-danger" role="alert">{uploadError}</div>
+            }
+            <input type="submit" value="上传" onClick={() => {
+                UploadPicture();
+            }} />
+            {uploadState > 0 &&
+                <div>{uploadState}</div>
+            }
+        </div>
+
+
+    </>
+}
+
+function Top() {
+    const { state, dispatcher } = useContext(AlbumPicListContext);
+    const [openModal, setOpenModal] = useState(false)
+    let fileListTemp: {
+        CurrIndex: number
+        Files: { Index: number, IsUpload: boolean }[]
+    }
+    const [fileList, setFileList] = useState(fileListTemp)
+
+    useEffect(() => {
+        File.prototype.convertToBase64 = function (callback) {
+            var FR = new FileReader();
+            FR.onload = function (e) {
+                callback(e.target.result)
+            };
+            FR.readAsDataURL(this);
+        }
+        if (!fileList?.Files || fileList.Files.length < 1) {
+            setFileList({ CurrIndex: 1, Files: [{ Index: 1, IsUpload: false }] })
+        }
+    }, [])
 
 
     return <div>
@@ -223,8 +269,10 @@ function Top() {
                         <button className="btn btn-default" type="submit"
                             onClick={() => {
                                 Ajax("rebuildAlbumApi", { AlbumName: state.Album.Name }).then(resp => {
-                                    if (resp?.Result)
+                                    if (resp?.Result) {
                                         alert("done")
+                                        window.location.reload();
+                                    }
                                 })
                             }}
                         >Rebuild</button>
@@ -233,34 +281,32 @@ function Top() {
             </div>
         </div>
         <FXModal showCloseBtn={true} isOpen={openModal}
-            close={() => { setFile({ name: "", base64: "" }); setOpenModal(false) }}
+            close={() => {
+                setFileList({ CurrIndex: 0, Files: [] })
+                setOpenModal(false)
+            }}
         >
-            <div>
-                {file.name &&
-                    <div>
-                        <img src={`data:image/jpeg;base64,${file.base64}`} style={{ width: "50%", height: "50%", objectFit: "contain" }} />
-                        <div>{file.name}</div>
-                    </div>
-                }
+            <div className={"panel"}><button value={"Add Upload Cell"} onClick={() => {
 
-                <input type="file" name='file' onChange={(evt: any) => {
-                    let name: string = evt.target.files[0].size + evt.target.files[0].name;
-                    evt.target.files[0].convertToBase64((base64: string) => {
-                        setFile({
-                            base64: base64.replace("data:image/jpeg;base64,", ""),
-                            name: name.toLocaleLowerCase().replace(".jpg", "")
-                        })
-                    })
-                }} />
-                {uploadError &&
-                    <div className="alert alert-danger" role="alert">{uploadError}</div>
-                }
-                <input type="submit" value="上传" onClick={() => {
-                    UploadPicture();
-                }} />
-                {uploadState > 0 &&
-                    <div>{uploadState}</div>
-                }
+                let ls = [...fileList.Files]
+                let NextIndex = fileList.CurrIndex + 1;
+                ls.push({ Index: NextIndex, IsUpload: false })
+                setFileList({ CurrIndex: NextIndex, Files: [...ls] })
+            }} >Add Upload Cell</button></div>
+            <hr />
+            <div style={{}}>
+                {fileList?.Files?.map(c => {
+                    return <>
+                        <UploadCell key={`${state.Album.Name}_${c.Index}`} Album={state.Album} Index={c.Index} StartUpload={c.IsUpload}
+                            Delete={(index) => {
+
+                            }}
+                            UpLoadEndCallBack={(index) => {
+
+                            }} />
+                        <hr />
+                    </>
+                })}
             </div>
         </FXModal>
     </div>
