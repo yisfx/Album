@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 // if (process.env.BROWSER) {
-    require('./modal.css')
+require('./modal.css')
 // }
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
     attr?: React.HTMLAttributes<HTMLDivElement>
     showCloseBtn: boolean
     backDropClose?: boolean
+    OverScrollY?: boolean
 }
 
 export const FXModal: FC<Props> = (props) => {
@@ -25,7 +26,7 @@ export const FXModal: FC<Props> = (props) => {
             <div className="modal-container" onClick={() => {
                 props.backDropClose && close(null)
             }}></div>
-            <div className="fx-modal-content" onClick={(evt) => {
+            <div style={props.OverScrollY && { overflowY: 'auto' }} className="fx-modal-content" onClick={(evt) => {
                 //evt.preventDefault();
             }}
                 {...props.attr}

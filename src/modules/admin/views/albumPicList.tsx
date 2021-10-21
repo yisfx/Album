@@ -152,6 +152,14 @@ function UploadCell(props: { Album: Album, Index: number, StartUpload: boolean, 
     const [uploadState, SetUploadState] = useState(0)
 
 
+    useEffect(() => {
+        if (props.StartUpload) {
+            UploadPicture();
+        }
+    }, [props.StartUpload])
+
+
+
     const upload = async (part: string, partIndex: number, isLast: boolean) => {
         let request: PicturePartUploadRequest = {
             PartIndex: partIndex,
@@ -175,7 +183,7 @@ function UploadCell(props: { Album: Album, Index: number, StartUpload: boolean, 
 
     const UploadPicture = async () => {
         if (!file.name || !file.base64) {
-            window.location.reload();
+            props.UpLoadEndCallBack(props.Index)
             return;
         }
 
@@ -209,12 +217,11 @@ function UploadCell(props: { Album: Album, Index: number, StartUpload: boolean, 
                     })
                 })
             }} />
+
             {uploadError &&
                 <div className="alert alert-danger" role="alert">{uploadError}</div>
             }
-            <input type="submit" value="上传" onClick={() => {
-                UploadPicture();
-            }} />
+            <input type="button" value="Delete" onClick={() => { props.Delete(props.Index) }} />
             {uploadState > 0 &&
                 <div>{uploadState}</div>
             }
@@ -245,6 +252,18 @@ function Top() {
             setFileList({ CurrIndex: 1, Files: [{ Index: 1, IsUpload: false }] })
         }
     }, [])
+
+
+    const StartUpload = (index: number) => {
+        let preUploadList = fileList.Files.filter(file => !file.IsUpload && file.Index !== index)
+        if (!preUploadList || preUploadList.length < 1) {
+            alert("done")
+            window.location.reload();
+        }
+        preUploadList[0].IsUpload = true;
+        setFileList({ CurrIndex: fileList.CurrIndex, Files: [...preUploadList] })
+    }
+
 
 
     return <div>
@@ -280,7 +299,7 @@ function Top() {
                 </div>
             </div>
         </div>
-        <FXModal showCloseBtn={true} isOpen={openModal}
+        <FXModal OverScrollY={true} showCloseBtn={true} isOpen={openModal}
             close={() => {
                 setFileList({ CurrIndex: 0, Files: [] })
                 setOpenModal(false)
@@ -293,23 +312,30 @@ function Top() {
                 ls.push({ Index: NextIndex, IsUpload: false })
                 setFileList({ CurrIndex: NextIndex, Files: [...ls] })
             }} >Add Upload Cell</button></div>
+            <div> <input type="button" value="Start Upload"
+                onClick={() => {
+                    StartUpload(-1);
+                }}
+            />
+            </div>
             <hr />
-            <div style={{}}>
+            <div>
                 {fileList?.Files?.map(c => {
-                    return <>
-                        <UploadCell key={`${state.Album.Name}_${c.Index}`} Album={state.Album} Index={c.Index} StartUpload={c.IsUpload}
+                    return <div key={`${state.Album.Name}_${c.Index}`}>
+                        <UploadCell Album={state.Album} Index={c.Index} StartUpload={c.IsUpload}
                             Delete={(index) => {
-
+                                let filterList = fileList.Files.filter((f) => f.Index !== index)
+                                setFileList({ CurrIndex: fileList.CurrIndex, Files: [...filterList] });
                             }}
                             UpLoadEndCallBack={(index) => {
-
+                                StartUpload(index)
                             }} />
                         <hr />
-                    </>
+                    </div>
                 })}
             </div>
-        </FXModal>
-    </div>
+        </FXModal >
+    </div >
 }
 
 function Content(initalState: AlbumPicListState) {
