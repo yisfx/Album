@@ -85,9 +85,8 @@ function Pic(props: { p: Picture, album: Album, CurrentLoad: string, LoadEnd: (i
                 <div className="col-sm-2"></div> <div>are you sure delete this {deleteConfirmModal.deleteType}？</div>
             </div>
             <div className="thumbnail">
-
                 <FXImage style={{ height: "250px", objectFit: "contain" }}
-                    name={`${props.p.Album}-${props.p.Name}-mini.jpg`}
+                    name={`${props.p.Name}-mini.jpg`}
                     type={ImageType.Album}
                     desc={undefined}
                 />

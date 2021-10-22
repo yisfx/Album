@@ -15,6 +15,7 @@ import { AlbumListResponse } from "../../../model/response/albumListResponse";
 // if (process.env.BROWSER) {
 require('../../../../static/css/main.css')
 require('swiper/dist/css/swiper.css')
+require('../../../../static/css/leftMenu.css')
 // }
 
 
@@ -110,6 +111,44 @@ function MenumList(props: { initalState: AlbumState }) {
 }
 
 
+
+function LeftMenu() {
+
+    enum MenuStep {
+        Showing = "Showing",
+        Show = "Show",
+        Hiddening = "Hiddening",
+        Hidden = "Hidden"
+    }
+
+
+    const [menu, showMenu] = useState(false)
+    const [menuStep, setMenuStep] = useState(MenuStep.Hidden)
+
+
+    const [icon, showIcon] = useState(true)
+    const [iconStep, setIconStep] = useState(MenuStep.Show)
+
+
+    return <>
+        {icon &&
+            <span className={` left-menu-icon glyphicon glyphicon-menu-hamburger`}
+                aria-hidden="true"
+                onClick={() => {
+
+                }}
+            />
+        }
+        {menu
+
+        }
+
+    </>
+}
+
+
+
+
 function Content(initalState: AlbumState) {
 
     const [openMenu, setShowMenu] = useState(false)
@@ -128,6 +167,7 @@ function Content(initalState: AlbumState) {
                     </div>
                 }
             </div>
+            <LeftMenu />
             <div className="Cover">
                 <Cover AlbumList={initalState.AlbumList} />
             </div>
