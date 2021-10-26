@@ -112,63 +112,82 @@ function MenumList(props: { initalState: AlbumState }) {
 
 
 
-function LeftMenu() {
+function LeftMenu(props: { initalState: AlbumState }) {
 
     enum MenuStep {
-        Showing = "Showing",
         Show = "Show",
-        Hiddening = "Hiddening",
         Hidden = "Hidden"
     }
 
+    const [selectYear, setSelectYear] = useState({ currYear: 0, AlbumList: [] });
+    const yearList = props.initalState?.YearList
 
-    const [menu, showMenu] = useState(false)
     const [menuStep, setMenuStep] = useState(MenuStep.Hidden)
-
-
-    const [icon, showIcon] = useState(true)
     const [iconStep, setIconStep] = useState(MenuStep.Show)
-function show() {
-            $(".glyphicon-menu-hamburger").removeClass("show-menu-icon")
-            $(".glyphicon-menu-hamburger").addClass("hiden-menu-icon")
 
-            $(".left-menu-container").removeClass("hiden-menu-container")
-            $(".left-menu-container").addClass("show-menu-container")
-
-            $(".left-menu-container-shadow").show()
-        }
-
-        function close() {
-            $(".left-menu-container").removeClass("show-menu-container")
-            $(".left-menu-container").addClass("hiden-menu-container")
-
-            $(".glyphicon-menu-hamburger").removeClass("hiden-menu-icon")
-            $(".glyphicon-menu-hamburger").addClass("show-menu-icon")
-
-            $(".left-menu-container-shadow").hide()
-        }
-        $(".glyphicon-menu-hamburger").click(function () {
-            show()
-        })
-        $(".left-menu-container-shadow").click(function () {
-            close()
-        })
-        $(".glyphicon-menu-left").click(function () {
-            close()
-        })
+    const show = () => {
+        setIconStep(MenuStep.Hidden)
+        setMenuStep(MenuStep.Show)
+    }
+    const close = () => {
+        setIconStep(MenuStep.Show)
+        setMenuStep(MenuStep.Hidden)
+        setSelectYear({ currYear: 0, AlbumList: [] })
+    }
 
     return <>
-        {icon &&
-            <span className={` left-menu-icon glyphicon glyphicon-menu-hamburger`}
-                aria-hidden="true"
-                onClick={() => {
 
-                }}
-            />
+        <div className={`${iconStep == MenuStep.Show ? "show-menu-icon" : "hiden-menu-icon"} left-menu-icon glyphicon glyphicon-menu-hamburger`}
+            aria-hidden="true"
+            onClick={() => show()}
+        ></div>
+        {menuStep == MenuStep.Show &&
+            <div className="left-menu-container-shadow" onClick={() => close()}></div>
         }
-        {menu
+        <div className={`${menuStep == MenuStep.Show ? "show-menu-container" : "hiden-menu-container"} left-menu-container`}>
+            <div className="glyphicon-menu-left glyphicon glyphicon-menu-left" onClick={() => close()}></div>
+            <div className={"year-list"}>
+                {props.initalState.YearList.map((year, index) => {
+                    return <React.Fragment key={`yea-list-${year}`}>
+                        <div className={"year"}
+                            onClick={() => {
+                                let y = year == selectYear.currYear ? 0 : year
+                                if (props.initalState.CurrentYear == year) {
+                                    setSelectYear({ currYear: y, AlbumList: props.initalState.AlbumList });
+                                } else {
+                                    Ajax("getEntryAlbumListByYearApi", { Year: year }).then((resp: AlbumListResponse) => {
+                                        if (resp.Result) {
+                                            let y = year == selectYear.currYear ? 0 : year
+                                            setSelectYear({ currYear: y, AlbumList: resp.AlbumList });
+                                        }
+                                    })
+                                }
+                            }}>
+                            {year}
+                        </div>
+                        {selectYear.currYear == year &&
+                            <>
+                                <div className={"album-list"}>{selectYear.AlbumList.map(album =>
+                                    <div key={`left-album-${album.CNName}`}
+                                        className={"album"}
+                                        onClick={() => {
+                                            window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.Name);
+                                        }}>{album.CNName}</div>
+                                )}
 
-        }
+                                </div>
+                            </>
+                        }
+
+                        {index != props.initalState.YearList.length - 1 &&
+                            <div className={"year-line"}></div>
+                        }
+                    </React.Fragment>
+                })}
+
+            </div>
+
+        </div>
 
     </>
 }
@@ -194,7 +213,7 @@ function Content(initalState: AlbumState) {
                     </div>
                 }
             </div>
-            <LeftMenu />
+            <LeftMenu initalState={initalState} />
             <div className="Cover">
                 <Cover AlbumList={initalState.AlbumList} />
             </div>
