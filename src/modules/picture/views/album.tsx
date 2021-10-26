@@ -128,7 +128,34 @@ function LeftMenu() {
 
     const [icon, showIcon] = useState(true)
     const [iconStep, setIconStep] = useState(MenuStep.Show)
+function show() {
+            $(".glyphicon-menu-hamburger").removeClass("show-menu-icon")
+            $(".glyphicon-menu-hamburger").addClass("hiden-menu-icon")
 
+            $(".left-menu-container").removeClass("hiden-menu-container")
+            $(".left-menu-container").addClass("show-menu-container")
+
+            $(".left-menu-container-shadow").show()
+        }
+
+        function close() {
+            $(".left-menu-container").removeClass("show-menu-container")
+            $(".left-menu-container").addClass("hiden-menu-container")
+
+            $(".glyphicon-menu-hamburger").removeClass("hiden-menu-icon")
+            $(".glyphicon-menu-hamburger").addClass("show-menu-icon")
+
+            $(".left-menu-container-shadow").hide()
+        }
+        $(".glyphicon-menu-hamburger").click(function () {
+            show()
+        })
+        $(".left-menu-container-shadow").click(function () {
+            close()
+        })
+        $(".glyphicon-menu-left").click(function () {
+            close()
+        })
 
     return <>
         {icon &&
