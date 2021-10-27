@@ -1,9 +1,10 @@
 import React from "react";
+import { YearAlbumList } from "../../../model/response/getAllYearsResponse";
 import { Album } from "../../../model/album";
 
 export class AlbumState {
     AlbumList: Album[]
-    YearList: string[]
+    YearList: YearAlbumList[]
     CurrentYear: string
     a: number = 0
 }

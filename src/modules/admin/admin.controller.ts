@@ -26,10 +26,10 @@ export class AdminController {
         let curYear: number = request.query["year"]
         let yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
 
-        let yearList = yearListResponse.AllYears.sort((a, b) => b - a)
+        let yearList = yearListResponse.AllYears.sort((a, b) => b.Year - a.Year)
 
         if (!curYear) {
-            curYear = yearList[0]
+            curYear = yearList[0].Year
         }
         let resp = await this.httpClient.createClient<AlbumListResponse>("getAlbumListByYear", { Year: curYear });
         return {

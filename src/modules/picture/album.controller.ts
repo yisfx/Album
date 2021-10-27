@@ -17,7 +17,7 @@ export class AlbumController {
 
 	async getAlbumList(year: number): Promise<Album[]> {
 
-		const resp = await this.httpClient.createClient<AlbumListResponse>("getEntryAlbumListByYearApi", { Year: year });
+		const resp = await this.httpClient.createClient<AlbumListResponse>("getEntryAlbumListByYearApi", { Year: year.toString() });
 
 		return resp.AlbumList
 	}
@@ -33,10 +33,11 @@ export class AlbumController {
 	async getHello() {
 		///yearList
 		const yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
-		const yearList = yearListResponse.AllYears.sort((a, b) => b - a)
 
-		const albumList = await this.getAlbumList(yearList[0]);
-		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0] } }
+		const yearList = yearListResponse.AllYears.sort((a, b) => b.Year - a.Year)
+
+		const albumList = await this.getAlbumList(yearList[0].Year);
+		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0].Year } }
 	}
 
 	@Get()
@@ -45,10 +46,10 @@ export class AlbumController {
 
 		///yearList
 		const yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
-		const yearList = yearListResponse.AllYears.sort((a, b) => b - a)
+		const yearList = yearListResponse.AllYears.sort((a, b) => b.Year - a.Year)
 
-		const albumList = await this.getAlbumList(yearList[0]);
-		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0] } }
+		const albumList = await this.getAlbumList(yearList[0].Year);
+		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0].Year } }
 	}
 
 	@Get("/album/:route")

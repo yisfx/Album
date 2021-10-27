@@ -264,10 +264,10 @@ function List() {
         <div className="col-sm-1">
             <div className="list-group">
                 {state.YearList?.map((y, index) => {
-                    if (y == state.CurrentYear) {
-                        return <div key={"year" + y}>{y}</div>
+                    if (y.Year.toString() == state.CurrentYear) {
+                        return <div key={"year" + y.Year}>{y.Year}</div>
                     } else {
-                        return <div key={"year" + y}><a href={urlBuilder(PageNameList.AdminAlbum, null, { year: y })}>{y}</a></div>
+                        return <div key={"year" + y.Year}><a href={urlBuilder(PageNameList.AdminAlbum, null, { year: y.Year })}>{y.Year}</a></div>
                     }
 
                 })}

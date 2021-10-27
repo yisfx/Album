@@ -69,60 +69,20 @@ function Cover(props: { AlbumList: Album[] }) {
     </>
 }
 
-function RenderAlbumMenuList(props: { albumList: Album[] }) {
-    return <div>
-        <ul className={isMobile ? "child-menu-list-ul-mobile" : "child-menu-list-ul"}>
-            {props.albumList.map(album =>
-                <li onClick={() => {
-                    window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.Name);
-                }} key={album.Name + "_menu_album"}>{album.CNName}
-                </li>)}
-        </ul>
-    </div>
-}
-
-function MenumList(props: { initalState: AlbumState }) {
-    const [selectYear, setSelectYear] = useState({ currYear: 0, AlbumList: [] });
-    const yearList = props.initalState?.YearList
-
-    return <ul className="main-menu-list-ul">
-        {yearList.map(year =>
-            <li key={year + "_menu_year"}>
-                <div onClick={() => {
-                    ///sen request
-                    let y = year == selectYear.currYear ? 0 : year
-                    if (props.initalState.CurrentYear == year) {
-                        setSelectYear({ currYear: y, AlbumList: props.initalState.AlbumList });
-                    } else {
-                        Ajax("getEntryAlbumListByYearApi", { Year: year }).then((resp: AlbumListResponse) => {
-                            if (resp.Result) {
-                                let y = year == selectYear.currYear ? 0 : year
-                                setSelectYear({ currYear: y, AlbumList: resp.AlbumList });
-                            }
-                        })
-                    }
-                }}>
-                    <i className={`glyphicon glyphicon-menu-${selectYear.currYear == year ? "down" : "right"}`}></i>
-                    &nbsp;&nbsp;{year}
-                </div>
-                {selectYear.currYear == year && <RenderAlbumMenuList albumList={selectYear.AlbumList} />}
-            </li>)}
-    </ul>
-}
-
 
 
 function LeftMenu(props: { initalState: AlbumState }) {
 
     enum MenuStep {
         Show = "Show",
-        Hidden = "Hidden"
+        Hidden = "Hidden",
+        Load = "load"
     }
 
-    const [selectYear, setSelectYear] = useState({ currYear: 0, AlbumList: [] });
+    const [selectYear, setSelectYear] = useState({ currYear: 0 });
     const yearList = props.initalState?.YearList
 
-    const [menuStep, setMenuStep] = useState(MenuStep.Hidden)
+    const [menuStep, setMenuStep] = useState(MenuStep.Load)
     const [iconStep, setIconStep] = useState(MenuStep.Show)
 
     const show = () => {
@@ -132,7 +92,7 @@ function LeftMenu(props: { initalState: AlbumState }) {
     const close = () => {
         setIconStep(MenuStep.Show)
         setMenuStep(MenuStep.Hidden)
-        setSelectYear({ currYear: 0, AlbumList: [] })
+        setSelectYear({ currYear: 0 })
     }
 
     return <>
@@ -142,51 +102,50 @@ function LeftMenu(props: { initalState: AlbumState }) {
             onClick={() => show()}
         ></div>
         {menuStep == MenuStep.Show &&
-            <div className="left-menu-container-shadow" onClick={() => close()}></div>
+            <div className="left-menu-container-shadow" onClick={() => { close() }}></div>
         }
-        <div className={`${menuStep == MenuStep.Show ? "show-menu-container" : "hiden-menu-container"} left-menu-container`}>
-            <div className="glyphicon-menu-left glyphicon glyphicon-menu-left" onClick={() => close()}></div>
-            <div className={"year-list"}>
-                {props.initalState.YearList.map((year, index) => {
-                    return <React.Fragment key={`yea-list-${year}`}>
-                        <div className={"year"}
-                            onClick={() => {
-                                let y = year == selectYear.currYear ? 0 : year
-                                if (props.initalState.CurrentYear == year) {
-                                    setSelectYear({ currYear: y, AlbumList: props.initalState.AlbumList });
-                                } else {
-                                    Ajax("getEntryAlbumListByYearApi", { Year: year }).then((resp: AlbumListResponse) => {
-                                        if (resp.Result) {
-                                            let y = year == selectYear.currYear ? 0 : year
-                                            setSelectYear({ currYear: y, AlbumList: resp.AlbumList });
-                                        }
-                                    })
-                                }
-                            }}>
-                            {year}
-                        </div>
-                        {selectYear.currYear == year &&
+
+        <div className={`${menuStep == MenuStep.Load ? "" : (menuStep == MenuStep.Hidden ? "hiden-menu-container" : "show-menu-container")} left-menu-container`}>
+
+
+            <div className="glyphicon glyphicon-menu-left" onClick={() => { close() }}></div>
+
+            <div className="menu-year-list">
+
+                <div className={"menu-year"}>
+                    {props.initalState.YearList.map((year, index) => {
+
+                        return <React.Fragment key={`yea-list-${year.Year}`}>
+
+                            <div className={"year"}
+                                onClick={() => {
+                                    let y = year.Year == selectYear.currYear ? 0 : year.Year
+
+                                    setSelectYear({ currYear: y });
+                                }}>
+                                {year.Year}
+                            </div>
                             <>
-                                <div className={"album-list"}>{selectYear.AlbumList.map(album =>
-                                    <div key={`left-album-${album.CNName}`}
-                                        className={"album"}
-                                        onClick={() => {
-                                            window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.Name);
-                                        }}>{album.CNName}</div>
-                                )}
+                                <div className={`${selectYear.currYear == year.Year ? "show-album-list" : "hiden-album-list"} album-list`}>
+                                    {year.AlbumList.map(album =>
+                                        <div key={`left-album-${album.CNName}`}
+                                            className={`${selectYear.currYear == year.Year ? "show-album-list" : "hiden-album-list"} album`}
+                                            onClick={() => {
+                                                window.location.href = urlBuilder(PageNameList.AlbumPictureList, album.Name);
+                                            }}>{album.CNName}</div>
+                                    )}
 
                                 </div>
                             </>
-                        }
 
-                        {index != props.initalState.YearList.length - 1 &&
-                            <div className={"year-line"}></div>
-                        }
-                    </React.Fragment>
-                })}
+                            {index != props.initalState.YearList.length - 1 &&
+                                <div className={"line"}></div>
+                            }
+                        </React.Fragment>
+                    })}
 
+                </div>
             </div>
-
         </div>
 
     </>
@@ -200,19 +159,6 @@ function Content(initalState: AlbumState) {
     const [openMenu, setShowMenu] = useState(false)
     return (
         <div className="bgground">
-            <div className={isMobile ? "main-menum-mobile" : "main-menum"}>
-                <div className={`${isMobile ? "menu-icon-mobile" : "menu-icon"} glyphicon ${openMenu ? "glyphicon-menu-up" : "glyphicon-menu-down"}`}
-
-                    onClick={() => {
-                        setShowMenu(!openMenu);
-                    }}>
-                </div>
-                {openMenu &&
-                    <div className={isMobile ? "main-menu-list-mobile" : "main-menu-list"}>
-                        <MenumList initalState={initalState} />
-                    </div>
-                }
-            </div>
             <LeftMenu initalState={initalState} />
             <div className="Cover">
                 <Cover AlbumList={initalState.AlbumList} />
