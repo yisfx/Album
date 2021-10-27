@@ -1,0 +1,353 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+
+<body style="background-color: aqua;">
+    <script src="https://c1.neweggimages.com/webResource/Scripts/WWW/jquery-3.5.1.min.js"></script>
+    <style>
+        .left-menu-icon {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            font-size: 24px;
+            color: rgb(81, 151, 255);
+            z-index: 999;
+        }
+
+        .left-menu-container {
+            left: -350px;
+            position: absolute;
+            height: 100vh;
+            width: 350px;
+            background-color: rgb(81, 151, 255);
+            z-index: 999;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(81, 151, 255);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .left-menu-container::-webkit-scrollbar {
+            background-color: rgb(81, 151, 255);
+            width: 2px;
+        }
+
+        .left-menu-container::-webkit-scrollbar-thumb {
+            border-radius: 2px;
+            background-color: #fff;
+        }
+
+
+        .glyphicon-menu-left::before {
+            left: 320px;
+            font-size: larger;
+            color: white;
+            position: absolute;
+        }
+
+        .show-menu-container {
+            padding-top: 10px;
+            animation: show-menu-container-keyframe .5s ease-in 0s 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes show-menu-container-keyframe {
+            0% {
+                left: -350px;
+            }
+
+            100% {
+                left: 0px;
+            }
+        }
+
+        .hiden-menu-container {
+            padding-top: 10px;
+            animation: hiden-menu-container-keyframe .5s ease-in 0s 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes hiden-menu-container-keyframe {
+            0% {
+                left: 0px;
+            }
+
+            100% {
+                left: -350px;
+            }
+        }
+
+        .hiden-menu-icon {
+            left: 10px;
+            animation: hiden-menu-icon-keyframe .3s ease-in 0s 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes hiden-menu-icon-keyframe {
+            0% {
+                left: 10px;
+            }
+
+            100% {
+                left: -50px;
+            }
+        }
+
+
+
+        .show-menu-icon {
+            left: 10px;
+            animation: show-menu-icon-keyframe .3s ease-in 0s 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes show-menu-icon-keyframe {
+            0% {
+                left: -50px;
+            }
+
+            100% {
+                left: 10px;
+            }
+        }
+
+        ul {
+            padding-left: 0px;
+        }
+
+        .left-menu-container-shadow {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            background-color: black;
+            opacity: .2;
+        }
+
+        .line {
+            background-color: transparent;
+            border-top: 1px solid #fff;
+            margin-bottom: 10px;
+        }
+
+        .menu-year-list {
+            margin-top: 50px;
+        }
+
+        .menu-year-list>.menu-year>.year {
+            font-size: larger;
+            color: rgb(255, 255, 255);
+            padding-left: 10px;
+            cursor: default;
+            z-index: 999;
+        }
+
+        .menu-year-list>.menu-year>.year>span {
+            padding-right: 5px;
+        }
+
+        .menu-year-list>.menu-year>.album-list {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 30px rgba(102, 94, 94, 0.5);
+            padding-left: 25px;
+            width: 350px;
+        }
+
+        .menu-year-list>.menu-year>.album-list>.album {
+            cursor: default;
+        }
+
+        .show-album-list {
+            animation: show-album-list-keyframe .5s ease-in-out 0s 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes show-album-list-keyframe {
+            0% {
+                height: 0vh;
+                opacity: 0;
+                padding-top: 0px;
+                width: 0;
+                left: -350px;
+            }
+
+            100% {
+                height: auto;
+                opacity: 1;
+                padding-top: 10px;
+                width: auto;
+                left: auto;
+            }
+        }
+
+        .hiden-album-list {
+            animation: hiden-album-list-keyframe .5s ease-in-out 0s 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes hiden-album-list-keyframe {
+            0% {
+                height: auto;
+                opacity: 1;
+                padding-top: 10px;
+                width: auto;
+                left: auto;
+            }
+
+            100% {
+                height: 0vh;
+                opacity: 0;
+                padding-top: 0px;
+                width: 0;
+                left: -350px;
+            }
+        }
+    </style>
+    <span class="left-menu-icon glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+    <div class="left-menu-container-shadow" hidden></div>
+    <div class="left-menu-container">
+        <div class="glyphicon glyphicon-menu-left" aria-hidden="true"></div>
+        <div class="menu-year-list">
+            <div class="menu-year">
+                <div class="year" data-status="1"><span>></span><span>2021</span></div>
+                <div class="album-list">
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                </div>
+                <div class="line"></div>
+                <div class="year" data-status="1"><span>></span><span>2021</span></div>
+                <div class="album-list">
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                </div>
+                <div class="line"></div>
+                <div class="year" data-status="1"><span>></span><span>2021</span></div>
+                <div class="album-list">
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                </div>
+                <div class="line"></div>
+                <div class="year" data-status="1"><span>></span><span>2021</span></div>
+                <div class="album-list">
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                </div>
+                <div class="line"></div>
+                <div class="year" data-status="1"><span>></span><span>2021</span></div>
+                <div class="album-list">
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                </div>
+                <div class="line"></div>
+                <div class="year" data-status="1"><span>></span><span>2021</span></div>
+                <div class="album-list">
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                </div>
+                <div class="line"></div>
+                <div class="year" data-status="1"><span>></span><span>2021</span></div>
+                <div class="album-list">
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                </div>
+                <div class="line"></div>
+                <div class="year" data-status="1"><span>></span><span>2021</span></div>
+                <div class="album-list">
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                    <div class="album">album1</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            ///show
+            function show() {
+                $(".glyphicon-menu-hamburger").removeClass("show-menu-icon")
+                $(".glyphicon-menu-hamburger").addClass("hiden-menu-icon")
+
+                $(".left-menu-container").removeClass("hiden-menu-container")
+                $(".left-menu-container").addClass("show-menu-container")
+
+                $(".left-menu-container-shadow").show()
+            }
+
+            function close() {
+                $(".left-menu-container").removeClass("show-menu-container")
+                $(".left-menu-container").addClass("hiden-menu-container")
+
+                $(".glyphicon-menu-hamburger").removeClass("hiden-menu-icon")
+                $(".glyphicon-menu-hamburger").addClass("show-menu-icon")
+
+                $(".left-menu-container-shadow").hide()
+            }
+
+            $(".glyphicon-menu-hamburger").click(function (e) {
+                e.preventDefault()
+                show()
+            })
+            $(".left-menu-container-shadow").click(function (e) {
+                e.preventDefault()
+                close()
+            })
+            $(".glyphicon-menu-left").click(function (e) {
+                e.preventDefault()
+                close()
+            })
+
+            function openAlbum() {
+                $(".year").attr("data-status", 1)
+                $(".album-list").removeClass("hiden-album-list");
+                $(".album-list").addClass("show-album-list");
+                $(".album").removeClass("hiden-album-list");
+                $(".album").addClass("show-album-list");
+            }
+            function closeAlbum() {
+                $(".year").attr("data-status", 0)
+                $(".album-list").removeClass("show-album-list");
+                $(".album-list").addClass("hiden-album-list");
+                $(".album").removeClass("show-album-list");
+                $(".album").addClass("hiden-album-list");
+            }
+            $(".year").click(function () {
+                if ($(".year").attr("data-status") == 1) {
+                    closeAlbum();
+                } else {
+                    openAlbum();
+                }
+            })
+        </script>
+</body>
+
+</html>
