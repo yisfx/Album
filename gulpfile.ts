@@ -107,7 +107,7 @@ gulp.task("run", async (cb) => {
         if(isLunix){
             await exec(`terminator --new-tab -x node ./node_modules/nodemon/bin/nodemon.js ./dist/dev/server.js`)
         }else{
-        await exec("start cmd.exe /K node ./node_modules/nodemon/bin/nodemon.js ./dist/dev/server.js")
+        await exec("start cmd.exe /K node ./node_modules/nodemon/bin/nodemon.js")
         }
     } finally {
         cb()
