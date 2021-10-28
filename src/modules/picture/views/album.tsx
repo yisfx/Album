@@ -96,7 +96,6 @@ function LeftMenu(props: { initalState: AlbumState }) {
     }
 
     return <>
-
         <div className={`${iconStep == MenuStep.Show ? "show-menu-icon" : "hiden-menu-icon"} left-menu-icon glyphicon glyphicon-menu-hamburger`}
             aria-hidden="true"
             onClick={() => show()}
@@ -107,9 +106,9 @@ function LeftMenu(props: { initalState: AlbumState }) {
 
         <div className={`${menuStep == MenuStep.Load ? "" : (menuStep == MenuStep.Hidden ? "hiden-menu-container" : "show-menu-container")} left-menu-container`}>
 
-
-            <div className="glyphicon glyphicon-menu-left" onClick={() => { close() }}></div>
-
+            <div className="left-menu-container-icon">
+                <div className="glyphicon glyphicon-menu-left" onClick={() => { close() }}></div>
+            </div>
             <div className="menu-year-list">
 
                 <div className={"menu-year"}>

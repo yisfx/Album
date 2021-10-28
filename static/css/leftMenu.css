@@ -1,6 +1,6 @@
 .left-menu-icon {
     position: absolute;
-    left: 10px;
+    left: 2vw;
     top: 10px;
     font-size: 24px;
     color: rgb(81, 151, 255);
@@ -8,10 +8,8 @@
 }
 
 .left-menu-container {
-    left: -350px;
     position: absolute;
     height: 100vh;
-    width: 350px;
     background-color: rgb(81, 151, 255);
     z-index: 999;
     padding-top: 10px;
@@ -19,6 +17,10 @@
     box-shadow: 0 4px 8px rgba(81, 151, 255);
     overflow-y: auto;
     overflow-x: hidden;
+
+    width: 0px;
+    min-width: 0px;
+    top: -150vh;
 }
 
 .left-menu-container::-webkit-scrollbar {
@@ -31,14 +33,18 @@
     background-color: #fff;
 }
 
-
-.glyphicon-menu-left::before {
-    left: 320px;
-    font-size: larger;
-    color: white;
-    position: absolute;
+.left-menu-container-icon {
+    text-align: right;
 }
 
+.glyphicon-menu-left::before {
+    right: 10px;
+    font-size: larger;
+    color: white;
+    position: relative;
+}
+
+/* container  animation start*/
 .show-menu-container {
     padding-top: 10px;
     animation: show-menu-container-keyframe .5s ease-in 0s 1;
@@ -47,30 +53,63 @@
 
 @keyframes show-menu-container-keyframe {
     0% {
-        left: -350px;
+        /* left: -17vw;
+        top: -150vh; */
+        width: 0px;
+        min-width: 0px;
+        top: -150vh
+    }
+
+    1% {
+        /* left: -17vw;
+        top: 0px; */
+        width: 0px;
+        min-width: 0px;
+        top: 0vh
     }
 
     100% {
-        left: 0px;
+        /* left: 0px;
+        top: 0px */
+        width: 16vw;
+        min-width: 300px;
+        top: 0vh
     }
 }
 
 .hiden-menu-container {
     padding-top: 10px;
-    animation: hiden-menu-container-keyframe .5s ease-in 0s 1;
+    animation: hiden-menu-container-keyframe .6s ease-in 0s 1;
     animation-fill-mode: forwards;
 }
 
 @keyframes hiden-menu-container-keyframe {
     0% {
-        left: 0px;
+        /* left: 0px; */
+        width: 16vw;
+        min-width: 300px;
+        top: 0px
+    }
+
+    99% {
+        /* left: -17vw;
+        top: 0px; */
+        width: 0px;
+        min-width: 0px;
+        top: 0px
     }
 
     100% {
-        left: -350px;
+        /* top: -150vh */
+        width: 0px;
+        min-width: 0px;
+        top: -150vh
     }
 }
 
+/* container  animation end */
+
+/* menu icon animation start */
 .hiden-menu-icon {
     left: 10px;
     animation: hiden-menu-icon-keyframe .3s ease-in 0s 1;
@@ -105,17 +144,16 @@
     }
 }
 
-ul {
-    padding-left: 0px;
-}
+/* menu icon animation end */
+
 
 .left-menu-container-shadow {
     position: absolute;
     width: 100%;
     height: 100vh;
     background-color: black;
-    opacity: .2;
-    z-index: 500;
+    opacity: .4;
+    z-index: 400;
 }
 
 .line {
@@ -147,13 +185,14 @@ ul {
     background-color: rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 30px rgba(102, 94, 94, 0.5);
     padding-left: 25px;
-    width: 350px;
+    width: 100%;
 }
 
 .menu-year-list>.menu-year>.album-list>.album {
     cursor: default;
 }
 
+/* album list animation start */
 .show-album-list {
     animation: show-album-list-keyframe .5s ease-in-out 0s 1;
     animation-fill-mode: forwards;
@@ -165,7 +204,8 @@ ul {
         opacity: 0;
         padding-top: 0px;
         width: 0;
-        left: -350px;
+        left: -17vw;
+        position: absolute;
     }
 
     100% {
@@ -174,6 +214,7 @@ ul {
         padding-top: 10px;
         width: auto;
         left: auto;
+        position: relative;
     }
 }
 
@@ -189,6 +230,7 @@ ul {
         padding-top: 10px;
         width: auto;
         left: auto;
+        position: relative;
     }
 
     100% {
@@ -196,6 +238,9 @@ ul {
         opacity: 0;
         padding-top: 0px;
         width: 0;
-        left: -350px;
+        left: -17vw;
+        position: absolute;
     }
 }
+
+/* album list animation end */
