@@ -50,6 +50,12 @@ const config = smart(CommonConfig, {
                 const scripts = Object.entries(output).reduce(
                     (acc, [k, v]) => v.js ? ({ [k]: v.js, ...acc }) : acc, {}
                 );
+                
+                scripts['webpack-dev-server'] = {
+                    js: '/webpack-dev-server.js',
+                    scriptSpecies: 'defer',
+                };
+                
                 console.log("js map path:", path.join(__dirname, "../../dist/dev/conf"))
                 console.log("js assets:", scripts);
                 return `${JSON.stringify(scripts, null, 2)}`;
