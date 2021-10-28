@@ -27,10 +27,17 @@ export class DefaultController {
             let request: FastifyRequestWithCookie = req;
             let fxCookie = FXCookie(request);
             let token = useLoginTokenStorage(fxCookie).getToken()
-            if (!token || !ValidateLogin(token, req)) {
+
+            if (!token) {
                 res.send(415);
                 return
             }
+            let authRes = await this.httpClient.createClient<BaseResponse>("loginAuthApi", {})
+            if (!authRes?.Result) {
+                res.send(415);
+                return
+            }
+
         }
 
         let response = await this.httpClient.createClient<BaseResponse>(route, req.body)
