@@ -55,11 +55,19 @@ export class AlbumController {
 
 		///yearList
 		const yearListResponse = await this.httpClient.createClient<GetAllYearsResponse>("getAllYears");
+
 		const yearList = yearListResponse.AllYears.sort((a, b) => b.Year - a.Year)
+
 		if (yearList && yearList.length <= 0) {
 			return { initData: { AlbumList: [], YearList: [], CurrentYear: 0 } }
 		}
-		const albumList = await this.getAlbumList(yearList[0].Year);
+		let albumList = await this.getAlbumList(yearList[0].Year);
+
+		if (albumList && albumList.length > 5) {
+			albumList = albumList.slice(0, 5);
+		}
+
+
 		return { initData: { AlbumList: albumList, YearList: yearList, CurrentYear: yearList[0].Year } }
 	}
 
